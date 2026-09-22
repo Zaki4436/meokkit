@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'screens/home_screen.dart';
+import 'screens/splash_screen.dart';
 import 'screens/login_screen.dart';
-import 'services/auth_service.dart';
+import 'screens/signup_screen.dart';
+import 'screens/forgot_password_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/profile_screen.dart';
+import 'screens/emotion_history_screen.dart';
+import 'screens/activity_history_screen.dart';
+import 'screens/information_screen.dart';
+import 'screens/counselor_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MeOkKitApp());
 }
 
@@ -15,53 +24,48 @@ class MeOkKitApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       title: 'MeOkKit',
+
       theme: ThemeData(
-        fontFamily: 'Inter',
         useMaterial3: true,
-      ),
-      home: const StartScreen(),
-    );
-  }
-}
-
-class StartScreen extends StatefulWidget {
-  const StartScreen({super.key});
-
-  @override
-  State<StartScreen> createState() => _StartScreenState();
-}
-
-class _StartScreenState extends State<StartScreen> {
-  @override
-  void initState() {
-    super.initState();
-    checkLogin();
-  }
-
-  Future<void> checkLogin() async {
-    final loggedIn = await AuthService.isLoggedIn();
-
-    if (!mounted) return;
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) => loggedIn
-            ? const HomeScreen()
-            : const LoginScreen(),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(
-          color: Colors.red,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFD94B4B),
         ),
       ),
+
+      initialRoute: '/',
+
+      routes: {
+        '/': (context) => const SplashScreen(),
+
+        '/login': (context) =>
+            const LoginScreen(),
+
+        '/signup': (context) =>
+            const SignupScreen(),
+
+        '/forgot-password': (context) =>
+            const ForgotPasswordScreen(),
+
+        '/home': (context) =>
+            const HomeScreen(),
+
+        '/profile': (context) =>
+            const ProfileScreen(),
+
+        '/emotion-history': (context) =>
+            const EmotionHistoryScreen(),
+
+        '/activity-history': (context) =>
+            const ActivityHistoryScreen(),
+
+        '/information': (context) =>
+            const InformationScreen(),
+
+        '/counselor': (context) =>
+            const CounselorScreen(),
+      },
     );
   }
 }

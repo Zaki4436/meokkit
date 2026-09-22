@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
-import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,8 +15,58 @@ class _LoginScreenState extends State<LoginScreen> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  bool isLoading = false;
   bool obscurePassword = true;
+  bool loading = false;
+
+  Future<void> _login() async {
+    final username = usernameController.text.trim();
+    final password = passwordController.text;
+
+    if (username.isEmpty || password.isEmpty) {
+      _showMessage('Please enter username and password.');
+      return;
+    }
+
+    setState(() {
+      loading = true;
+    });
+
+    final result = await ApiService.post({
+      'action': 'login',
+      'username': username,
+      'password': password,
+    });
+
+    setState(() {
+      loading = false;
+    });
+
+    if (result['success'] == true) {
+      final user = User.fromJson(result['data']);
+
+      await AuthService.saveUser(user);
+
+      if (!mounted) return;
+
+      Navigator.pushReplacementNamed(
+        context,
+        '/home',
+      );
+    } else {
+      _showMessage(
+        result['message']?.toString() ??
+            'Login failed.',
+      );
+    }
+  }
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -27,269 +76,112 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> login() async {
-    final username = usernameController.text.trim();
-    final password = passwordController.text;
-
-    if (username.isEmpty || password.isEmpty) {
-      showMessage('Please enter username and password.');
-      return;
-    }
-
-    setState(() {
-      isLoading = true;
-    });
-
-    final result = await ApiService.post({
-      'action': 'login',
-      'username': username,
-      'password': password,
-    });
-
-    if (!mounted) return;
-
-    setState(() {
-      isLoading = false;
-    });
-
-    if (result['success'] == true) {
-      final data = result['data'];
-
-      final user = User(
-        userId: data['user_id'].toString(),
-        fullName: data['full_name'].toString(),
-        role: data['role'].toString(),
-        username: data['username'].toString(),
-      );
-
-      await AuthService.saveUser(user);
-
-      if (!mounted) return;
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const HomeScreen(),
-        ),
-      );
-    } else {
-      showMessage(
-        result['message']?.toString() ??
-            'Login failed.',
-      );
-    }
-  }
-
-  void showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
-  }
-
-  InputDecoration inputDecoration(String hint) {
-    return InputDecoration(
-      hintText: hint,
-      hintStyle: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w300,
-        color: Colors.black,
-      ),
-      filled: true,
-      fillColor: Colors.white,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide.none,
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide.none,
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(
-          color: Colors.red,
-          width: 1.5,
-        ),
-      ),
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 15,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-
       body: SafeArea(
         child: SingleChildScrollView(
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              children: [
+          padding: const EdgeInsets.symmetric(
+            horizontal: 35,
+            vertical: 40,
+          ),
+          child: Column(
+            children: [
+              const SizedBox(height: 40),
 
-                const SizedBox(height: 150),
-
-                // Temporary logo
-                // Kita akan masukkan asset Figma sebenar selepas setup.
-                const Text(
-                  'MeOkKit',
-                  style: TextStyle(
-                    fontSize: 42,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
+              const Text(
+                'MeOkKit',
+                style: TextStyle(
+                  fontSize: 38,
+                  fontWeight: FontWeight.bold,
                 ),
+              ),
 
-                const SizedBox(height: 55),
+              const SizedBox(height: 60),
 
-                const Text(
-                  'Login to your Account',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
+              TextField(
+                controller: usernameController,
+                decoration: const InputDecoration(
+                  labelText: 'Username',
+                  border: OutlineInputBorder(),
                 ),
+              ),
 
-                const SizedBox(height: 30),
+              const SizedBox(height: 20),
 
-                // Username
-                SizedBox(
-                  width: 342,
-                  height: 57,
-                  child: TextField(
-                    controller: usernameController,
-                    decoration:
-                        inputDecoration('Username'),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                // Password
-                SizedBox(
-                  width: 342,
-                  height: 57,
-                  child: TextField(
-                    controller: passwordController,
-                    obscureText: obscurePassword,
-                    decoration:
-                        inputDecoration('Password').copyWith(
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          obscurePassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            obscurePassword =
-                                !obscurePassword;
-                          });
-                        },
-                      ),
+              TextField(
+                controller: passwordController,
+                obscureText: obscurePassword,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                     ),
+                    onPressed: () {
+                      setState(() {
+                        obscurePassword =
+                            !obscurePassword;
+                      });
+                    },
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-                // Forgot Password
-                SizedBox(
-                  width: 342,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: TextButton(
-                      onPressed: () {
-                        // Kita buat Forgot Password nanti.
-                      },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: const Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/forgot-password',
+                    );
+                  },
+                  child: const Text(
+                    'Forgot Password?',
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
-                // Login button
-                SizedBox(
-                  width: 342,
-                  height: 57,
-                  child: ElevatedButton(
-                    onPressed:
-                        isLoading ? null : login,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: isLoading
-                        ? const SizedBox(
-                            width: 25,
-                            height: 25,
-                            child:
-                                CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : const Text(
-                            'Login',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+              SizedBox(
+                width: double.infinity,
+                height: 55,
+                child: ElevatedButton(
+                  onPressed: loading ? null : _login,
+                  child: loading
+                      ? const CircularProgressIndicator()
+                      : const Text('Login'),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Don't have an account? ",
                   ),
-                ),
-
-                const SizedBox(height: 45),
-
-                // Sign up
-                Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Don't have an account? ",
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // Kita buat Signup nanti.
-                      },
-                      child: const Text(
-                        'Sign up',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.red,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 50),
-              ],
-            ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/signup',
+                      );
+                    },
+                    child: const Text('Sign Up'),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
