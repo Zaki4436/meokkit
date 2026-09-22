@@ -13,13 +13,23 @@ class ApiService {
     Map<String, dynamic> data,
   ) async {
     try {
-      final response = await http.post(
+      var response = await http.post(
         Uri.parse(baseUrl),
         headers: {
           'Content-Type': 'application/json',
         },
         body: jsonEncode(data),
       );
+
+      // Google Apps Script redirects responses with 302 to an echo URL
+      int redirectCount = 0;
+      while ((response.statusCode >= 301 && response.statusCode <= 308) &&
+          response.headers.containsKey('location') &&
+          redirectCount < 5) {
+        final redirectUrl = response.headers['location']!;
+        response = await http.get(Uri.parse(redirectUrl));
+        redirectCount++;
+      }
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
@@ -56,7 +66,17 @@ class ApiService {
         queryParameters: queryParameters,
       );
 
-      final response = await http.get(uri);
+      var response = await http.get(uri);
+
+      // Google Apps Script redirects responses with 302 to an echo URL
+      int redirectCount = 0;
+      while ((response.statusCode >= 301 && response.statusCode <= 308) &&
+          response.headers.containsKey('location') &&
+          redirectCount < 5) {
+        final redirectUrl = response.headers['location']!;
+        response = await http.get(Uri.parse(redirectUrl));
+        redirectCount++;
+      }
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
