@@ -64,22 +64,11 @@ class AppDrawer extends StatelessWidget {
 
             ListTile(
               leading: const Icon(Icons.history),
-              title: const Text('Emotion History'),
+              title: const Text('History'),
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  '/emotion-history',
-                );
-              },
-            ),
-
-            ListTile(
-              leading: const Icon(Icons.history_toggle_off),
-              title: const Text('Activity History'),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/activity-history',
+                  '/setting-history',
                 );
               },
             ),
