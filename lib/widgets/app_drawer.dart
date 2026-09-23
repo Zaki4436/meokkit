@@ -52,52 +52,24 @@ class AppDrawer extends StatelessWidget {
             ),
 
             ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('Profile'),
+              leading: const Icon(Icons.self_improvement),
+              title: const Text('10B'),
               onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/profile',
-                );
-              },
-            ),
-
-            ListTile(
-              leading: const Icon(Icons.history),
-              title: const Text('History'),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/setting-history',
-                );
-              },
-            ),
-
-            ListTile(
-              leading: const Icon(Icons.support_agent),
-              title: const Text('Counselor Contact'),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/counselor',
-                );
-              },
-            ),
-
-            const Divider(),
-
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Logout'),
-              onTap: () async {
-                await AuthService.logout();
-
-                if (!context.mounted) return;
-
                 Navigator.pushNamedAndRemoveUntil(
                   context,
-                  '/login',
+                  '/methods',
                   (route) => false,
+                );
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Setting'),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/setting',
                 );
               },
             ),
