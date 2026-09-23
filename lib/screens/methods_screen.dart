@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/method.dart';
 import '../services/api_service.dart';
 import 'method_detail_screen.dart';
+import '../widgets/app_drawer.dart';
 
 class MethodsScreen extends StatefulWidget {
   const MethodsScreen({super.key});
@@ -52,6 +53,7 @@ class _MethodsScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(currentPage: '10B'),
       appBar: AppBar(
         title: const Text('10B'),
       ),
