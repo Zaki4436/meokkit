@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../models/user.dart';
-import '../services/auth_service.dart';
-
 import 'check_emotion_screen.dart';
 import 'information_screen.dart';
 import 'methods_screen.dart';
@@ -23,30 +20,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late int _currentIndex;
-  User? user;
 
   static const String dassUrl =
       'https://e2pk.moe.gov.my/kframe.cfm?page_daftar#!';
-
-  final List<String> _titles = const [
-    'MeOkKit',
-    '10B',
-    'Setting',
-  ];
 
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
-    _loadUser();
-  }
-
-  Future<void> _loadUser() async {
-    final currentUser = await AuthService.getUser();
-    if (!mounted) return;
-    setState(() {
-      user = currentUser;
-    });
   }
 
   Future<void> _openDass() async {
@@ -68,133 +49,182 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_titles[_currentIndex]),
-      ),
+      backgroundColor: Colors.white,
       body: IndexedStack(
         index: _currentIndex,
         children: [
           _buildHomeBody(),
-          const MethodsScreen(showAppBar: false),
-          const SettingScreen(showAppBar: false),
+          const MethodsScreen(showAppBar: true),
+          const SettingScreen(showAppBar: true),
         ],
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-          if (index == 0) {
-            _loadUser();
-          }
-        },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.self_improvement_outlined),
-            selectedIcon: Icon(Icons.self_improvement),
-            label: '10B',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings),
-            label: 'Setting',
-          ),
-        ],
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: _buildCustomBottomBar(),
       ),
     );
   }
 
   Widget _buildHomeBody() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return SafeArea(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight - 40,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Image.asset(
+                      'assets/icon/full_logo.png',
+                      height: 300,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Button 1: Information About Stress
+                  _buildActionCard(
+                    title: 'Information About Stress',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const InformationScreen(),
+                        ),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 18),
+
+                  // Button 2: Stress Check
+                  _buildActionCard(
+                    title: 'Stress Check',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const CheckEmotionScreen(),
+                        ),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 18),
+
+                  // Button 3: DASS Test
+                  _buildActionCard(
+                    title: 'DASS  Test',
+                    onTap: _openDass,
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildActionCard({
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      width: double.infinity,
+      height: 56,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+        border: Border.all(
+          color: Colors.grey.shade200,
+          width: 1,
+        ),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10),
+          onTap: onTap,
+          child: Center(
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.red,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCustomBottomBar() {
+    return Container(
+      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+      height: 54,
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFCDD2), // Soft pink background
+        borderRadius: BorderRadius.circular(27),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
         children: [
-          Text(
-            'Hello, ${user?.fullName ?? ''}',
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            user?.role ?? '',
-            style: TextStyle(
-              color: Colors.grey.shade600,
-            ),
-          ),
-          const SizedBox(height: 30),
-          _homeCard(
-            icon: Icons.info,
-            title: 'Information',
-            subtitle: 'Learn more about stress management.',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const InformationScreen(),
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 15),
-          _homeCard(
-            icon: Icons.psychology,
-            title: 'Check Emotion',
-            subtitle: 'Check your current emotional condition.',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const CheckEmotionScreen(),
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 15),
-          _homeCard(
-            icon: Icons.assignment,
-            title: 'DASS Test',
-            subtitle: 'Take the DASS assessment.',
-            onTap: _openDass,
-          ),
+          _buildNavItem(0, Icons.home),
+          _buildNavItem(1, Icons.self_improvement),
+          _buildNavItem(2, Icons.settings),
         ],
       ),
     );
   }
 
-  Widget _homeCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return Card(
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
-        leading: Icon(
-          icon,
-          size: 35,
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
+  Widget _buildNavItem(int index, IconData icon) {
+    final isSelected = _currentIndex == index;
+
+    return Expanded(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          height: 54,
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.red : Colors.transparent,
+            borderRadius: BorderRadius.circular(27),
+          ),
+          child: Icon(
+            icon,
+            color: Colors.white,
+            size: 28,
           ),
         ),
-        subtitle: Text(subtitle),
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
-          size: 18,
-        ),
-        onTap: onTap,
       ),
     );
   }
