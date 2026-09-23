@@ -76,7 +76,7 @@ class _CheckEmotionScreenState
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => const MethodsScreen(),
+          builder: (_) => const MethodsScreen(showAppBar: true),
         ),
       );
     } else {

@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (!opened && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Unable to open DASS link.'),
+          content: Text('Unable to open the link.'),
         ),
       );
     }
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
         index: _currentIndex,
         children: [
           _buildHomeBody(),
-          const MethodsScreen(showAppBar: true),
+          const MethodsScreen(showAppBar: false),
           const SettingScreen(showAppBar: true),
         ],
       ),
@@ -151,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         border: Border.all(
-          color: Colors.grey.shade200,
+          color: Colors.grey.shade300,
           width: 1,
         ),
       ),
@@ -165,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Colors.red,
+                color: Color.fromARGB(255, 0, 0, 0),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
