@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import '../models/method.dart';
 import '../services/api_service.dart';
 import 'method_detail_screen.dart';
-import '../widgets/app_drawer.dart';
 
 class MethodsScreen extends StatefulWidget {
-  const MethodsScreen({super.key});
+  final bool showAppBar;
+
+  const MethodsScreen({
+    super.key,
+    this.showAppBar = true,
+  });
 
   @override
   State<MethodsScreen> createState() =>
@@ -52,22 +56,17 @@ class _MethodsScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const AppDrawer(currentPage: '10B'),
-      appBar: AppBar(
-        title: const Text('10B'),
-      ),
-      body: loading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : methods.isEmpty
-              ? const Center(
-                  child: Text(
-                    'No methods available.',
-                  ),
-                )
-              : ListView.builder(
+    final body = loading
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : methods.isEmpty
+            ? const Center(
+                child: Text(
+                  'No methods available.',
+                ),
+              )
+            : ListView.builder(
                   padding: const EdgeInsets.all(20),
                   itemCount: methods.length,
                   itemBuilder: (context, index) {
@@ -91,14 +90,6 @@ class _MethodsScreenState
                                 FontWeight.bold,
                           ),
                         ),
-                        subtitle: Text(
-                          method.description.isEmpty
-                              ? 'Tap to view details'
-                              : method.description,
-                        ),
-                        trailing: const Icon(
-                          Icons.arrow_forward_ios,
-                        ),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -113,7 +104,17 @@ class _MethodsScreenState
                       ),
                     );
                   },
-                ),
+                );
+
+    if (!widget.showAppBar) {
+      return body;
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('10B'),
+      ),
+      body: body,
     );
   }
 }

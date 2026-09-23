@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../models/user.dart';
 import '../services/auth_service.dart';
-import '../widgets/app_drawer.dart';
 
 class SettingScreen extends StatefulWidget {
-  const SettingScreen({super.key});
+  final bool showAppBar;
+
+  const SettingScreen({
+    super.key,
+    this.showAppBar = true,
+  });
 
   @override
   State<SettingScreen> createState() => _SettingScreenState();
@@ -67,16 +71,11 @@ class _SettingScreenState extends State<SettingScreen> {
     final theme = Theme.of(context);
     final primaryColor = theme.colorScheme.primary;
 
-    return Scaffold(
-      drawer: const AppDrawer(currentPage: 'Setting'),
-      appBar: AppBar(
-        title: const Text('Setting'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    final body = SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             // User Header Card
             Card(
               elevation: 1,
@@ -216,7 +215,17 @@ class _SettingScreenState extends State<SettingScreen> {
             ),
           ],
         ),
+      );
+
+    if (!widget.showAppBar) {
+      return body;
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Setting'),
       ),
+      body: body,
     );
   }
 

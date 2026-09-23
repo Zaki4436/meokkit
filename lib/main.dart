@@ -11,8 +11,6 @@ import 'screens/activity_history_screen.dart';
 import 'screens/information_screen.dart';
 import 'screens/counselor_screen.dart';
 import 'screens/setting_history.dart';
-import 'screens/setting_screen.dart';
-import 'screens/methods_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,13 +50,13 @@ class MeOkKitApp extends StatelessWidget {
             const ForgotPasswordScreen(),
 
         '/home': (context) =>
-            const HomeScreen(),
+            const HomeScreen(initialIndex: 0),
 
         '/profile': (context) =>
             const ProfileScreen(),
 
         '/methods': (context) =>
-            const MethodsScreen(),
+            const HomeScreen(initialIndex: 1),
 
         '/emotion-history': (context) =>
             const EmotionHistoryScreen(),
@@ -76,7 +74,7 @@ class MeOkKitApp extends StatelessWidget {
             const SettingHistoryScreen(),
 
         '/setting': (context) =>
-            const SettingScreen(),
+            const HomeScreen(initialIndex: 2),
       },
     );
   }

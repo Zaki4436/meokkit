@@ -3,38 +3,47 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../models/user.dart';
 import '../services/auth_service.dart';
-import '../widgets/app_drawer.dart';
 
 import 'check_emotion_screen.dart';
 import 'information_screen.dart';
+import 'methods_screen.dart';
+import 'setting_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final int initialIndex;
+
+  const HomeScreen({
+    super.key,
+    this.initialIndex = 0,
+  });
 
   @override
-  State<HomeScreen> createState() =>
-      _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late int _currentIndex;
   User? user;
 
   static const String dassUrl =
       'https://e2pk.moe.gov.my/kframe.cfm?page_daftar#!';
 
+  final List<String> _titles = const [
+    'MeOkKit',
+    '10B',
+    'Setting',
+  ];
+
   @override
   void initState() {
     super.initState();
-
+    _currentIndex = widget.initialIndex;
     _loadUser();
   }
 
   Future<void> _loadUser() async {
-    final currentUser =
-        await AuthService.getUser();
-
+    final currentUser = await AuthService.getUser();
     if (!mounted) return;
-
     setState(() {
       user = currentUser;
     });
@@ -42,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _openDass() async {
     final uri = Uri.parse(dassUrl);
-
     final opened = await launchUrl(
       uri,
       mode: LaunchMode.externalApplication,
@@ -51,9 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (!opened && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-            'Unable to open DASS link.',
-          ),
+          content: Text('Unable to open DASS link.'),
         ),
       );
     }
@@ -62,81 +68,104 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const AppDrawer(),
       appBar: AppBar(
-        title: const Text('MeOkKit'),
+        title: Text(_titles[_currentIndex]),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Hello, ${user?.fullName ?? ''}',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: [
+          _buildHomeBody(),
+          const MethodsScreen(showAppBar: false),
+          const SettingScreen(showAppBar: false),
+        ],
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          if (index == 0) {
+            _loadUser();
+          }
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.self_improvement_outlined),
+            selectedIcon: Icon(Icons.self_improvement),
+            label: '10B',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.settings_outlined),
+            selectedIcon: Icon(Icons.settings),
+            label: 'Setting',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHomeBody() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Hello, ${user?.fullName ?? ''}',
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
             ),
-
-            const SizedBox(height: 5),
-
-            Text(
-              user?.role ?? '',
-              style: TextStyle(
-                color: Colors.grey.shade600,
-              ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            user?.role ?? '',
+            style: TextStyle(
+              color: Colors.grey.shade600,
             ),
-
-            const SizedBox(height: 30),
-
-            _homeCard(
-              icon: Icons.info,
-              title: 'Information',
-              subtitle:
-                  'Learn more about stress management.',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        const _InformationRoute(),
-                  ),
-                );
-              },
-            ),
-
-            const SizedBox(height: 15),
-
-            _homeCard(
-              icon: Icons.psychology,
-              title: 'Check Emotion',
-              subtitle:
-                  'Check your current emotional condition.',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        const _CheckEmotionRoute(),
-                  ),
-                );
-              },
-            ),
-
-            const SizedBox(height: 15),
-
-            _homeCard(
-              icon: Icons.assignment,
-              title: 'DASS Test',
-              subtitle:
-                  'Take the DASS assessment.',
-              onTap: _openDass,
-            ),
-
-          ],
-        ),
+          ),
+          const SizedBox(height: 30),
+          _homeCard(
+            icon: Icons.info,
+            title: 'Information',
+            subtitle: 'Learn more about stress management.',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const InformationScreen(),
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 15),
+          _homeCard(
+            icon: Icons.psychology,
+            title: 'Check Emotion',
+            subtitle: 'Check your current emotional condition.',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const CheckEmotionScreen(),
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 15),
+          _homeCard(
+            icon: Icons.assignment,
+            title: 'DASS Test',
+            subtitle: 'Take the DASS assessment.',
+            onTap: _openDass,
+          ),
+        ],
       ),
     );
   }
@@ -168,26 +197,5 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: onTap,
       ),
     );
-  }
-}
-
-// Temporary wrappers.
-// Kita akan replace dengan actual screens below.
-
-class _CheckEmotionRoute extends StatelessWidget {
-  const _CheckEmotionRoute();
-
-  @override
-  Widget build(BuildContext context) {
-    return const CheckEmotionScreen();
-  }
-}
-
-class _InformationRoute extends StatelessWidget {
-  const _InformationRoute();
-
-  @override
-  Widget build(BuildContext context) {
-    return const InformationScreen();
   }
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../services/auth_service.dart';
-
 class AppDrawer extends StatelessWidget {
   final String currentPage;
 
