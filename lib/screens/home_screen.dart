@@ -6,7 +6,6 @@ import '../services/auth_service.dart';
 import '../widgets/app_drawer.dart';
 
 import 'check_emotion_screen.dart';
-import 'methods_screen.dart';
 import 'information_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -93,6 +92,24 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 30),
 
             _homeCard(
+              icon: Icons.info,
+              title: 'Information',
+              subtitle:
+                  'Learn more about stress management.',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        const _InformationRoute(),
+                  ),
+                );
+              },
+            ),
+
+            const SizedBox(height: 15),
+
+            _homeCard(
               icon: Icons.psychology,
               title: 'Check Emotion',
               subtitle:
@@ -118,41 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: _openDass,
             ),
 
-            const SizedBox(height: 15),
-
-            _homeCard(
-              icon: Icons.self_improvement,
-              title: '10B Stress Management',
-              subtitle:
-                  'Explore activities to manage stress.',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        const _MethodsRoute(),
-                  ),
-                );
-              },
-            ),
-
-            const SizedBox(height: 15),
-
-            _homeCard(
-              icon: Icons.info,
-              title: 'Information',
-              subtitle:
-                  'Learn more about stress management.',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        const _InformationRoute(),
-                  ),
-                );
-              },
-            ),
           ],
         ),
       ),
@@ -198,15 +180,6 @@ class _CheckEmotionRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const CheckEmotionScreen();
-  }
-}
-
-class _MethodsRoute extends StatelessWidget {
-  const _MethodsRoute();
-
-  @override
-  Widget build(BuildContext context) {
-    return const MethodsScreen();
   }
 }
 
