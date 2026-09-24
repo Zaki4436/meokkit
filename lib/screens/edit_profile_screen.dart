@@ -81,8 +81,10 @@ class _EditProfileScreenState
     });
 
     if (result['success'] == true) {
-      final updatedUser =
-          User.fromJson(result['data']);
+      var updatedUser = User.fromJson(result['data']);
+      if (updatedUser.profilePicture.isEmpty && widget.user.profilePicture.isNotEmpty) {
+        updatedUser = updatedUser.copyWith(profilePicture: widget.user.profilePicture);
+      }
 
       await AuthService.saveUser(
         updatedUser,

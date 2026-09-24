@@ -151,7 +151,7 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen>
                   borderRadius: BorderRadius.circular(26),
                   boxShadow: [
                     BoxShadow(
-                      color: primaryColor.withValues(alpha: 0.3),
+                      color: primaryColor.withOpacity(0.3),
                       blurRadius: 6,
                       offset: const Offset(0, 2),
                     ),
@@ -332,7 +332,7 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen>
             child: ListTile(
               leading: CircleAvatar(
                 backgroundColor:
-                    Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                    Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 child: Icon(
                   Icons.self_improvement,
                   color: Theme.of(context).colorScheme.primary,
