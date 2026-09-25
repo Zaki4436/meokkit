@@ -202,38 +202,14 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 
-  Future<void> _confirmLogout() async {
-    final shouldLogout = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Logout'),
-        content: const Text('Are you sure you want to log out?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Logout'),
-          ),
-        ],
-      ),
+  Future<void> _logout() async {
+    await AuthService.logout();
+    if (!mounted) return;
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/login',
+      (route) => false,
     );
-
-    if (shouldLogout == true) {
-      await AuthService.logout();
-      if (!mounted) return;
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        '/login',
-        (route) => false,
-      );
-    }
   }
 
   Future<void> _confirmDeleteAccount() async {
@@ -420,9 +396,9 @@ class _SettingScreenState extends State<SettingScreen> {
                 : 'User Full Name',
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF1E1E1E),
+              color: Color.fromARGB(255, 0, 0, 0),
             ),
           ),
 
@@ -462,7 +438,7 @@ class _SettingScreenState extends State<SettingScreen> {
           // 4. Logout Button
           _buildActionButton(
             title: 'Logout',
-            onTap: _confirmLogout,
+            onTap: _logout,
           ),
 
           // 5. Delete Account Button

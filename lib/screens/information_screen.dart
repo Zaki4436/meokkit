@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../models/information.dart';
 import '../services/api_service.dart';
-import 'home_screen.dart';
 
 class InformationScreen extends StatefulWidget {
   const InformationScreen({super.key});
@@ -96,17 +95,26 @@ class _InformationScreenState extends State<InformationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.red),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       body: SafeArea(
         child: RefreshIndicator(
           color: Colors.red,
           onRefresh: _loadInformation,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
 
                 // Title: INFORMATION
                 const Center(
@@ -136,10 +144,6 @@ class _InformationScreenState extends State<InformationScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        top: false,
-        child: _buildCustomBottomBar(context),
-      ),
     );
   }
 
@@ -156,7 +160,7 @@ class _InformationScreenState extends State<InformationScreen> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -239,91 +243,6 @@ class _InformationScreenState extends State<InformationScreen> {
                 ],
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCustomBottomBar(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
-      height: 54,
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFCDD2), // Soft pink background
-        borderRadius: BorderRadius.circular(27),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          // Home Tab (Active)
-          _buildNavItem(
-            context: context,
-            icon: Icons.home,
-            isSelected: true,
-            onTap: () {
-              if (Navigator.canPop(context)) {
-                Navigator.pop(context);
-              } else {
-                Navigator.pushReplacementNamed(context, '/home');
-              }
-            },
-          ),
-          // 10B Tab
-          _buildNavItem(
-            context: context,
-            icon: Icons.self_improvement,
-            isSelected: false,
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/methods');
-            },
-          ),
-          // Setting Tab
-          _buildNavItem(
-            context: context,
-            icon: Icons.settings,
-            isSelected: false,
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const HomeScreen(initialIndex: 2),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavItem({
-    required BuildContext context,
-    required IconData icon,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return Expanded(
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          height: 54,
-          decoration: BoxDecoration(
-            color: isSelected ? Colors.red : Colors.transparent,
-            borderRadius: BorderRadius.circular(27),
-          ),
-          child: Icon(
-            icon,
-            color: Colors.white,
-            size: 28,
           ),
         ),
       ),

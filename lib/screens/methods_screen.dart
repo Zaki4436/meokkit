@@ -115,7 +115,7 @@ class _MethodsScreenState extends State<MethodsScreen> {
   Widget _buildMethodCard(Method method) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      height: 55,
+      height: 50,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -153,7 +153,7 @@ class _MethodsScreenState extends State<MethodsScreen> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Color(0xFF1E1E1E),
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),

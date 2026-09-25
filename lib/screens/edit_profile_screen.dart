@@ -203,7 +203,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     // Title: PROFILE
                     const Text(
-                      'PROFILE',
+                      'EDIT PROFILE',
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.w900,

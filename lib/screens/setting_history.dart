@@ -16,9 +16,9 @@ class SettingHistoryScreen extends StatefulWidget {
   State<SettingHistoryScreen> createState() => _SettingHistoryScreenState();
 }
 
-class _SettingHistoryScreenState extends State<SettingHistoryScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
+  late PageController _pageController;
+  late int _selectedIndex;
 
   bool _loadingEmotion = true;
   bool _loadingActivity = true;
@@ -29,18 +29,14 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(
-      length: 2,
-      vsync: this,
-      initialIndex: widget.initialIndex,
-    );
-
+    _selectedIndex = widget.initialIndex;
+    _pageController = PageController(initialPage: widget.initialIndex);
     _loadAllHistory();
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -62,23 +58,25 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen>
       return;
     }
 
-    final result = await ApiService.get(
-      'getEmotionHistory',
-      params: {
-        'user_id': user.userId,
-      },
-    );
+    try {
+      final result = await ApiService.get(
+        'getEmotionHistory',
+        params: {
+          'user_id': user.userId,
+        },
+      );
 
-    if (result['success'] == true) {
-      final data = result['data'];
-      final List<dynamic> items = data['history'] ?? [];
+      if (result['success'] == true) {
+        final data = result['data'];
+        final List<dynamic> items = data['history'] ?? [];
 
-      _emotionHistory = items
-          .map((item) => EmotionHistory.fromJson(item))
-          .toList()
-          .reversed
-          .toList();
-    }
+        _emotionHistory = items
+            .map((item) => EmotionHistory.fromJson(item))
+            .toList()
+            .reversed
+            .toList();
+      }
+    } catch (_) {}
 
     if (!mounted) return;
     setState(() {
@@ -97,23 +95,25 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen>
       return;
     }
 
-    final result = await ApiService.get(
-      'getActivityHistory',
-      params: {
-        'user_id': user.userId,
-      },
-    );
+    try {
+      final result = await ApiService.get(
+        'getActivityHistory',
+        params: {
+          'user_id': user.userId,
+        },
+      );
 
-    if (result['success'] == true) {
-      final data = result['data'];
-      final List<dynamic> items = data['history'] ?? [];
+      if (result['success'] == true) {
+        final data = result['data'];
+        final List<dynamic> items = data['history'] ?? [];
 
-      _activityHistory = items
-          .map((item) => ActivityHistory.fromJson(item))
-          .toList()
-          .reversed
-          .toList();
-    }
+        _activityHistory = items
+            .map((item) => ActivityHistory.fromJson(item))
+            .toList()
+            .reversed
+            .toList();
+      }
+    } catch (_) {}
 
     if (!mounted) return;
     setState(() {
@@ -121,71 +121,131 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen>
     });
   }
 
+  Widget _buildToggleBar() {
+    return Container(
+      width: 250,
+      height: 44,
+      decoration: BoxDecoration(
+        color: const Color(0xFFFED0D0),
+        borderRadius: BorderRadius.circular(30),
+      ),
+      padding: const EdgeInsets.all(3),
+      child: Row(
+        children: [
+          // 1. Emotion Tab
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                if (_selectedIndex != 0) {
+                  setState(() => _selectedIndex = 0);
+                  _pageController.animateToPage(
+                    0,
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                decoration: BoxDecoration(
+                  color: _selectedIndex == 0 ? Colors.red : Colors.transparent,
+                  borderRadius: BorderRadius.circular(22),
+                ),
+                alignment: Alignment.center,
+                child: const Text(
+                  'Emotion',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          // 2. Activity Tab
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                if (_selectedIndex != 1) {
+                  setState(() => _selectedIndex = 1);
+                  _pageController.animateToPage(
+                    1,
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                decoration: BoxDecoration(
+                  color: _selectedIndex == 1 ? Colors.red : Colors.transparent,
+                  borderRadius: BorderRadius.circular(22),
+                ),
+                alignment: Alignment.center,
+                child: const Text(
+                  'Activity',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final primaryColor = theme.colorScheme.primary;
-
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('History'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.red),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: SafeArea(
         child: Column(
           children: [
-            // Top Navigation Bar
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: TabBar(
-                controller: _tabController,
-                indicator: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.circular(26),
-                  boxShadow: [
-                    BoxShadow(
-                      color: primaryColor.withOpacity(0.3),
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                indicatorSize: TabBarIndicatorSize.tab,
-                dividerColor: Colors.transparent,
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.black87,
-                labelStyle: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                ),
-                unselectedLabelStyle: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 13,
-                ),
-                tabs: const [
-                  Tab(
-                    icon: Icon(Icons.psychology, size: 20),
-                    text: 'Emotion History',
-                  ),
-                  Tab(
-                    icon: Icon(Icons.self_improvement, size: 20),
-                    text: 'Activity History',
-                  ),
-                ],
+            const SizedBox(height: 4),
+
+            // Stylized Title: HISTORY
+            const Text(
+              'HISTORY',
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.w900,
+                fontFamily: 'serif',
+                color: Colors.red,
+                letterSpacing: 1.0,
               ),
             ),
 
-            // Tab View Pages
+            const SizedBox(height: 18),
+
+            // Pill-shaped Toggle: [ Emotion | Activity ]
+            _buildToggleBar(),
+
+            const SizedBox(height: 16),
+
+            // History Content Pages
             Expanded(
-              child: TabBarView(
-                controller: _tabController,
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
                 children: [
                   _buildEmotionHistoryView(),
                   _buildActivityHistoryView(),
@@ -201,12 +261,13 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen>
   Widget _buildEmotionHistoryView() {
     if (_loadingEmotion) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(color: Colors.red),
       );
     }
 
     if (_emotionHistory.isEmpty) {
       return RefreshIndicator(
+        color: Colors.red,
         onRefresh: _loadEmotionHistory,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -238,37 +299,58 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen>
     }
 
     return RefreshIndicator(
+      color: Colors.red,
       onRefresh: _loadEmotionHistory,
       child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         itemCount: _emotionHistory.length,
         itemBuilder: (context, index) {
           final item = _emotionHistory[index];
           final isStressed = item.answer.trim().toLowerCase() == 'yes';
 
-          return Card(
-            elevation: 1,
+          return Container(
             margin: const EdgeInsets.only(bottom: 12),
-            shape: RoundedRectangleBorder(
+            decoration: BoxDecoration(
+              color: Colors.white,
               borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.grey.shade200, width: 1.2),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.04),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 4,
+              ),
               leading: CircleAvatar(
                 backgroundColor: isStressed
-                    ? Colors.orange.shade100
-                    : Colors.green.shade100,
+                    ? const Color(0xFFFFEBEE)
+                    : const Color(0xFFE8F5E9),
                 child: Icon(
-                  isStressed ? Icons.warning_amber_rounded : Icons.check_circle,
-                  color: isStressed ? Colors.deepOrange : Colors.green,
+                  isStressed ? Icons.mood_bad_rounded : Icons.check_circle,
+                  color: isStressed ? Colors.red : Colors.green,
                 ),
               ),
               title: Text(
-                'Answer: ${item.answer}',
+                item.answer,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Color(0xFF2C2C2C),
                 ),
               ),
-              subtitle: Text('${item.date} • ${item.time}'),
+              subtitle: Text(
+                '${item.date} • ${item.time}',
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontSize: 13,
+                ),
+              ),
             ),
           );
         },
@@ -279,12 +361,13 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen>
   Widget _buildActivityHistoryView() {
     if (_loadingActivity) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(color: Colors.red),
       );
     }
 
     if (_activityHistory.isEmpty) {
       return RefreshIndicator(
+        color: Colors.red,
         onRefresh: _loadActivityHistory,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -316,35 +399,55 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen>
     }
 
     return RefreshIndicator(
+      color: Colors.red,
       onRefresh: _loadActivityHistory,
       child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         itemCount: _activityHistory.length,
         itemBuilder: (context, index) {
           final item = _activityHistory[index];
 
-          return Card(
-            elevation: 1,
+          return Container(
             margin: const EdgeInsets.only(bottom: 12),
-            shape: RoundedRectangleBorder(
+            decoration: BoxDecoration(
+              color: Colors.white,
               borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.grey.shade200, width: 1.2),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.04),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: ListTile(
-              leading: CircleAvatar(
-                backgroundColor:
-                    Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 4,
+              ),
+              leading: const CircleAvatar(
+                backgroundColor: Color(0xFFFFEBEE),
                 child: Icon(
                   Icons.self_improvement,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Colors.red,
                 ),
               ),
               title: Text(
                 item.methodName,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Color(0xFF2C2C2C),
                 ),
               ),
-              subtitle: Text('${item.date} • ${item.time}'),
+              subtitle: Text(
+                '${item.date} • ${item.time}',
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontSize: 13,
+                ),
+              ),
             ),
           );
         },
@@ -352,4 +455,3 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen>
     );
   }
 }
-

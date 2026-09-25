@@ -89,11 +89,11 @@ class _EmotionHistoryScreenState
                       child: ListTile(
                         leading: Icon(
                           item.answer == 'Yes'
-                              ? Icons.warning
+                              ? Icons.mood_bad
                               : Icons.check_circle,
                         ),
                         title: Text(
-                          'Answer: ${item.answer}',
+                          item.answer,
                         ),
                         subtitle: Text(
                           '${item.date} • ${item.time}',
