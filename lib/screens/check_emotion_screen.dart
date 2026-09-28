@@ -11,7 +11,7 @@ class CheckEmotionScreen extends StatefulWidget {
 }
 
 class _CheckEmotionScreenState extends State<CheckEmotionScreen> {
-  String? _selectedAnswer; // 'Yes' or 'No'
+  String? _selectedAnswer;
 
   void _onAnswerSelected(String answer) {
     if (_selectedAnswer != null) return;
@@ -51,65 +51,118 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 10),
-
               // Title: STRESS CHECK
-              const Center(
-                child: Text(
-                  'STRESS CHECK',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black,
-                    letterSpacing: 1.0,
-                  ),
+              const Text(
+                'STRESS CHECK',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'serif',
+                  color: Colors.red,
+                  letterSpacing: 1.0,
                 ),
               ),
 
               const SizedBox(height: 28),
 
-              // Subtitle: Are you stress?
-              const Center(
-                child: Text(
-                  'Are you stress?',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
+              // Question Box with Choice Cards
+              Container(
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFBFBFB),
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(
+                    color: Colors.grey.shade200,
+                    width: 1.2,
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.03),
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Are you feeling stressed?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E1E),
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+
+                    // Choice options (Yes & No)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildChoiceCard(
+                            label: 'No',
+                            sublabel: 'I feel calm & okay',
+                            icon: Icons.sentiment_satisfied_alt_rounded,
+                            isSelected: _selectedAnswer == 'No',
+                            isLocked: _selectedAnswer != null,
+                            activeColor: const Color(0xFF2E7D32),
+                            onTap: _selectedAnswer == null
+                                ? () => _onAnswerSelected('No')
+                                : null,
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: _buildChoiceCard(
+                            label: 'Yes',
+                            sublabel: 'I feel stressed',
+                            icon: Icons.sentiment_dissatisfied_rounded,
+                            isSelected: _selectedAnswer == 'Yes',
+                            isLocked: _selectedAnswer != null,
+                            activeColor: Colors.red,
+                            onTap: _selectedAnswer == null
+                                ? () => _onAnswerSelected('Yes')
+                                : null,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
 
               const SizedBox(height: 24),
 
-              // Yes / No options with square check boxes
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildOptionItem(
-                    label: 'Yes',
-                    isSelected: _selectedAnswer == 'Yes',
-                    onTap: () => _onAnswerSelected('Yes'),
-                  ),
-                  const SizedBox(width: 48),
-                  _buildOptionItem(
-                    label: 'No',
-                    isSelected: _selectedAnswer == 'No',
-                    onTap: () => _onAnswerSelected('No'),
-                  ),
-                ],
+              // Animated Result Section
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 350),
+                switchInCurve: Curves.easeOutCubic,
+                switchOutCurve: Curves.easeInCubic,
+                transitionBuilder: (child, animation) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0, 0.08),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    ),
+                  );
+                },
+                child: _selectedAnswer == null
+                    ? _buildPromptPlaceholder()
+                    : _buildResultCard(),
               ),
 
-              const SizedBox(height: 32),
-
-              // Result Card (shown when an option is selected)
-              if (_selectedAnswer != null) _buildResultCard(),
-
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
             ],
           ),
         ),
@@ -117,35 +170,46 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen> {
     );
   }
 
-  Widget _buildOptionItem({
-    required String label,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: _selectedAnswer == null ? onTap : null,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+  Widget _buildPromptPlaceholder() {
+    return Container(
+      key: const ValueKey('prompt'),
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: Colors.grey.shade200,
+          width: 1.2,
+        ),
+      ),
+      child: Column(
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
+          CircleAvatar(
+            backgroundColor: const Color(0xFFFFEBEE),
+            radius: 28,
+            child: Icon(
+              Icons.touch_app_outlined,
+              color: Colors.red.shade400,
+              size: 28,
             ),
           ),
-          const SizedBox(width: 10),
-          Container(
-            width: 26,
-            height: 24,
-            decoration: BoxDecoration(
-              color: isSelected ? Colors.black : Colors.white,
-              border: Border.all(
-                color: Colors.black,
-                width: 1.5,
-              ),
+          const SizedBox(height: 14),
+          const Text(
+            'Select an option above',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF2C2C2C),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Choose "Yes" or "No" to get personalized recommendations.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 13,
+              color: Colors.grey.shade600,
             ),
           ),
         ],
@@ -153,46 +217,168 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen> {
     );
   }
 
+  Widget _buildChoiceCard({
+    required String label,
+    required String sublabel,
+    required IconData icon,
+    required bool isSelected,
+    required bool isLocked,
+    required Color activeColor,
+    required VoidCallback? onTap,
+  }) {
+    final bool isDimmed = isLocked && !isSelected;
+
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 200),
+      opacity: isDimmed ? 0.45 : 1.0,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? activeColor.withValues(alpha: 0.08)
+              : Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: isSelected ? activeColor : Colors.grey.shade300,
+            width: isSelected ? 2.0 : 1.2,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: isSelected
+                  ? activeColor.withValues(alpha: 0.15)
+                  : Colors.black.withValues(alpha: 0.03),
+              blurRadius: isSelected ? 8 : 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Icon(
+                  icon,
+                  color: isSelected ? activeColor : Colors.grey.shade500,
+                  size: 24,
+                ),
+                // Square check box matching the mockup aesthetic
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  width: 22,
+                  height: 22,
+                  decoration: BoxDecoration(
+                    color: isSelected ? activeColor : Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: isSelected ? activeColor : Colors.grey.shade400,
+                      width: 1.5,
+                    ),
+                  ),
+                  child: isSelected
+                      ? const Icon(
+                          Icons.check,
+                          color: Colors.white,
+                          size: 15,
+                        )
+                      : null,
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: isSelected ? activeColor : const Color(0xFF1E1E1E),
+                ),
+              ),
+            ),
+            const SizedBox(height: 2),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                sublabel,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: isSelected
+                      ? activeColor.withValues(alpha: 0.8)
+                      : Colors.grey.shade600,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
   Widget _buildResultCard() {
     final isYes = _selectedAnswer == 'Yes';
 
     return Container(
+      key: ValueKey(_selectedAnswer),
       width: double.infinity,
-      height: 340,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
+      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 26),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: isYes ? Colors.red.shade200 : Colors.green.shade200,
+          width: 1.5,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
+            color: (isYes ? Colors.red : Colors.green).withValues(alpha: 0.08),
+            blurRadius: 14,
+            offset: const Offset(0, 4),
           ),
         ],
-        border: Border.all(
-          color: Colors.grey.shade300,
-          width: 1.2,
-        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Card Title
+          // Emotion Avatar Icon
+          Container(
+            width: 64,
+            height: 64,
+            decoration: BoxDecoration(
+              color: isYes ? const Color(0xFFFFEBEE) : const Color(0xFFE8F5E9),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              isYes ? Icons.favorite_border_rounded : Icons.verified_rounded,
+              color: isYes ? Colors.red : const Color(0xFF2E7D32),
+              size: 34,
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Card Title: WHY? or CONGRATULATIONS
           Text(
             isYes ? 'WHY?' : 'CONGRATULATIONS',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.red,
-              fontSize: isYes ? 24 : 22,
+              color: isYes ? Colors.red : const Color(0xFF2E7D32),
+              fontSize: isYes ? 26 : 22,
               fontWeight: FontWeight.w900,
               letterSpacing: 0.5,
             ),
           ),
 
-          const SizedBox(height: 18),
+          const SizedBox(height: 12),
 
-          // Card Description
+          // Card Description matching original wording
           Text(
             isYes
                 ? 'Take early preventive measures to prevent the situation from worsening.'
@@ -200,100 +386,142 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-              height: 1.45,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF333333),
+              height: 1.5,
             ),
           ),
 
-          const Spacer(),
+          const SizedBox(height: 8),
 
-          // Card Action Button
-          if (isYes)
+          // Extra supportive helper tip
+          Text(
+            isYes
+                ? 'Explore our 10B stress management techniques to help you relax and regain control.'
+                : 'Keep practicing healthy habits and self-care daily.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey.shade600,
+              height: 1.4,
+            ),
+          ),
+
+          const SizedBox(height: 24),
+
+          // Action Button
+          if (isYes) ...[
             // "Start" button for Yes
             Container(
               width: double.infinity,
-              height: 48,
-              margin: const EdgeInsets.symmetric(horizontal: 10),
+              height: 50,
               decoration: BoxDecoration(
                 color: Colors.red,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.red.withValues(alpha: 0.35),
-                    blurRadius: 8,
-                    offset: const Offset(0, 3),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(12),
                   onTap: () {
                     Navigator.pushReplacementNamed(context, '/methods');
                   },
-                  child: const Center(
-                    child: Text(
-                      'Start',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            )
-          else
-            // "Back to Home" button for No
-            Center(
-              child: Container(
-                width: 150,
-                height: 38,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: Colors.grey.shade400,
-                    width: 1.2,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.08),
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(8),
-                    onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      } else {
-                        Navigator.pushReplacementNamed(context, '/home');
-                      }
-                    },
-                    child: const Center(
-                      child: Text(
-                        'Back to Home',
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Start 10B Techniques',
                         style: TextStyle(
-                          fontSize: 13,
+                          color: Colors.white,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
                         ),
                       ),
-                    ),
+                      SizedBox(width: 8),
+                      Icon(
+                        Icons.arrow_forward_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-
-          const SizedBox(height: 6),
+            const SizedBox(height: 14),
+            // Counselor shortcut
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/counselor');
+              },
+              child: Text(
+                'Need to talk to someone? Contact a counselor',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.red.shade700,
+                  fontWeight: FontWeight.w600,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+          ] else ...[
+            // "Back to Home" button for No
+            Container(
+              width: 170,
+              height: 44,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.grey.shade300,
+                  width: 1.2,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () {
+                    if (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.pushReplacementNamed(context, '/home');
+                    }
+                  },
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.home_outlined,
+                          size: 18, color: Colors.black87),
+                      SizedBox(width: 6),
+                      Text(
+                        'Back to Home',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

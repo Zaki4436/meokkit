@@ -191,7 +191,7 @@ class _CounselorScreenState extends State<CounselorScreen> {
             // Fixed Title (does not scroll)
             const Center(
               child: Text(
-                'COUNSELOR\nCONTACT',
+                'KMJ COUNSELOR CONTACT',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 32,

@@ -110,33 +110,37 @@ class _InformationScreenState extends State<InformationScreen> {
           onRefresh: _loadInformation,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 10),
-
                 // Title: INFORMATION
-                const Center(
-                  child: Text(
-                    'INFORMATION',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.black,
-                      letterSpacing: 1.0,
-                    ),
+                const Text(
+                  'INFORMATION',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.black,
+                    letterSpacing: 1.0,
                   ),
                 ),
 
-                const SizedBox(height: 36),
+                const SizedBox(height: 28),
 
                 if (_loading && _items.isEmpty)
                   const Center(
-                    child: CircularProgressIndicator(color: Colors.red),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 40),
+                      child: CircularProgressIndicator(color: Colors.red),
+                    ),
                   )
                 else
-                  ..._items.map((item) => _buildExpandableCard(item)),
+                  ..._items.asMap().entries.map(
+                        (entry) => _buildExpandableCard(
+                          entry.value,
+                          entry.key + 1,
+                        ),
+                      ),
 
                 const SizedBox(height: 16),
               ],
@@ -147,33 +151,35 @@ class _InformationScreenState extends State<InformationScreen> {
     );
   }
 
-  Widget _buildExpandableCard(InformationModel item) {
+  Widget _buildExpandableCard(InformationModel item, int index) {
     final isExpanded = _expandedId == item.infoId;
 
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 250),
-      curve: Curves.easeInOut,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOutCubic,
       width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 24),
+      margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 10,
+            color: isExpanded
+                ? Colors.red.withValues(alpha: 0.08)
+                : Colors.black.withValues(alpha: 0.04),
+            blurRadius: isExpanded ? 14 : 8,
             offset: const Offset(0, 3),
           ),
         ],
         border: Border.all(
-          color: Colors.grey.shade300,
-          width: 1.2,
+          color: isExpanded ? Colors.red.shade300 : const Color(0xFFE8E8E8),
+          width: isExpanded ? 1.5 : 1.2,
         ),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           onTap: () {
             setState(() {
               if (isExpanded) {
@@ -184,68 +190,201 @@ class _InformationScreenState extends State<InformationScreen> {
             });
           },
           child: Padding(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 20,
-              vertical: isExpanded ? 24 : 22,
+              vertical: 18,
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Header: info_name
+                // Top badge row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isExpanded
+                            ? const Color(0xFFFFEBEE)
+                            : Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 10),
+
+                // Title: info_name
                 Text(
                   item.infoName,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.red,
-                    fontSize: 24,
+                    fontSize: 21,
                     fontWeight: FontWeight.bold,
+                    letterSpacing: 0.2,
                   ),
                 ),
 
-                if (!isExpanded) ...[
-                  const SizedBox(height: 8),
-                  const Text(
-                    'See more',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ] else ...[
-                  const SizedBox(height: 16),
-                  // Content: info_description
-                  Text(
-                    item.infoDescription,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      fontSize: 14.5,
-                      color: Colors.black87,
-                      height: 1.55,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-                  const Center(
-                    child: Text(
-                      'See less',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline,
+                AnimatedCrossFade(
+                  firstChild: Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Center(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'See more',
+                            style: TextStyle(
+                              color: Colors.grey.shade800,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
+                  secondChild: Padding(
+                    padding: const EdgeInsets.only(top: 14),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Subtle hairline divider
+                        Container(
+                          height: 1,
+                          color: Colors.grey.shade100,
+                          margin: const EdgeInsets.only(bottom: 12),
+                        ),
+
+                        // Formatted content
+                        _buildFormattedDescription(item.infoDescription),
+
+                        const SizedBox(height: 14),
+
+                        // See less button
+                        Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'See less',
+                                style: TextStyle(
+                                  color: Colors.grey.shade500,
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  crossFadeState: isExpanded
+                      ? CrossFadeState.showSecond
+                      : CrossFadeState.showFirst,
+                  duration: const Duration(milliseconds: 320),
+                  sizeCurve: Curves.easeInOutCubic,
+                  firstCurve: Curves.easeOut,
+                  secondCurve: Curves.easeIn,
+                  alignment: Alignment.topCenter,
+                ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildFormattedDescription(String text) {
+    final lines = text.split('\n');
+    final List<Widget> widgets = [];
+
+    for (int i = 0; i < lines.length; i++) {
+      final line = lines[i].trim();
+      if (line.isEmpty) {
+        widgets.add(const SizedBox(height: 6));
+        continue;
+      }
+
+      if (line.startsWith('•')) {
+        widgets.add(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2.5),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 7, right: 8),
+                  width: 5,
+                  height: 5,
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    line.replaceFirst('•', '').trim(),
+                    style: const TextStyle(
+                      fontSize: 13.5,
+                      color: Color(0xFF2C2C2C),
+                      height: 1.45,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      } else if (line == 'FIZIKAL' ||
+          line == 'PSIKOLOGI' ||
+          line.endsWith(':') ||
+          (line.length < 25 &&
+              line == line.toUpperCase() &&
+              !line.contains('.'))) {
+        widgets.add(
+          Padding(
+            padding: EdgeInsets.only(top: widgets.isEmpty ? 0 : 8, bottom: 4),
+            child: Text(
+              line,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w800,
+                color: Colors.red,
+                letterSpacing: 0.6,
+              ),
+            ),
+          ),
+        );
+      } else {
+        widgets.add(
+          Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Text(
+              line,
+              style: const TextStyle(
+                fontSize: 13.5,
+                color: Color(0xFF2C2C2C),
+                height: 1.55,
+              ),
+            ),
+          ),
+        );
+      }
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: widgets,
     );
   }
 }
