@@ -16,7 +16,11 @@ class MethodsScreen extends StatefulWidget {
   State<MethodsScreen> createState() => _MethodsScreenState();
 }
 
-class _MethodsScreenState extends State<MethodsScreen> {
+class _MethodsScreenState extends State<MethodsScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   bool loading = false;
 
   // Pre-populated default methods list for instant rendering and offline support
@@ -166,6 +170,7 @@ class _MethodsScreenState extends State<MethodsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     Widget content;
 
     if (loading && methods.isEmpty) {

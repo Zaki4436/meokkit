@@ -20,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late int _currentIndex;
+  late final PageController _pageController;
 
   static const String dassUrl =
       'https://e2pk.moe.gov.my/kframe.cfm?page_daftar#!';
@@ -28,6 +29,25 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
+    _pageController = PageController(initialPage: widget.initialIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onTabTapped(int index) {
+    if (_currentIndex == index) return;
+    setState(() {
+      _currentIndex = index;
+    });
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 320),
+      curve: Curves.fastOutSlowIn,
+    );
   }
 
   Future<void> _openDass() async {
@@ -50,8 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: IndexedStack(
-        index: _currentIndex,
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           _buildHomeBody(),
           const MethodsScreen(showAppBar: false),
@@ -145,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -185,18 +206,52 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.circular(27),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
         ],
       ),
-      child: Row(
-        children: [
-          _buildNavItem(0, Icons.home),
-          _buildNavItem(1, Icons.self_improvement),
-          _buildNavItem(2, Icons.settings),
-        ],
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final tabWidth = constraints.maxWidth / 3;
+
+          return Stack(
+            children: [
+              // Smooth sliding indicator pill
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 320),
+                curve: Curves.fastOutSlowIn,
+                left: _currentIndex * tabWidth,
+                top: 0,
+                bottom: 0,
+                width: tabWidth,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(27),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.red.withValues(alpha: 0.35),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              // Interactive icons row
+              Row(
+                children: [
+                  _buildNavItem(0, Icons.home),
+                  _buildNavItem(1, Icons.self_improvement),
+                  _buildNavItem(2, Icons.settings),
+                ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -207,22 +262,24 @@ class _HomeScreenState extends State<HomeScreen> {
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: () {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+        onTap: () => _onTabTapped(index),
+        child: SizedBox(
           height: 54,
-          decoration: BoxDecoration(
-            color: isSelected ? Colors.red : Colors.transparent,
-            borderRadius: BorderRadius.circular(27),
-          ),
-          child: Icon(
-            icon,
-            color: Colors.white,
-            size: 28,
+          child: Center(
+            child: AnimatedScale(
+              scale: isSelected ? 1.15 : 1.0,
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOutBack,
+              child: AnimatedOpacity(
+                opacity: isSelected ? 1.0 : 0.65,
+                duration: const Duration(milliseconds: 200),
+                child: Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 28,
+                ),
+              ),
+            ),
           ),
         ),
       ),

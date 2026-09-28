@@ -21,7 +21,11 @@ class SettingScreen extends StatefulWidget {
   State<SettingScreen> createState() => _SettingScreenState();
 }
 
-class _SettingScreenState extends State<SettingScreen> {
+class _SettingScreenState extends State<SettingScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   User? user;
   Uint8List? _localImageBytes;
   bool _uploadingImage = false;
@@ -308,6 +312,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final bodyContent = SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
       child: Column(

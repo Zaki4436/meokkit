@@ -213,7 +213,15 @@ class _CounselorScreenState extends State<CounselorScreen> {
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                 child: Column(
                   children: [
-                    // Contact 1: Talian Kasih
+                    // Contact 1: KMJ counselor
+                    _buildContactCard(
+                      title: 'KMJ Counselor',
+                      subtitle: 'KMJ • Talian Bantuan Khidmat Kaunseling Pelajar dan Kakitangan KMJ',
+                      phone: '011-35644093',
+                      icon: Icons.health_and_safety,
+                    ),
+
+                    // Contact 2: Talian Kasih
                     _buildContactCard(
                       title: 'Talian Kasih',
                       subtitle: 'KPWKM • Bantuan Krisis & Kaunseling 24 Jam',
@@ -222,28 +230,12 @@ class _CounselorScreenState extends State<CounselorScreen> {
                       icon: Icons.support_agent,
                     ),
 
-                    // Contact 2: Talian HEAL
-                    _buildContactCard(
-                      title: 'Talian HEAL (15555)',
-                      subtitle: 'KKM • Talian Bantuan Krisis Kesihatan Mental',
-                      phone: '15555',
-                      icon: Icons.health_and_safety,
-                    ),
-
                     // Contact 3: Befrienders
                     _buildContactCard(
                       title: 'Befrienders KL',
                       subtitle: 'Sokongan Emosi Percuma & Rahsia 24 Jam',
                       phone: '03-76272929',
                       icon: Icons.volunteer_activism,
-                    ),
-
-                    // Contact 4: Unit Kerjaya & Kaunseling UiTM
-                    _buildContactCard(
-                      title: 'Unit Kerjaya & Kaunseling UiTM',
-                      subtitle: 'Perkhidmatan Kaunseling Pelajar & Staf',
-                      phone: '03-55442000',
-                      icon: Icons.school,
                     ),
 
                     const SizedBox(height: 20),
