@@ -9,30 +9,15 @@ class CounselorScreen extends StatefulWidget {
 }
 
 class _CounselorScreenState extends State<CounselorScreen> {
-  Future<void> _makeCall(String phoneNumber) async {
-    final cleanNumber = phoneNumber.replaceAll(RegExp(r'[^0-9+]'), '');
-    final uri = Uri.parse('tel:$cleanNumber');
-    try {
-      final launched = await launchUrl(uri);
-      if (!launched && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Unable to call $phoneNumber')),
-        );
-      }
-    } catch (_) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Unable to call $phoneNumber')),
-        );
-      }
-    }
-  }
+  // gform, facebook, tiktok url
+  static const String _gformUrl = 'https://forms.gle/PwJ3dy86ZMFhCn1P7';
+  static const String _facebookUrl =
+      'https://www.facebook.com/share/1ECbxMqWFQ/?mibextid=wwXIfr';
+  static const String _tiktokUrl =
+      'https://www.tiktok.com/@upskkmj?_r=1&_t=ZS-9A7s9cTUwJa';
 
-  Future<void> _openWhatsApp(String phone) async {
-    final cleanNumber = phone.replaceAll(RegExp(r'[^0-9]'), '');
-    final fullNumber =
-        cleanNumber.startsWith('6') ? cleanNumber : '6$cleanNumber';
-    final uri = Uri.parse('https://wa.me/$fullNumber');
+  Future<void> _openUrl(String urlString) async {
+    final uri = Uri.parse(urlString);
     try {
       final launched = await launchUrl(
         uri,
@@ -40,132 +25,188 @@ class _CounselorScreenState extends State<CounselorScreen> {
       );
       if (!launched && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Unable to open WhatsApp for $phone')),
+          SnackBar(content: Text('Unable to open link: $urlString')),
         );
       }
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Unable to open WhatsApp for $phone')),
+          SnackBar(content: Text('Unable to open link: $urlString')),
         );
       }
     }
   }
 
-  Widget _buildContactCard({
-    required String title,
-    required String subtitle,
-    required String phone,
-    String? whatsapp,
-    required IconData icon,
-  }) {
+  void _showPosterDialog() {
+    showDialog(
+      context: context,
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Container(
+                color: Colors.white,
+                child: InteractiveViewer(
+                  maxScale: 4.0,
+                  child: Image.asset(
+                    'assets/icon/poster_kaunseling.jpeg',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 10,
+              right: 10,
+              child: GestureDetector(
+                onTap: () => Navigator.pop(ctx),
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.6),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPosterCard() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 24),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
         border: Border.all(
-          color: Colors.grey.shade300,
-          width: 1.5,
+          color: Colors.grey.shade200,
+          width: 1.2,
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            GestureDetector(
+              onTap: _showPosterDialog,
+              child: Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  Image.asset(
+                    'assets/icon/poster_kaunseling.jpeg',
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                  Positioned(
+                    bottom: 12,
+                    right: 12,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.65),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.zoom_in, color: Colors.white, size: 16),
+                          SizedBox(width: 4),
+                          Text(
+                            'Tap to view poster',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSocialCard({
+    required String title,
+    required Widget iconWidget,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: Colors.grey.shade200,
+          width: 1.3,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 8,
-            offset: const Offset(0, 3),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: const Color(0xFFFFEBEE),
-                radius: 22,
-                child: Icon(
-                  icon,
-                  color: Colors.red,
-                  size: 22,
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF2C2C2C),
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              // Call Button
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: () => _makeCall(phone),
-                  icon: const Icon(Icons.call, size: 18),
-                  label: Text(
-                    phone,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(14),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            child: Row(
+              children: [
+                iconWidget,
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2C2C2C),
                     ),
                   ),
                 ),
-              ),
-              if (whatsapp != null) ...[
-                const SizedBox(width: 10),
-                // WhatsApp Button
-                OutlinedButton.icon(
-                  onPressed: () => _openWhatsApp(whatsapp),
-                  icon: const Icon(Icons.chat_bubble_outline, size: 18),
-                  label: const Text('WhatsApp'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.green.shade700,
-                    side: BorderSide(
-                      color: Colors.green.shade400,
-                      width: 1.5,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 10,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
+                Icon(
+                  Icons.open_in_new,
+                  size: 18,
+                  color: Colors.grey.shade400,
                 ),
               ],
-            ],
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -184,66 +225,105 @@ class _CounselorScreenState extends State<CounselorScreen> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
 
-            // Fixed Title (does not scroll)
-            const Center(
-              child: Text(
-                'KMJ COUNSELOR CONTACT',
+              // Title: KMJ COUNSELOR
+              const Text(
+                'KMJ COUNSELOR',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: 28,
                   fontWeight: FontWeight.w900,
                   fontFamily: 'serif',
                   color: Colors.red,
                   letterSpacing: 1.0,
-                  height: 1.2,
                 ),
               ),
-            ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 22),
 
-            // Scrollable Content
-            Expanded(
-              child: SingleChildScrollView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                child: Column(
-                  children: [
-                    // Contact 1: KMJ counselor
-                    _buildContactCard(
-                      title: 'KMJ Counselor',
-                      subtitle: 'KMJ • Talian Bantuan Khidmat Kaunseling Pelajar dan Kakitangan KMJ',
-                      phone: '011-35644093',
-                      icon: Icons.health_and_safety,
-                    ),
+              // Poster Card
+              _buildPosterCard(),
 
-                    // Contact 2: Talian Kasih
-                    _buildContactCard(
-                      title: 'Talian Kasih',
-                      subtitle: 'KPWKM • Bantuan Krisis & Kaunseling 24 Jam',
-                      phone: '15999',
-                      whatsapp: '0192615999',
-                      icon: Icons.support_agent,
-                    ),
-
-                    // Contact 3: Befrienders
-                    _buildContactCard(
-                      title: 'Befrienders KL',
-                      subtitle: 'Sokongan Emosi Percuma & Rahsia 24 Jam',
-                      phone: '03-76272929',
-                      icon: Icons.volunteer_activism,
-                    ),
-
-                    const SizedBox(height: 20),
-                  ],
+              // Section: Borang Temujanji & Saluran Rasmi
+              const Text(
+                'Borang Temujanji & Saluran Rasmi',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'serif',
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  letterSpacing: 1.0,
                 ),
               ),
-            ),
-          ],
+
+              // Google Form Card
+              _buildSocialCard(
+                title: 'Borang Temujanji Kaunseling',
+                iconWidget: Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE7F3FF),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.assignment,
+                    color: Color(0xFF1877F2),
+                    size: 28,
+                  ),
+                ),
+                onTap: () => _openUrl(_gformUrl),
+              ),
+
+              // Facebook Card
+              _buildSocialCard(
+                title: 'Facebook Rasmi UPsK KMJ',
+                iconWidget: Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE7F3FF),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.facebook,
+                    color: Color(0xFF1877F2),
+                    size: 28,
+                  ),
+                ),
+                onTap: () => _openUrl(_facebookUrl),
+              ),
+
+              // TikTok Card
+              _buildSocialCard(
+                title: 'TikTok Rasmi UPsK KMJ',
+                iconWidget: Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF1F1F1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Center(
+                    child: Icon(
+                      Icons.music_note,
+                      color: Colors.black87,
+                      size: 26,
+                    ),
+                  ),
+                ),
+                onTap: () => _openUrl(_tiktokUrl),
+              ),
+
+              const SizedBox(height: 24),
+            ],
+          ),
         ),
       ),
     );
