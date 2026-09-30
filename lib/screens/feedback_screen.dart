@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../models/history.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 
@@ -21,10 +20,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   final FocusNode _focusNode = FocusNode();
 
   bool _isSubmitting = false;
-  bool _isLoadingHistory = true;
   String _selectedMethod = 'Keseluruhan Kaedah 10B';
-
-  List<FeedbackItem> _feedbackList = [];
 
   final List<String> _methodsList = [
     'Keseluruhan Kaedah 10B',
@@ -55,7 +51,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       }
       _selectedMethod = match;
     }
-    _loadFeedbackHistory();
   }
 
   @override
@@ -63,43 +58,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     _feedbackController.dispose();
     _focusNode.dispose();
     super.dispose();
-  }
-
-  Future<void> _loadFeedbackHistory() async {
-    final user = await AuthService.getUser();
-    if (user == null) {
-      if (mounted) setState(() => _isLoadingHistory = false);
-      return;
-    }
-
-    try {
-      final result = await ApiService.get(
-        'getFeedback',
-        params: {
-          'user_id': user.userId,
-        },
-      );
-
-      if (result['success'] == true) {
-        final data = result['data'];
-        final List<dynamic> items = data['feedback'] ?? [];
-
-        if (mounted) {
-          setState(() {
-            _feedbackList = items
-                .map((item) => FeedbackItem.fromJson(item))
-                .toList()
-                .reversed
-                .toList();
-            _isLoadingHistory = false;
-          });
-        }
-      } else {
-        if (mounted) setState(() => _isLoadingHistory = false);
-      }
-    } catch (_) {
-      if (mounted) setState(() => _isLoadingHistory = false);
-    }
   }
 
   Future<void> _submitFeedback() async {
@@ -151,14 +109,11 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Maklum balas anda telah berjaya disimpan! Terima kasih.'),
+            content: Text('Maklum balas anda telah berjaya dihantar! Terima kasih.'),
             backgroundColor: Color(0xFF2E7D32),
             duration: Duration(seconds: 3),
           ),
         );
-
-        // Reload history
-        _loadFeedbackHistory();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -347,7 +302,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 child: TextField(
                   controller: _feedbackController,
                   focusNode: _focusNode,
-                  maxLines: 5,
+                  maxLines: 6,
                   minLines: 4,
                   textInputAction: TextInputAction.newline,
                   style: const TextStyle(
@@ -368,7 +323,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
 
               // Submit button
               SizedBox(
@@ -411,144 +366,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 ),
               ),
 
-              const SizedBox(height: 32),
-
-              
-              const SizedBox(height: 12),
-
-              if (_isLoadingHistory)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: primaryColor,
-                      strokeWidth: 2.5,
-                    ),
-                  ),
-                )
-              else if (_feedbackList.isEmpty)
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF9F9F9),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey.shade200),
-                  ),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.chat_bubble_outline_rounded,
-                        size: 38,
-                        color: Colors.grey.shade400,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'Belum ada maklum balas yang dihantar.',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              else
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _feedbackList.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 10),
-                  itemBuilder: (context, index) {
-                    final item = _feedbackList[index];
-                    return Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFAFAFA),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.grey.shade200),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.calendar_today_rounded,
-                                    size: 13,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    item.date.isNotEmpty ? item.date : '-',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.grey.shade700,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              if (item.time.isNotEmpty)
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.access_time_rounded,
-                                      size: 13,
-                                      color: Colors.grey.shade600,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      item.time,
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        color: Colors.grey.shade600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                            ],
-                          ),
-                          if (item.methodName.isNotEmpty) ...[
-                            const SizedBox(height: 8),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 3,
-                              ),
-                              decoration: BoxDecoration(
-                                color: primaryColor.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Text(
-                                item.methodName,
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                  color: primaryColor,
-                                ),
-                              ),
-                            ),
-                          ],
-                          const SizedBox(height: 8),
-                          Text(
-                            item.answer,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF1E1E1E),
-                              height: 1.35,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-
-              const SizedBox(height: 24),
+              const SizedBox(height: 30),
             ],
           ),
         ),
