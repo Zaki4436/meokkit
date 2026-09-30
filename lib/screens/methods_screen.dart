@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/method.dart';
 import '../services/api_service.dart';
 import 'method_detail_screen.dart';
+import 'feedback_screen.dart';
 
 class MethodsScreen extends StatefulWidget {
   final bool showAppBar;
@@ -168,6 +169,54 @@ class _MethodsScreenState extends State<MethodsScreen>
     );
   }
 
+  Widget _buildFeedbackButton() {
+    return Container(
+      width: double.infinity,
+      height: 48,
+      margin: const EdgeInsets.only(top: 6, bottom: 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+        border: Border.all(
+          color: Colors.grey.shade300,
+          width: 1.0,
+        ),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const FeedbackScreen(),
+              ),
+            );
+          },
+          child: const Center(
+            child: Text(
+              'Feedback',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xFF1E1E1E),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -201,9 +250,12 @@ class _MethodsScreenState extends State<MethodsScreen>
             top: widget.showAppBar ? 12 : 4,
             bottom: 24,
           ),
-          itemCount: methods.length,
+          itemCount: methods.length + 1,
           itemBuilder: (context, index) {
-            return _buildMethodCard(methods[index]);
+            if (index < methods.length) {
+              return _buildMethodCard(methods[index]);
+            }
+            return _buildFeedbackButton();
           },
         ),
       );

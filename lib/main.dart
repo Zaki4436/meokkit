@@ -11,6 +11,7 @@ import 'screens/activity_history_screen.dart';
 import 'screens/information_screen.dart';
 import 'screens/counselor_screen.dart';
 import 'screens/setting_history.dart';
+import 'screens/feedback_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,6 +76,9 @@ class MeOkKitApp extends StatelessWidget {
 
         '/setting': (context) =>
             const HomeScreen(initialIndex: 2),
+
+        '/feedback': (context) =>
+            const FeedbackScreen(),
       },
     );
   }
