@@ -1065,7 +1065,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Kongsi pendapat atau pengalaman anda selepas mencuba "${widget.method.methodName}". Maklum balas anda disimpan dan sangat berharga!',
+                              'Kongsi pendapat anda selepas mencuba kaedah ini.',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey.shade700,

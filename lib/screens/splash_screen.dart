@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../services/auth_service.dart';
+import '../cubits/auth_cubit.dart';
+import '../cubits/auth_state.dart';
 import 'home_screen.dart';
 import 'login_screen.dart';
 
@@ -51,18 +53,21 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _startApp() async {
+    final authCubit = context.read<AuthCubit>();
+
     // Give time for logo entrance and a comfortable viewing moment
     await Future.delayed(
       const Duration(milliseconds: 2200),
     );
 
-    final loggedIn = await AuthService.isLoggedIn();
+    await authCubit.restoreSession();
+
+    final loggedIn = authCubit.state.status == AuthStatus.authenticated;
 
     if (!mounted) return;
 
-    final Widget nextScreen = loggedIn
-        ? const HomeScreen(initialIndex: 0)
-        : const LoginScreen();
+    final Widget nextScreen =
+        loggedIn ? const HomeScreen(initialIndex: 0) : const LoginScreen();
 
     // Smooth fade transition to next screen
     Navigator.pushReplacement(

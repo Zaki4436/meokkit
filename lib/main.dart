@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'cubits/auth_cubit.dart';
 import 'screens/splash_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
@@ -16,7 +18,12 @@ import 'screens/feedback_screen.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const MeOkKitApp());
+  runApp(
+    BlocProvider(
+      create: (_) => AuthCubit()..restoreSession(),
+      child: const MeOkKitApp(),
+    ),
+  );
 }
 
 class MeOkKitApp extends StatelessWidget {
@@ -26,59 +33,29 @@ class MeOkKitApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
       title: 'MeOkKit',
-
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFFD94B4B),
         ),
       ),
-
       initialRoute: '/',
-
       routes: {
         '/': (context) => const SplashScreen(),
-
-        '/login': (context) =>
-            const LoginScreen(),
-
-        '/signup': (context) =>
-            const SignupScreen(),
-
-        '/forgot-password': (context) =>
-            const ForgotPasswordScreen(),
-
-        '/home': (context) =>
-            const HomeScreen(initialIndex: 0),
-
-        '/profile': (context) =>
-            const ProfileScreen(),
-
-        '/methods': (context) =>
-            const HomeScreen(initialIndex: 1),
-
-        '/emotion-history': (context) =>
-            const EmotionHistoryScreen(),
-
-        '/activity-history': (context) =>
-            const ActivityHistoryScreen(),
-
-        '/information': (context) =>
-            const InformationScreen(),
-
-        '/counselor': (context) =>
-            const CounselorScreen(),
-
-        '/setting-history': (context) =>
-            const SettingHistoryScreen(),
-
-        '/setting': (context) =>
-            const HomeScreen(initialIndex: 2),
-
-        '/feedback': (context) =>
-            const FeedbackScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/signup': (context) => const SignupScreen(),
+        '/forgot-password': (context) => const ForgotPasswordScreen(),
+        '/home': (context) => const HomeScreen(initialIndex: 0),
+        '/profile': (context) => const ProfileScreen(),
+        '/methods': (context) => const HomeScreen(initialIndex: 1),
+        '/emotion-history': (context) => const EmotionHistoryScreen(),
+        '/activity-history': (context) => const ActivityHistoryScreen(),
+        '/information': (context) => const InformationScreen(),
+        '/counselor': (context) => const CounselorScreen(),
+        '/setting-history': (context) => const SettingHistoryScreen(),
+        '/setting': (context) => const HomeScreen(initialIndex: 2),
+        '/feedback': (context) => const FeedbackScreen(),
       },
     );
   }

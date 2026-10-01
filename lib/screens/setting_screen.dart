@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../cubits/auth_cubit.dart';
 import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
@@ -207,7 +209,7 @@ class _SettingScreenState extends State<SettingScreen>
   }
 
   Future<void> _logout() async {
-    await AuthService.logout();
+    await context.read<AuthCubit>().logout();
     if (!mounted) return;
     Navigator.pushNamedAndRemoveUntil(
       context,
@@ -217,6 +219,7 @@ class _SettingScreenState extends State<SettingScreen>
   }
 
   Future<void> _confirmDeleteAccount() async {
+    final authCubit = context.read<AuthCubit>();
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -249,7 +252,7 @@ class _SettingScreenState extends State<SettingScreen>
         });
       } catch (_) {}
 
-      await AuthService.logout();
+      await authCubit.logout();
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
