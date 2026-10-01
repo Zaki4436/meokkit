@@ -5,6 +5,7 @@ class FeedbackItem {
   final String methodId;
   final String methodName;
   final String answer;
+  final String description;
   final String date;
   final String time;
 
@@ -15,10 +16,11 @@ class FeedbackItem {
     this.methodId = '',
     this.methodName = '',
     required this.answer,
+    this.description = '',
     required this.date,
     required this.time,
   });
-
+  
   factory FeedbackItem.fromJson(Map<String, dynamic> json) {
     return FeedbackItem(
       feedbackId: json['feedback_id']?.toString() ?? '',
@@ -27,6 +29,7 @@ class FeedbackItem {
       methodId: json['method_id']?.toString() ?? '',
       methodName: json['method_name']?.toString() ?? '',
       answer: json['answer']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
       date: json['date']?.toString() ?? '',
       time: json['time']?.toString() ?? '',
     );

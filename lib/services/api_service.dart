@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   static const String baseUrl =
-      'https://script.google.com/macros/s/AKfycbwcmUt31CUdYn6tgrLDSjLoeGHEt-E6Wik26NGq5aaDkW9HOcme8EmIETSD-OYXSN87/exec';
+      'https://script.google.com/macros/s/AKfycbzepsJeNHAVnixif0EPJbOnT2kE4HmtAzwlseeFcSi4qmBhLMk-WPQgHRjsZxsZHVUUzw/exec';
 
   // =========================
   // POST REQUEST

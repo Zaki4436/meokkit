@@ -226,7 +226,7 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
               border: Border.all(color: Colors.grey.shade200, width: 1.2),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
+                  color: Colors.black.withOpacity(0.04),
                   blurRadius: 6,
                   offset: const Offset(0, 2),
                 ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../models/user.dart';
 import '../services/api_service.dart';
+import '../services/auth_service.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -19,6 +21,34 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   bool obscureConfirmPassword = true;
   bool loading = false;
 
+  User? _currentUser;
+  String? _passwordError;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentUser();
+
+    newPasswordController.addListener(_clearPasswordError);
+    confirmPasswordController.addListener(_clearPasswordError);
+  }
+
+  void _clearPasswordError() {
+    if (_passwordError != null) {
+      setState(() {
+        _passwordError = null;
+      });
+    }
+  }
+
+  Future<void> _loadCurrentUser() async {
+    final user = await AuthService.getUser();
+    if (!mounted) return;
+    setState(() {
+      _currentUser = user;
+    });
+  }
+
   Future<void> _resetPassword() async {
     final fullName = fullNameController.text.trim();
     final username = usernameController.text.trim();
@@ -34,17 +64,37 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     }
 
     if (newPassword.length < 6) {
-      _showMessage('Password must be at least 6 characters.');
+      setState(() {
+        _passwordError = 'Password must be at least 6 characters.';
+      });
       return;
     }
 
     if (newPassword != confirmPassword) {
-      _showMessage('Passwords do not match.');
+      setState(() {
+        _passwordError = 'Passwords do not match.';
+      });
       return;
+    }
+
+    // If user is currently logged in, check that entered details match the logged-in user
+    if (_currentUser != null) {
+      final isFullNameMatch =
+          _currentUser!.fullName.trim().toLowerCase() == fullName.toLowerCase();
+      final isUsernameMatch =
+          _currentUser!.username.trim().toLowerCase() == username.toLowerCase();
+
+      if (!isFullNameMatch || !isUsernameMatch) {
+        _showMessage(
+          'Full name or username does not match your currently logged-in account.',
+        );
+        return;
+      }
     }
 
     setState(() {
       loading = true;
+      _passwordError = null;
     });
 
     final result = await ApiService.post({
@@ -84,22 +134,33 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       if (!mounted) return;
       Navigator.pop(context);
     } else {
-      _showMessage(
-        result['message']?.toString() ?? 'Password reset failed.',
-      );
+      // Don't show AlertDialog for reset failed, display error right under Confirm New Password
+      setState(() {
+        _passwordError = result['message']?.toString() ??
+            'New password cannot be the same as current password.';
+      });
     }
   }
 
   void _showMessage(String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(
+          message,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
+        backgroundColor: Colors.red.shade700,
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }
 
   @override
   void dispose() {
+    newPasswordController.removeListener(_clearPasswordError);
+    confirmPasswordController.removeListener(_clearPasswordError);
+
     fullNameController.dispose();
     usernameController.dispose();
     newPasswordController.dispose();
@@ -146,14 +207,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
   }
 
-  Widget _buildFieldContainer({required Widget child}) {
+  Widget _buildFieldContainer({required Widget child, bool hasError = false}) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
+        border: hasError ? Border.all(color: Colors.red, width: 1.2) : null,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
+            color: hasError
+                ? Colors.red.withOpacity(0.08)
+                : Colors.black.withOpacity(0.08),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -201,7 +265,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
               const SizedBox(height: 20),
 
-              // 1. Full Name Field
+              // 1. Full Name Field (manually entered by user)
               _buildFieldContainer(
                 child: TextField(
                   controller: fullNameController,
@@ -215,7 +279,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
               const SizedBox(height: 14),
 
-              // 2. Username Field
+              // 2. Username Field (manually entered by user)
               _buildFieldContainer(
                 child: TextField(
                   controller: usernameController,
@@ -231,6 +295,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
               // 3. New Password Field
               _buildFieldContainer(
+                hasError: _passwordError != null,
                 child: TextField(
                   controller: newPasswordController,
                   obscureText: obscureNewPassword,
@@ -258,8 +323,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
               const SizedBox(height: 14),
 
-              // 4. Confirm Password Field
+              // 4. Confirm New Password Field
               _buildFieldContainer(
+                hasError: _passwordError != null,
                 child: TextField(
                   controller: confirmPasswordController,
                   obscureText: obscureConfirmPassword,
@@ -267,7 +333,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     fontSize: 16,
                     color: Colors.black87,
                   ),
-                  decoration: _inputDecoration('Confirm Password').copyWith(
+                  decoration:
+                      _inputDecoration('Confirm New Password').copyWith(
                     suffixIcon: IconButton(
                       icon: Icon(
                         obscureConfirmPassword
@@ -285,6 +352,35 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
               ),
 
+              // Inline error message displayed directly below Confirm New Password
+              if (_passwordError != null) ...[
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(
+                        Icons.error_outline_rounded,
+                        color: Colors.red,
+                        size: 16,
+                      ),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          _passwordError!,
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+
               const SizedBox(height: 24),
 
               // Confirm Reset Button with red shadow
@@ -295,7 +391,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.red.withValues(alpha: 0.35),
+                      color: Colors.red.withOpacity(0.35),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -341,7 +437,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.06),
+                      color: Colors.black.withOpacity(0.06),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),

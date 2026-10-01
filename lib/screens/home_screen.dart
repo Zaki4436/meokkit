@@ -69,7 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      extendBody: true,
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
@@ -87,28 +88,51 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildHomeBody() {
-    return SafeArea(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            'assets/background/bg.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+        SafeArea(
+          bottom: false,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(32, 20, 50, 100),
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight: constraints.maxHeight - 40,
+                minHeight: constraints.maxHeight - 30,
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const SizedBox(height: 50),
                   Center(
                     child: Image.asset(
-                      'assets/icon/full_logo.png',
-                      height: 300,
+                      'assets/icon/full_logo_nobg.png',
+                      height: 275,
                       fit: BoxFit.contain,
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  Transform.translate(
+                    offset: const Offset(0, -19),
+                    child: const Text(
+                      textAlign: TextAlign.center,
+                      'Unit Psikologi dan Kaunseling Kolej Matrikulasi Johor',
+                      style: TextStyle(
+                        fontSize: 13.21,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 112, 112, 112),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
 
                   // Button 1: Information About Stress
                   _buildActionCard(
@@ -151,8 +175,10 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
-    );
-  }
+    ),
+  ],
+);
+}
 
   Widget _buildActionCard({
     required String title,
@@ -162,18 +188,18 @@ class _HomeScreenState extends State<HomeScreen> {
       width: double.infinity,
       height: 56,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color.fromARGB(255, 255, 255, 255),
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
         ],
         border: Border.all(
-          color: Colors.grey.shade300,
-          width: 1,
+          color: const Color.fromARGB(255, 249, 0, 0),
+          width: 3,
         ),
       ),
       child: Material(
@@ -206,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.circular(27),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
+            color: Colors.black.withOpacity(0.08),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -232,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(27),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.red.withValues(alpha: 0.35),
+                        color: Colors.red.withOpacity(0.35),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),

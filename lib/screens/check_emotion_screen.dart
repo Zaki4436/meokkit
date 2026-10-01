@@ -83,7 +83,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.03),
+                      color: Colors.black.withOpacity(0.03),
                       blurRadius: 8,
                       offset: const Offset(0, 3),
                     ),
@@ -239,7 +239,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen> {
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
         decoration: BoxDecoration(
           color: isSelected
-              ? activeColor.withValues(alpha: 0.08)
+              ? activeColor.withOpacity(0.08)
               : Colors.white,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
@@ -249,8 +249,8 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen> {
           boxShadow: [
             BoxShadow(
               color: isSelected
-                  ? activeColor.withValues(alpha: 0.15)
-                  : Colors.black.withValues(alpha: 0.03),
+                  ? activeColor.withOpacity(0.15)
+                  : Colors.black.withOpacity(0.03),
               blurRadius: isSelected ? 8 : 4,
               offset: const Offset(0, 2),
             ),
@@ -310,7 +310,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen> {
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                   color: isSelected
-                      ? activeColor.withValues(alpha: 0.8)
+                      ? activeColor.withOpacity(0.8)
                       : Colors.grey.shade600,
                 ),
               ),
@@ -338,7 +338,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: (isYes ? Colors.red : Colors.green).withValues(alpha: 0.08),
+            color: (isYes ? Colors.red : Colors.green).withOpacity(0.08),
             blurRadius: 14,
             offset: const Offset(0, 4),
           ),
@@ -420,7 +420,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen> {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.red.withValues(alpha: 0.35),
+                    color: Colors.red.withOpacity(0.35),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -485,7 +485,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
+                    color: Colors.black.withOpacity(0.05),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),

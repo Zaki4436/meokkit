@@ -165,8 +165,8 @@ class _InformationScreenState extends State<InformationScreen> {
         boxShadow: [
           BoxShadow(
             color: isExpanded
-                ? Colors.red.withValues(alpha: 0.08)
-                : Colors.black.withValues(alpha: 0.04),
+                ? Colors.red.withOpacity(0.08)
+                : Colors.black.withOpacity(0.04),
             blurRadius: isExpanded ? 14 : 8,
             offset: const Offset(0, 3),
           ),

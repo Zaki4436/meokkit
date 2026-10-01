@@ -149,7 +149,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withOpacity(0.04),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -288,7 +288,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: Colors.black.withOpacity(0.03),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -328,7 +328,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -374,7 +374,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
                           end: Alignment.bottomCenter,
                           colors: [
                             Colors.transparent,
-                            Colors.black.withValues(alpha: 0.55),
+                            Colors.black.withOpacity(0.55),
                           ],
                         ),
                       ),
@@ -389,7 +389,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.red.withValues(alpha: 0.4),
+                          color: Colors.red.withOpacity(0.4),
                           blurRadius: 12,
                           offset: const Offset(0, 4),
                         ),
@@ -411,7 +411,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.7),
+                        color: Colors.black.withOpacity(0.7),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: const Row(
@@ -502,7 +502,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -618,7 +618,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -741,7 +741,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withOpacity(0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -1034,7 +1034,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.04),
+                              color: Colors.black.withOpacity(0.04),
                               blurRadius: 10,
                               offset: const Offset(0, 3),
                             ),
@@ -1098,6 +1098,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => FeedbackScreen(
+                                        initialMethodId: widget.method.methodId,
                                         initialMethodName: widget.method.methodName,
                                       ),
                                     ),

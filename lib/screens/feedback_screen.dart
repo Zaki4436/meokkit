@@ -4,10 +4,12 @@ import '../services/api_service.dart';
 import '../services/auth_service.dart';
 
 class FeedbackScreen extends StatefulWidget {
+  final String? initialMethodId;
   final String? initialMethodName;
 
   const FeedbackScreen({
     super.key,
+    this.initialMethodId,
     this.initialMethodName,
   });
 
@@ -21,6 +23,21 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
   bool _isSubmitting = false;
   String _selectedMethod = 'Keseluruhan Kaedah 10B';
+  String? _selectedMethodId;
+  String? _selectedAnswer; // 'Yes' or 'No'
+
+  static const Map<String, String> _methodIdMap = {
+    'Bertenang': '1',
+    'Bernafas Dengan Dalam': '2',
+    'Berkata "Relakslah"': '3',
+    'Beribadat': '4',
+    'Bercakap Dengan Seseorang': '5',
+    'Berurut': '6',
+    'Berehat & Mendengar Muzik': '7',
+    'Beriadah': '8',
+    'Bersenam': '9',
+    'Berfikiran Positif': '10',
+  };
 
   final List<String> _methodsList = [
     'Keseluruhan Kaedah 10B',
@@ -39,6 +56,11 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.initialMethodId != null &&
+        widget.initialMethodId!.trim().isNotEmpty) {
+      _selectedMethodId = widget.initialMethodId!.trim();
+    }
+
     if (widget.initialMethodName != null &&
         widget.initialMethodName!.trim().isNotEmpty) {
       final match = _methodsList.firstWhere(
@@ -50,6 +72,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         _methodsList.insert(1, match);
       }
       _selectedMethod = match;
+      _selectedMethodId ??= _methodIdMap[match];
     }
   }
 
@@ -61,6 +84,16 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   }
 
   Future<void> _submitFeedback() async {
+    if (_selectedAnswer == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Sila pilih "Yes" atau "No" terlebih dahulu.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     final text = _feedbackController.text.trim();
     if (text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -88,17 +121,22 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       _isSubmitting = true;
     });
 
-    // Send method_name and answer
-    final methodName = _selectedMethod == 'Keseluruhan Kaedah 10B'
+    final isAll = _selectedMethod == 'Keseluruhan Kaedah 10B';
+    final methodName = isAll ? '' : _selectedMethod;
+    final methodId = isAll
         ? ''
-        : _selectedMethod;
+        : (_selectedMethodId != null && _selectedMethodId!.isNotEmpty
+            ? _selectedMethodId!
+            : (_methodIdMap[_selectedMethod] ?? ''));
 
     try {
       final result = await ApiService.post({
         'action': 'saveFeedback',
         'user_id': user.userId,
+        'method_id': methodId,
         'method_name': methodName,
-        'answer': text,
+        'answer': _selectedAnswer,
+        'description': text,
       });
 
       if (!mounted) return;
@@ -106,10 +144,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       if (result['success'] == true) {
         _feedbackController.clear();
         _focusNode.unfocus();
+        setState(() {
+          _selectedAnswer = null;
+        });
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Maklum balas anda telah berjaya dihantar! Terima kasih.'),
+            content: Text(
+                'Maklum balas anda telah berjaya dihantar! Terima kasih.'),
             backgroundColor: Color(0xFF2E7D32),
             duration: Duration(seconds: 3),
           ),
@@ -178,15 +220,15 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      primaryColor.withValues(alpha: 0.12),
-                      primaryColor.withValues(alpha: 0.04),
+                      primaryColor.withOpacity(0.12),
+                      primaryColor.withOpacity(0.04),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: primaryColor.withValues(alpha: 0.25),
+                    color: primaryColor.withOpacity(0.25),
                   ),
                 ),
                 child: Row(
@@ -247,7 +289,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               const SizedBox(height: 8),
 
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 3),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 3),
                 decoration: BoxDecoration(
                   color: const Color(0xFFFAFAFA),
                   borderRadius: BorderRadius.circular(12),
@@ -257,7 +300,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   child: DropdownButton<String>(
                     value: _selectedMethod,
                     isExpanded: true,
-                    icon: const Icon(Icons.keyboard_arrow_down, color: primaryColor),
+                    icon: const Icon(Icons.keyboard_arrow_down,
+                        color: primaryColor),
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -273,6 +317,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       if (newValue != null) {
                         setState(() {
                           _selectedMethod = newValue;
+                          _selectedMethodId = _methodIdMap[newValue] ?? '';
                         });
                       }
                     },
@@ -280,9 +325,52 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 22),
 
-              // Feedback input
+              // Ya/Tidak Selection (Simple Box)
+              const Text(
+                'Adakah kaedah ini membantu anda?',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E1E1E),
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildSimpleBox(
+                      label: 'Ya',
+                      isSelected: _selectedAnswer == 'Yes' || _selectedAnswer == 'Ya',
+                      activeColor: const Color(0xFF2E7D32),
+                      onTap: () {
+                        setState(() {
+                          _selectedAnswer = 'Yes';
+                        });
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildSimpleBox(
+                      label: 'Tidak',
+                      isSelected: _selectedAnswer == 'No' || _selectedAnswer == 'Tidak',
+                      activeColor: primaryColor,
+                      onTap: () {
+                        setState(() {
+                          _selectedAnswer = 'No';
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 22),
+
+              // Feedback description input
               const Text(
                 'Maklum Balas / Pengalaman Anda',
                 style: TextStyle(
@@ -368,6 +456,49 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
               const SizedBox(height: 30),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSimpleBox({
+    required String label,
+    required bool isSelected,
+    required Color activeColor,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        height: 48,
+        decoration: BoxDecoration(
+          color: isSelected ? activeColor : const Color(0xFFFAFAFA),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: isSelected ? activeColor : Colors.grey.shade300,
+            width: isSelected ? 1.8 : 1.0,
+          ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: activeColor.withOpacity(0.2),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
+              : null,
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: isSelected ? Colors.white : const Color(0xFF333333),
+            ),
           ),
         ),
       ),
