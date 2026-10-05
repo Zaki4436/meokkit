@@ -90,12 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildHomeBody() {
     return Stack(
       children: [
-        Positioned.fill(
-          child: Image.asset(
-            'assets/background/bg.png',
-            fit: BoxFit.cover,
-          ),
-        ),
         SafeArea(
           bottom: false,
           child: LayoutBuilder(
@@ -120,12 +114,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
 
                   Transform.translate(
-                    offset: const Offset(0, -19),
+                    offset: const Offset(0, -20),
                     child: const Text(
                       textAlign: TextAlign.center,
-                      'Unit Psikologi dan Kaunseling Kolej Matrikulasi Johor',
+                      'Unit Psikologi dan Kaunseling\nKolej Matrikulasi Johor',
                       style: TextStyle(
-                        fontSize: 13.21,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(255, 112, 112, 112),
                       ),
@@ -135,40 +129,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 15),
 
                   // Button 1: Information About Stress
-                  _buildActionCard(
-                    title: 'Information About Stress',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const InformationScreen(),
-                        ),
-                      );
-                    },
-                  ),
+                  _buildActionCard1(),
 
                   const SizedBox(height: 18),
 
                   // Button 2: Stress Check
-                  _buildActionCard(
-                    title: 'Stress Check',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const CheckEmotionScreen(),
-                        ),
-                      );
-                    },
-                  ),
+                  _buildActionCard2(),
 
                   const SizedBox(height: 18),
 
                   // Button 3: DASS Test
-                  _buildActionCard(
-                    title: 'DASS  Test',
-                    onTap: _openDass,
-                  ),
+                  _buildActionCard3(),
                 ],
               ),
             ),
@@ -180,15 +151,13 @@ class _HomeScreenState extends State<HomeScreen> {
 );
 }
 
-  Widget _buildActionCard({
-    required String title,
-    required VoidCallback onTap,
-  }) {
+  // Button 1: Information About Stress
+  Widget _buildActionCard1() {
     return Container(
       width: double.infinity,
       height: 56,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 255, 255, 255),
+        color: const Color.fromARGB(255, 255, 255, 255), // Box 1 background color
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -198,21 +167,117 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         border: Border.all(
-          color: const Color.fromARGB(255, 249, 0, 0),
-          width: 3,
+          color: const Color.fromARGB(255, 224, 224, 224), // Box 1 border color
+          width: 1,
         ),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
-          onTap: onTap,
-          child: Center(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const InformationScreen(),
+              ),
+            );
+          },
+          child: const Center(
             child: Text(
-              title,
+              'Information About Stress',
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Color.fromARGB(255, 0, 0, 0),
+              style: TextStyle(
+                color: Color.fromARGB(255, 0, 0, 0), // Box 1 text color
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Button 2: Stress Check
+  Widget _buildActionCard2() {
+    return Container(
+      width: double.infinity,
+      height: 56,
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 255, 255, 255), // Box 2 background color
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+        border: Border.all(
+          color: const Color.fromARGB(255, 224, 224, 224), // Box 2 border color
+          width: 1,
+        ),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const CheckEmotionScreen(),
+              ),
+            );
+          },
+          child: const Center(
+            child: Text(
+              'Stress Check',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color.fromARGB(255, 0, 0, 0), // Box 2 text color
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Button 3: DASS Test
+  Widget _buildActionCard3() {
+    return Container(
+      width: double.infinity,
+      height: 56,
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 255, 255, 255), // Box 3 background color
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+        border: Border.all(
+          color: const Color.fromARGB(255, 224, 224, 224), // Box 3 border color
+          width: 1,
+        ),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10),
+          onTap: _openDass,
+          child: const Center(
+            child: Text(
+              'DASS  Test',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color.fromARGB(255, 0, 0, 0), // Box 3 text color
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),

@@ -286,7 +286,7 @@ class _MethodsScreenState extends State<MethodsScreen>
     }
 
     return Container(
-      color: Colors.white,
+      color: const Color.fromARGB(255, 175, 1, 255),
       child: SafeArea(
         child: Column(
           children: [
