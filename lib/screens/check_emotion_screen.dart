@@ -485,8 +485,6 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
   Widget _buildResultCard() {
     final isYes = _selectedAnswer == 'Yes';
     final resultColor = isYes ? _deepAccent : const Color(0xFF5B9B70);
-    final resultTint =
-        isYes ? const Color(0xFFFFE9E8) : const Color(0xFFE8F3EB);
 
     return Container(
       key: ValueKey(_selectedAnswer),
@@ -514,26 +512,6 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0.7, end: 1),
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeOutBack,
-            builder: (context, scale, child) => Transform.scale(
-              scale: scale,
-              child: child,
-            ),
-            child: Container(
-              width: 64,
-              height: 64,
-              decoration: BoxDecoration(
-                color: resultTint,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
           // Card Title: WHY? or CONGRATULATIONS
           Text(
             isYes ? 'WHY?' : 'CONGRATULATIONS',
@@ -667,8 +645,6 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.home_outlined, size: 18, color: _deepAccent),
-                      SizedBox(width: 6),
                       Text(
                         'Back to Home',
                         style: TextStyle(

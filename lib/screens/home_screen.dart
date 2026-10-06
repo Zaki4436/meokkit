@@ -216,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         border: Border.all(
-          color: const Color.fromARGB(255, 155, 102, 105),
+          color: const Color(0xFF9B6669),
           width: 2,
         ),
       ),
@@ -268,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         border: Border.all(
-          color: const Color.fromARGB(255, 155, 102, 105),
+          color: const Color(0xFF9B6669),
           width: 2,
         ),
       ),

@@ -313,8 +313,8 @@ class _InformationScreenState extends State<InformationScreen>
           ],
           border: Border.all(
             color:
-                isExpanded ? const Color(0xFFEBA6A5) : const Color(0xFFF1D4D2),
-            width: isExpanded ? 1.5 : 1,
+                isExpanded ? const Color(0xFF9B6669) : const Color(0xFFF1D4D2),
+            width: isExpanded ? 2 : 1,
           ),
         ),
         child: Material(
