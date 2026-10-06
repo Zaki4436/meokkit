@@ -19,15 +19,30 @@ class MethodDetailScreen extends StatefulWidget {
   State<MethodDetailScreen> createState() => _MethodDetailScreenState();
 }
 
-class _MethodDetailScreenState extends State<MethodDetailScreen> {
+class _MethodDetailScreenState extends State<MethodDetailScreen>
+    with SingleTickerProviderStateMixin {
+  static const Color _deepAccent = Color(0xFFBD3546);
+  static const Color _ink = Color(0xFF382C2C);
+
+  late final AnimationController _entranceController;
   bool loading = true;
   List<MethodLink> links = [];
 
   @override
   void initState() {
     super.initState();
+    _entranceController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 650),
+    )..forward();
     _loadLinks();
     _saveActivity();
+  }
+
+  @override
+  void dispose() {
+    _entranceController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadLinks() async {
@@ -134,24 +149,25 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
     required String subtitle,
     required String phone,
     String? whatsapp,
-    required IconData icon,
+    IconData? icon,
     EdgeInsetsGeometry? margin,
   }) {
     return Container(
       margin: margin ?? const EdgeInsets.only(top: 4, bottom: 20),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.grey.shade300,
-          width: 1.5,
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, Color(0xFFFFF9F8)],
         ),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFFF1D4D2)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
+            color: const Color(0xFF9F3D48).withOpacity(0.07),
+            blurRadius: 13,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -160,16 +176,18 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                backgroundColor: const Color(0xFFFFEBEE),
-                radius: 22,
-                child: Icon(
-                  icon,
-                  color: Colors.red,
-                  size: 22,
+              if (icon != null) ...[
+                CircleAvatar(
+                  backgroundColor: const Color(0xFFFFEBEE),
+                  radius: 22,
+                  child: Icon(
+                    icon,
+                    color: _deepAccent,
+                    size: 22,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 14),
+                const SizedBox(width: 14),
+              ],
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,7 +226,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
+                    backgroundColor: _deepAccent,
                     foregroundColor: Colors.white,
                     elevation: 0,
                     padding: const EdgeInsets.symmetric(vertical: 10),
@@ -226,9 +244,9 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
                   icon: const Icon(Icons.chat_bubble_outline, size: 18),
                   label: const Text('WhatsApp'),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.green.shade700,
+                    foregroundColor: const Color(0xFF4B8762),
                     side: BorderSide(
-                      color: Colors.green.shade400,
+                      color: const Color(0xFF73A886),
                       width: 1.5,
                     ),
                     padding: const EdgeInsets.symmetric(
@@ -280,29 +298,42 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
       margin: const EdgeInsets.only(bottom: 24),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: const Color(0xFFFBFBFB),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.grey.shade200,
-          width: 1.2,
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, Color(0xFFFFF9F8)],
         ),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFFF1D4D2)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
+            color: const Color(0xFF9F3D48).withOpacity(0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            children: [
+              const Text(
+                'About this technique',
+                style: TextStyle(
+                  color: _ink,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: 12),
           Text(
             widget.method.description,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey.shade800,
+              color: const Color(0xFF65585A),
               height: 1.5,
               fontWeight: FontWeight.w400,
             ),
@@ -472,12 +503,6 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.grey.shade400,
-                          size: 14,
-                        ),
                       ],
                     ),
                   ],
@@ -562,24 +587,6 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF1E1E1E),
                         ),
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.touch_app_outlined,
-                            size: 14,
-                            color: Colors.grey.shade600,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            'Tap to play online',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey.shade600,
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),
@@ -725,7 +732,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
   Widget _buildSectionBox({
     required String sectionTitle,
     required String sectionSubtitle,
-    required IconData sectionIcon,
+    IconData? sectionIcon,
     Widget? videoCard,
     required Widget contactCard,
   }) {
@@ -753,19 +760,21 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
           // Section Title Header inside Box
           Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFEBEE),
-                  borderRadius: BorderRadius.circular(10),
+              if (sectionIcon != null) ...[
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFEBEE),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(
+                    sectionIcon,
+                    color: Colors.red,
+                    size: 20,
+                  ),
                 ),
-                child: Icon(
-                  sectionIcon,
-                  color: Colors.red,
-                  size: 20,
-                ),
-              ),
-              const SizedBox(width: 12),
+                const SizedBox(width: 12),
+              ],
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -823,7 +832,6 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
         return _buildSectionBox(
           sectionTitle: 'Talian Kasih (15999)',
           sectionSubtitle: 'Video Panduan & Talian Bantuan 24 Jam',
-          sectionIcon: Icons.support_agent,
           videoCard: youtubeId != null
               ? _buildYoutubeCard(link, youtubeId, margin: EdgeInsets.zero)
               : null,
@@ -832,7 +840,6 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
             subtitle: 'KPWKM • Bantuan Krisis & Kaunseling 24 Jam',
             phone: '15999',
             whatsapp: '0192615999',
-            icon: Icons.support_agent,
             margin: EdgeInsets.zero,
           ),
         );
@@ -843,7 +850,6 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
         return _buildSectionBox(
           sectionTitle: 'Befrienders KL',
           sectionSubtitle: 'Video Panduan & Sokongan Emosi 24 Jam',
-          sectionIcon: Icons.volunteer_activism,
           videoCard: youtubeId != null
               ? _buildYoutubeCard(link, youtubeId, margin: EdgeInsets.zero)
               : null,
@@ -851,7 +857,6 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
             title: 'Befrienders KL',
             subtitle: 'Sokongan Emosi Percuma & Rahsia 24 Jam',
             phone: '03-76272929',
-            icon: Icons.volunteer_activism,
             margin: EdgeInsets.zero,
           ),
         );
@@ -870,253 +875,342 @@ class _MethodDetailScreenState extends State<MethodDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.red),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 6),
-
-            // Method Name
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    Text(
-                      widget.method.methodName,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w900,
-                        fontFamily: 'serif',
-                        color: Colors.red,
-                        letterSpacing: 1.0,
-                        height: 1.2,
-                      ),
-                    ),
+      backgroundColor: const Color(0xFFFFF8F7),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFFFFF5F2),
+                    Color(0xFFFFFCFB),
+                    Color(0xFFFFF1F3),
                   ],
                 ),
               ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Scrollable Content
-            Expanded(
-              child: RefreshIndicator(
-                color: Colors.red,
-                onRefresh: _loadLinks,
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 10,
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 28,
+                    right: -70,
+                    child: _backgroundOrb(
+                      210,
+                      const Color(0xFFF4A6A0).withOpacity(0.10),
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // About this technique card
-                      _buildDescriptionCard(),
-
-                      // Activities Section Header
-                      const Text(
-                        'Activities',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF2C2C2C),
-                        ),
-                      ),
-
-                      const SizedBox(height: 14),
-
-                      if (loading)
-                        const Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 40),
-                            child: CircularProgressIndicator(color: Colors.red),
+                  Positioned(
+                    bottom: 95,
+                    left: -95,
+                    child: _backgroundOrb(
+                      230,
+                      const Color(0xFFE98F9A).withOpacity(0.08),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    const SizedBox(height: 52),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 22),
+                      child: AnimatedBuilder(
+                        animation: _entranceController,
+                        builder: (context, child) {
+                          final progress = Curves.easeOutCubic.transform(
+                            (_entranceController.value / 0.8)
+                                .clamp(0.0, 1.0)
+                                .toDouble(),
+                          );
+                          return Opacity(
+                            opacity: progress,
+                            child: Transform.translate(
+                              offset: Offset(0, 16 * (1 - progress)),
+                              child: child,
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 18,
+                            vertical: 16,
                           ),
-                        )
-                      else if (links.isEmpty)
-                        if (widget.method.methodId == '5' ||
-                            widget.method.methodName
-                                .toLowerCase()
-                                .contains('bercakap'))
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Row(
                             children: [
-                              _buildSectionBox(
-                                sectionTitle: 'Talian Kasih (15999)',
-                                sectionSubtitle:
-                                    'KPWKM • Bantuan Krisis & Kaunseling 24 Jam',
-                                sectionIcon: Icons.support_agent,
-                                contactCard: _buildContactCard(
-                                  title: 'Talian Kasih',
-                                  subtitle:
-                                      'KPWKM • Bantuan Krisis & Kaunseling 24 Jam',
-                                  phone: '15999',
-                                  whatsapp: '0192615999',
-                                  icon: Icons.support_agent,
-                                  margin: EdgeInsets.zero,
-                                ),
-                              ),
-                              _buildSectionBox(
-                                sectionTitle: 'Befrienders KL',
-                                sectionSubtitle:
-                                    'Sokongan Emosi Percuma & Rahsia 24 Jam',
-                                sectionIcon: Icons.volunteer_activism,
-                                contactCard: _buildContactCard(
-                                  title: 'Befrienders KL',
-                                  subtitle:
-                                      'Sokongan Emosi Percuma & Rahsia 24 Jam',
-                                  phone: '03-76272929',
-                                  icon: Icons.volunteer_activism,
-                                  margin: EdgeInsets.zero,
+                              Expanded(
+                                child: Text(
+                                  textAlign: TextAlign.center,
+                                  widget.method.methodName,
+                                  style: const TextStyle(
+                                    fontSize: 23.5,
+                                    fontWeight: FontWeight.w900,
+                                    color: _ink,
+                                    height: 1.2,
+                                  ),
                                 ),
                               ),
                             ],
-                          )
-                        else
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 40),
-                              child: Column(
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        physics: const ClampingScrollPhysics(),
+                        padding: const EdgeInsets.fromLTRB(22, 8, 22, 24),
+                        child: AnimatedBuilder(
+                          animation: _entranceController,
+                          builder: (context, child) {
+                            final progress = Curves.easeOutCubic.transform(
+                              ((_entranceController.value - 0.12) / 0.88)
+                                  .clamp(0.0, 1.0)
+                                  .toDouble(),
+                            );
+                            return Opacity(
+                              opacity: progress,
+                              child: Transform.translate(
+                                offset: Offset(0, 12 * (1 - progress)),
+                                child: child,
+                              ),
+                            );
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // About this technique card
+                              _buildDescriptionCard(),
+
+                              // Activities Section Header
+                              const Row(
                                 children: [
-                                  Icon(
-                                    Icons.playlist_remove_rounded,
-                                    size: 48,
-                                    color: Colors.grey.shade400,
-                                  ),
-                                  const SizedBox(height: 12),
                                   Text(
-                                    'No activities recorded yet for this technique.',
+                                    'Activities',
                                     style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey.shade600,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w800,
+                                      color: _ink,
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                          )
-                      else
-                        ...links.map((link) => _buildActivityCard(link)),
 
-                      const SizedBox(height: 24),
+                              const SizedBox(height: 14),
 
-                      // Feedback Invitation Card
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(18),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.red.shade50,
-                              Colors.white,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: Colors.red.shade200,
-                            width: 1.2,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.04),
-                              blurRadius: 10,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Row(
-                              children: [
-                                Icon(
-                                  Icons.rate_review_rounded,
-                                  color: Colors.red,
-                                  size: 24,
-                                ),
-                                SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    'Dah Cuba Kaedah Ini?',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF1E1E1E),
+                              if (loading)
+                                const Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 40),
+                                    child: CircularProgressIndicator(
+                                      color: _deepAccent,
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Kongsi pendapat anda selepas mencuba kaedah ini.',
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.grey.shade700,
-                                height: 1.35,
-                              ),
-                            ),
-                            const SizedBox(height: 14),
-                            SizedBox(
-                              width: double.infinity,
-                              height: 44,
-                              child: ElevatedButton.icon(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  foregroundColor: Colors.white,
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                icon: const Icon(Icons.edit_note_rounded, size: 20),
-                                label: const Text(
-                                  'Beri Maklum Balas',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => FeedbackScreen(
-                                        initialMethodId: widget.method.methodId,
-                                        initialMethodName: widget.method.methodName,
+                                )
+                              else if (links.isEmpty)
+                                if (widget.method.methodId == '5' ||
+                                    widget.method.methodName
+                                        .toLowerCase()
+                                        .contains('bercakap'))
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      _buildSectionBox(
+                                        sectionTitle: 'Talian Kasih (15999)',
+                                        sectionSubtitle:
+                                            'KPWKM • Bantuan Krisis & Kaunseling 24 Jam',
+                                        contactCard: _buildContactCard(
+                                          title: 'Talian Kasih',
+                                          subtitle:
+                                              'KPWKM • Bantuan Krisis & Kaunseling 24 Jam',
+                                          phone: '15999',
+                                          whatsapp: '0192615999',
+                                          margin: EdgeInsets.zero,
+                                        ),
+                                      ),
+                                      _buildSectionBox(
+                                        sectionTitle: 'Befrienders KL',
+                                        sectionSubtitle:
+                                            'Sokongan Emosi Percuma & Rahsia 24 Jam',
+                                        contactCard: _buildContactCard(
+                                          title: 'Befrienders KL',
+                                          subtitle:
+                                              'Sokongan Emosi Percuma & Rahsia 24 Jam',
+                                          phone: '03-76272929',
+                                          margin: EdgeInsets.zero,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                else
+                                  Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 40),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'No activities recorded yet for this technique.',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey.shade600,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  );
-                                },
+                                  )
+                              else
+                                ...links
+                                    .map((link) => _buildActivityCard(link)),
+
+                              const SizedBox(height: 24),
+
+                              // Feedback Invitation Card
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(18),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Color(0xFFFFE9E8), Colors.white],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(18),
+                                  border: Border.all(
+                                    color: const Color(0xFFF1D4D2),
+                                    width: 1.2,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color(0xFF9F3D48)
+                                          .withOpacity(0.07),
+                                      blurRadius: 14,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'Dah Cuba Kaedah Ini?',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xFF1E1E1E),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'Kongsi pendapat anda selepas mencuba kaedah ini.',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey.shade700,
+                                        height: 1.35,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 14),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      height: 44,
+                                      child: ElevatedButton.icon(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: _deepAccent,
+                                          foregroundColor: Colors.white,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        icon: const Icon(
+                                          Icons.edit_note_rounded,
+                                          size: 20,
+                                        ),
+                                        label: const Text(
+                                          'Beri Maklum Balas',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => FeedbackScreen(
+                                                initialMethodId:
+                                                    widget.method.methodId,
+                                                initialMethodName:
+                                                    widget.method.methodName,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+
+                              const SizedBox(height: 20),
+                            ],
+                          ),
                         ),
                       ),
-
-                      const SizedBox(height: 20),
-                    ],
+                    ),
+                  ],
+                ),
+                Positioned(
+                  top: 8,
+                  left: 12,
+                  child: Material(
+                    color: Colors.white.withOpacity(0.88),
+                    shape: const CircleBorder(),
+                    elevation: 3,
+                    shadowColor: _deepAccent.withOpacity(0.16),
+                    child: IconButton(
+                      tooltip: 'Back',
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: _deepAccent,
+                        size: 19,
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _backgroundOrb(double size, Color color) {
+    return IgnorePointer(
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color,
         ),
       ),
     );
