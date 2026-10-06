@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color(0xFFFFF8F7),
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
@@ -90,6 +90,49 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildHomeBody() {
     return Stack(
       children: [
+        Positioned.fill(
+          child: DecoratedBox(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFFFFF5F2),
+                  Color(0xFFFFFCFB),
+                  Color(0xFFFFF1F3),
+                ],
+              ),
+            ),
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 28,
+                  right: -70,
+                  child: Container(
+                    width: 210,
+                    height: 210,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: const Color(0xFFF4A6A0).withOpacity(0.10),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 95,
+                  left: -95,
+                  child: Container(
+                    width: 230,
+                    height: 230,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: const Color(0xFFE98F9A).withOpacity(0.08),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         SafeArea(
           bottom: false,
           child: LayoutBuilder(
@@ -157,24 +200,28 @@ class _HomeScreenState extends State<HomeScreen> {
       width: double.infinity,
       height: 56,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 255, 255, 255), // Box 1 background color
-        borderRadius: BorderRadius.circular(10),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, Color(0xFFFFF9F8)],
+        ),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
+            color: const Color(0xFFB64A52).withOpacity(0.10),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
           ),
         ],
         border: Border.all(
-          color: const Color.fromARGB(255, 224, 224, 224), // Box 1 border color
-          width: 1,
+          color: const Color.fromARGB(255, 155, 102, 105),
+          width: 2,
         ),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(16),
           onTap: () {
             Navigator.push(
               context,
@@ -188,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
               'Information About Stress',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color.fromARGB(255, 0, 0, 0), // Box 1 text color
+                color: Color(0xFF382C2C),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -205,24 +252,28 @@ class _HomeScreenState extends State<HomeScreen> {
       width: double.infinity,
       height: 56,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 255, 255, 255), // Box 2 background color
-        borderRadius: BorderRadius.circular(10),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, Color(0xFFFFF9F8)],
+        ),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
+            color: const Color(0xFFB64A52).withOpacity(0.10),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
           ),
         ],
         border: Border.all(
-          color: const Color.fromARGB(255, 224, 224, 224), // Box 2 border color
-          width: 1,
+          color: const Color.fromARGB(255, 155, 102, 105),
+          width: 2,
         ),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(16),
           onTap: () {
             Navigator.push(
               context,
@@ -236,7 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
               'Stress Check',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color.fromARGB(255, 0, 0, 0), // Box 2 text color
+                color: Color(0xFF382C2C),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -253,31 +304,35 @@ class _HomeScreenState extends State<HomeScreen> {
       width: double.infinity,
       height: 56,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 255, 255, 255), // Box 3 background color
-        borderRadius: BorderRadius.circular(10),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, Color(0xFFFFF9F8)],
+        ),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
+            color: const Color(0xFFB64A52).withOpacity(0.10),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
           ),
         ],
         border: Border.all(
-          color: const Color.fromARGB(255, 224, 224, 224), // Box 3 border color
-          width: 1,
+          color: const Color.fromARGB(255, 155, 102, 105),
+          width: 2,
         ),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(16),
           onTap: _openDass,
           child: const Center(
             child: Text(
-              'DASS  Test',
+              'DASS Test',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color.fromARGB(255, 0, 0, 0), // Box 3 text color
+                color: Color(0xFF382C2C),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -293,13 +348,21 @@ class _HomeScreenState extends State<HomeScreen> {
       margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
       height: 54,
       decoration: BoxDecoration(
-        color: const Color(0xFFFFCDD2), // Soft pink background
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFFFFDFC), Color(0xFFFFE9E8)],
+        ),
         borderRadius: BorderRadius.circular(27),
+        border: Border.all(
+          color: const Color(0xFFF1D4D2),
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
+            color: const Color(0xFF9F3D48).withOpacity(0.16),
+            blurRadius: 18,
+            offset: const Offset(0, 7),
           ),
         ],
       ),
@@ -319,13 +382,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: tabWidth,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.red,
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFFE65B63), Color(0xFFBD3546)],
+                    ),
                     borderRadius: BorderRadius.circular(27),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.red.withOpacity(0.35),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
+                        color: const Color(0xFFBD3546).withOpacity(0.32),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
                       ),
                     ],
                   ),
@@ -366,7 +433,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 duration: const Duration(milliseconds: 200),
                 child: Icon(
                   icon,
-                  color: Colors.white,
+                  color: isSelected ? Colors.white : const Color(0xFF9B6669),
                   size: 28,
                 ),
               ),
