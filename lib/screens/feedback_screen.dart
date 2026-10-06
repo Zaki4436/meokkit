@@ -22,6 +22,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   final FocusNode _focusNode = FocusNode();
 
   bool _isSubmitting = false;
+  String? _statusMessage;
+  bool _statusIsSuccess = false;
   String _selectedMethod = 'Keseluruhan Kaedah 10B';
   String? _selectedMethodId;
   String? _selectedAnswer; // 'Yes' or 'No'
@@ -83,42 +85,37 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     super.dispose();
   }
 
+  void _showStatus(String message, {required bool isSuccess}) {
+    setState(() {
+      _statusMessage = message;
+      _statusIsSuccess = isSuccess;
+    });
+  }
+
   Future<void> _submitFeedback() async {
     if (_selectedAnswer == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Sila pilih "Yes" atau "No" terlebih dahulu.'),
-          backgroundColor: Colors.red,
-        ),
+      _showStatus(
+        'Sila pilih "Ya" atau "Tidak" terlebih dahulu.',
+        isSuccess: false,
       );
       return;
     }
 
     final text = _feedbackController.text.trim();
-    if (text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Sila tulis maklum balas anda terlebih dahulu.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
 
     final user = await AuthService.getUser();
     if (!mounted) return;
     if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Sila log masuk untuk menghantar maklum balas.'),
-          backgroundColor: Colors.red,
-        ),
+      _showStatus(
+        'Sila log masuk untuk menghantar maklum balas.',
+        isSuccess: false,
       );
       return;
     }
 
     setState(() {
       _isSubmitting = true;
+      _statusMessage = null;
     });
 
     final isAll = _selectedMethod == 'Keseluruhan Kaedah 10B';
@@ -146,32 +143,19 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         _focusNode.unfocus();
         setState(() {
           _selectedAnswer = null;
+          _statusMessage =
+              'Maklum balas anda telah berjaya dihantar! Terima kasih.';
+          _statusIsSuccess = true;
         });
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-                'Maklum balas anda telah berjaya dihantar! Terima kasih.'),
-            backgroundColor: Color(0xFF2E7D32),
-            duration: Duration(seconds: 3),
-          ),
-        );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(result['message'] ?? 'Gagal menghantar maklum balas.'),
-            backgroundColor: Colors.red,
-          ),
+        _showStatus(
+          result['message'] ?? 'Gagal menghantar maklum balas.',
+          isSuccess: false,
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Ralat sambungan: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        _showStatus('Ralat sambungan: $e', isSuccess: false);
       }
     } finally {
       if (mounted) {
@@ -184,18 +168,35 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const primaryColor = Color(0xFFD94B4B);
+    const primaryColor = Color(0xFFBD3546);
+    const accentColor = Color(0xFFE65B63);
+    const inkColor = Color(0xFF382C2C);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFFFF8F7),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFFFF8F7),
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: primaryColor),
-          onPressed: () => Navigator.pop(context),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: Material(
+            color: Colors.white.withOpacity(0.88),
+            shape: const CircleBorder(),
+            elevation: 3,
+            shadowColor: primaryColor.withOpacity(0.16),
+            child: IconButton(
+              tooltip: 'Back',
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: primaryColor,
+                size: 19,
+              ),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
         ),
         title: const Text(
           'FEEDBACK',
@@ -207,256 +208,397 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           ),
         ),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header Card
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(18),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      primaryColor.withOpacity(0.12),
-                      primaryColor.withOpacity(0.04),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFFFFF5F2),
+                    Color(0xFFFFFCFB),
+                    Color(0xFFFFF1F3),
+                  ],
+                ),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 28,
+                    right: -70,
+                    child: _backgroundOrb(
+                      210,
+                      const Color(0xFFF4A6A0).withOpacity(0.10),
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: primaryColor.withOpacity(0.25),
+                  Positioned(
+                    bottom: 95,
+                    left: -95,
+                    child: _backgroundOrb(
+                      230,
+                      const Color(0xFFE98F9A).withOpacity(0.08),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0, end: 1),
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeOutCubic,
+                builder: (context, progress, child) => Opacity(
+                  opacity: progress,
+                  child: Transform.translate(
+                    offset: Offset(0, 16 * (1 - progress)),
+                    child: child,
                   ),
                 ),
-                child: Row(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Header Card
                     Container(
-                      padding: const EdgeInsets.all(10),
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius: BorderRadius.circular(12),
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.white,
+                            const Color(0xFFFFE9E8),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: const Color(0xFF9B6669),
+                          width: 2,
+                        ),
                       ),
-                      child: const Icon(
-                        Icons.rate_review_rounded,
-                        color: Colors.white,
-                        size: 26,
-                      ),
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Maklum Balas Kaedah 10B',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1E1E1E),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: primaryColor,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(
+                              Icons.rate_review_rounded,
+                              color: Colors.white,
+                              size: 26,
                             ),
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Kongsi pendapat, perasaan, atau pengalaman anda selepas mencuba teknik pengurusan stres 10B.',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey.shade700,
-                              height: 1.35,
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Maklum Balas Kaedah 10B',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: inkColor,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Kongsi pendapat, perasaan, atau pengalaman anda selepas mencuba teknik pengurusan stres 10B.',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.grey.shade700,
+                                    height: 1.35,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
+
+                    const SizedBox(height: 22),
+
+                    // Method selection dropdown
+                    const Text(
+                      'Kaedah 10B Yang Dicuba',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E1E),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: const Color(0xFFF1D4D2)),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: _selectedMethod,
+                          isExpanded: true,
+                          icon: const Icon(Icons.keyboard_arrow_down,
+                              color: primaryColor),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: inkColor,
+                          ),
+                          items: _methodsList.map((String method) {
+                            return DropdownMenuItem<String>(
+                              value: method,
+                              child: Text(method),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                _selectedMethod = newValue;
+                                _selectedMethodId =
+                                    _methodIdMap[newValue] ?? '';
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 22),
+
+                    // Ya/Tidak Selection (Simple Box)
+                    const Text(
+                      'Adakah kaedah ini membantu anda?',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E1E),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildSimpleBox(
+                            label: 'Ya',
+                            isSelected: _selectedAnswer == 'Yes' ||
+                                _selectedAnswer == 'Ya',
+                            activeColor: const Color(0xFF5B9B70),
+                            onTap: () {
+                              setState(() {
+                                _selectedAnswer = 'Yes';
+                              });
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _buildSimpleBox(
+                            label: 'Tidak',
+                            isSelected: _selectedAnswer == 'No' ||
+                                _selectedAnswer == 'Tidak',
+                            activeColor: accentColor,
+                            onTap: () {
+                              setState(() {
+                                _selectedAnswer = 'No';
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 22),
+
+                    // Feedback description input
+                    const Text(
+                      'Maklum Balas / Pengalaman Anda',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E1E1E),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFF1D4D2)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF9F3D48).withOpacity(0.05),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: TextField(
+                        controller: _feedbackController,
+                        focusNode: _focusNode,
+                        maxLines: 6,
+                        minLines: 4,
+                        textInputAction: TextInputAction.newline,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: inkColor,
+                        ),
+                        decoration: InputDecoration(
+                          hintText:
+                              'Tulis apa sahaja maklum balas anda di sini... Contohnya bagaimana kaedah ini membantu anda berasa lebih tenang.',
+                          hintStyle: TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey.shade400,
+                            height: 1.4,
+                          ),
+                          contentPadding: const EdgeInsets.all(16),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    AnimatedSize(
+                      duration: const Duration(milliseconds: 240),
+                      curve: Curves.easeInOutCubic,
+                      child: _statusMessage == null
+                          ? const SizedBox.shrink()
+                          : Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 200),
+                                child: Container(
+                                  key: ValueKey(
+                                    '${_statusIsSuccess}_$_statusMessage',
+                                  ),
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 14,
+                                    vertical: 12,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: _statusIsSuccess
+                                        ? const Color(0xFFEAF5ED)
+                                        : const Color(0xFFFFEEEE),
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: _statusIsSuccess
+                                          ? const Color(0xFFA8D2B1)
+                                          : const Color(0xFFE9B8B8),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    _statusMessage!,
+                                    style: TextStyle(
+                                      color: _statusIsSuccess
+                                          ? const Color(0xFF28633A)
+                                          : const Color(0xFF9B3038),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.4,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ),
+
+                    // Submit button
+                    Container(
+                      width: double.infinity,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [accentColor, primaryColor],
+                        ),
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: primaryColor.withOpacity(0.24),
+                            blurRadius: 14,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          foregroundColor: Colors.white,
+                          shadowColor: Colors.transparent,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        onPressed: _isSubmitting ? null : _submitFeedback,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 220),
+                          child: _isSubmitting
+                              ? const SizedBox(
+                                  key: ValueKey('submitting'),
+                                  width: 22,
+                                  height: 22,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2.5,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : const Row(
+                                  key: ValueKey('submit'),
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.send_rounded, size: 18),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      'Hantar Maklum Balas',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
-
-              const SizedBox(height: 22),
-
-              // Method selection dropdown
-              const Text(
-                'Kaedah 10B Yang Dicuba',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF1E1E1E),
-                ),
-              ),
-              const SizedBox(height: 8),
-
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 3),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFAFAFA),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade300),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: _selectedMethod,
-                    isExpanded: true,
-                    icon: const Icon(Icons.keyboard_arrow_down,
-                        color: primaryColor),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF1E1E1E),
-                    ),
-                    items: _methodsList.map((String method) {
-                      return DropdownMenuItem<String>(
-                        value: method,
-                        child: Text(method),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        setState(() {
-                          _selectedMethod = newValue;
-                          _selectedMethodId = _methodIdMap[newValue] ?? '';
-                        });
-                      }
-                    },
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 22),
-
-              // Ya/Tidak Selection (Simple Box)
-              const Text(
-                'Adakah kaedah ini membantu anda?',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF1E1E1E),
-                ),
-              ),
-              const SizedBox(height: 8),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildSimpleBox(
-                      label: 'Ya',
-                      isSelected: _selectedAnswer == 'Yes' || _selectedAnswer == 'Ya',
-                      activeColor: const Color(0xFF2E7D32),
-                      onTap: () {
-                        setState(() {
-                          _selectedAnswer = 'Yes';
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildSimpleBox(
-                      label: 'Tidak',
-                      isSelected: _selectedAnswer == 'No' || _selectedAnswer == 'Tidak',
-                      activeColor: primaryColor,
-                      onTap: () {
-                        setState(() {
-                          _selectedAnswer = 'No';
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 22),
-
-              // Feedback description input
-              const Text(
-                'Maklum Balas / Pengalaman Anda',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF1E1E1E),
-                ),
-              ),
-              const SizedBox(height: 8),
-
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFAFAFA),
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: Colors.grey.shade300),
-                ),
-                child: TextField(
-                  controller: _feedbackController,
-                  focusNode: _focusNode,
-                  maxLines: 6,
-                  minLines: 4,
-                  textInputAction: TextInputAction.newline,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF1E1E1E),
-                  ),
-                  decoration: InputDecoration(
-                    hintText:
-                        'Tulis apa sahaja maklum balas anda di sini... Contohnya bagaimana kaedah ini membantu anda berasa lebih tenang.',
-                    hintStyle: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey.shade400,
-                      height: 1.4,
-                    ),
-                    contentPadding: const EdgeInsets.all(16),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 24),
-
-              // Submit button
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                    foregroundColor: Colors.white,
-                    elevation: 1,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  onPressed: _isSubmitting ? null : _submitFeedback,
-                  child: _isSubmitting
-                      ? const SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                            color: Colors.white,
-                          ),
-                        )
-                      : const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.send_rounded, size: 18),
-                            SizedBox(width: 8),
-                            Text(
-                              'Hantar Maklum Balas',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                ),
-              ),
-
-              const SizedBox(height: 30),
-            ],
+            ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _backgroundOrb(double size, Color color) {
+    return IgnorePointer(
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          color: color,
+          shape: BoxShape.circle,
         ),
       ),
     );
@@ -472,14 +614,26 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
+        duration: const Duration(milliseconds: 280),
+        curve: Curves.easeInOutCubic,
         height: 48,
         decoration: BoxDecoration(
-          color: isSelected ? activeColor : const Color(0xFFFAFAFA),
-          borderRadius: BorderRadius.circular(10),
+          gradient: isSelected
+              ? LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    activeColor,
+                    Color.lerp(activeColor, Colors.black, 0.12)!,
+                  ],
+                )
+              : const LinearGradient(
+                  colors: [Colors.white, Color(0xFFFFF9F8)],
+                ),
+          borderRadius: BorderRadius.circular(13),
           border: Border.all(
-            color: isSelected ? activeColor : Colors.grey.shade300,
-            width: isSelected ? 1.8 : 1.0,
+            color: isSelected ? activeColor : const Color(0xFFF1D4D2),
+            width: isSelected ? 1.6 : 1.0,
           ),
           boxShadow: isSelected
               ? [

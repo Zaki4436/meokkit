@@ -304,7 +304,9 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
           colors: [Colors.white, Color(0xFFFFF9F8)],
         ),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFFF1D4D2)),
+        border: Border.all(
+          color: const Color(0xFF9B6669), 
+          width: 2),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF9F3D48).withOpacity(0.06),
@@ -322,7 +324,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                 'About this technique',
                 style: TextStyle(
                   color: _ink,
-                  fontSize: 15,
+                  fontSize: 17,
                   fontWeight: FontWeight.w800,
                 ),
               ),
