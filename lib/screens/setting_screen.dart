@@ -117,29 +117,14 @@ class _SettingScreenState extends State<SettingScreen>
           });
         }
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Profile picture saved to Google Drive!'),
-            backgroundColor: Colors.green,
-          ),
-        );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              result['message']?.toString() ??
-                  'Profile picture updated locally.',
-            ),
-          ),
+        debugPrint(
+          result['message']?.toString() ??
+              'Profile picture updated locally but upload failed.',
         );
       }
     } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error uploading image: $e'),
-        ),
-      );
+      debugPrint('Error uploading image: $e');
     } finally {
       if (mounted) {
         setState(() {
@@ -223,19 +208,42 @@ class _SettingScreenState extends State<SettingScreen>
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Account'),
+        backgroundColor: const Color(0xFFFFFBFA),
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(22),
+          side: const BorderSide(color: Color(0xFFF1D4D2)),
+        ),
+        title: const Text(
+          'Delete Account',
+          style: TextStyle(
+            color: Color(0xFF382C2C),
+            fontWeight: FontWeight.w800,
+          ),
+        ),
         content: const Text(
           'Are you sure you want to delete your account? This action cannot be undone.',
+          style: TextStyle(
+            color: Color(0xFF65585A),
+            height: 1.45,
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xFF775F62),
+            ),
             child: const Text('Cancel'),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: const Color(0xFFBD3546),
               foregroundColor: Colors.white,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
             onPressed: () => Navigator.pop(context, true),
             child: const Text('Delete'),
@@ -275,36 +283,39 @@ class _SettingScreenState extends State<SettingScreen>
   }) {
     return Container(
       width: double.infinity,
-      height: 48,
-      margin: const EdgeInsets.only(bottom: 14),
+      height: 54,
+      margin: const EdgeInsets.only(bottom: 13),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, Color(0xFFFFF9F8)],
+        ),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: const Color(0xFF9F3D48).withOpacity(0.07),
+            blurRadius: 13,
+            offset: const Offset(0, 4),
           ),
         ],
         border: Border.all(
-          color: Colors.grey.shade300,
-          width: 1.0,
+          color: const Color(0xFFF1D4D2),
         ),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(16),
           onTap: onTap,
           child: Center(
             child: Text(
               title,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Color(0xFF1E1E1E),
+                color: Color(0xFF382C2C),
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
@@ -318,139 +329,179 @@ class _SettingScreenState extends State<SettingScreen>
     super.build(context);
     final bodyContent = SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 16),
-
-          // User Avatar Placeholder with Camera Badge
-          Center(
-            child: GestureDetector(
-              onTap: _uploadingImage ? null : _showImagePickerModal,
-              child: Stack(
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0, end: 1),
+        duration: const Duration(milliseconds: 450),
+        curve: Curves.easeOutCubic,
+        builder: (context, progress, child) => Opacity(
+          opacity: progress,
+          child: Transform.translate(
+            offset: Offset(0, 14 * (1 - progress)),
+            child: child,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(bottom: 24),
+              padding: const EdgeInsets.fromLTRB(20, 24, 20, 22),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.white, Color(0xFFFFE9E8)],
+                ),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: const Color(0xFFF1D4D2)),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF9F3D48).withOpacity(0.09),
+                    blurRadius: 18,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Column(
                 children: [
-                  CircleAvatar(
-                    radius: 48,
-                    backgroundColor: Colors.grey.shade300,
-                    child: _uploadingImage
-                        ? const CircularProgressIndicator(color: Colors.red)
-                        : _localImageBytes != null
-                            ? ClipOval(
-                                child: Image.memory(
-                                  _localImageBytes!,
-                                  width: 96,
-                                  height: 96,
-                                  fit: BoxFit.cover,
-                                ),
+                  GestureDetector(
+                    onTap: _uploadingImage ? null : _showImagePickerModal,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: const Color(0xFFE9A7A8),
+                          width: 2,
+                        ),
+                      ),
+                      child: CircleAvatar(
+                        radius: 48,
+                        backgroundColor: const Color(0xFFF5DADB),
+                        child: _uploadingImage
+                            ? const CircularProgressIndicator(
+                                color: Color(0xFFBD3546),
                               )
-                            : (user?.profilePicture.isNotEmpty == true)
+                            : _localImageBytes != null
                                 ? ClipOval(
-                                    child: Image.network(
-                                      user!.profilePicture,
-                                      width: 96,
-                                      height: 96,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (_, __, ___) => const Icon(
+                                    child: SizedBox.expand(
+                                      child: Image.memory(
+                                        _localImageBytes!,
+                                        fit: BoxFit.cover,
+                                        filterQuality: FilterQuality.high,
+                                      ),
+                                    ),
+                                  )
+                                : (user?.profilePicture.isNotEmpty == true)
+                                    ? ClipOval(
+                                        child: SizedBox.expand(
+                                          child: Image.network(
+                                            user!.profilePicture,
+                                            fit: BoxFit.cover,
+                                            filterQuality: FilterQuality.high,
+                                            errorBuilder: (_, __, ___) =>
+                                                const Icon(
+                                              Icons.person,
+                                              size: 56,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : const Icon(
                                         Icons.person,
                                         size: 56,
                                         color: Colors.white,
                                       ),
-                                    ),
-                                  )
-                                : const Icon(
-                                    Icons.person,
-                                    size: 56,
-                                    color: Colors.white,
-                                  ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    user?.fullName.isNotEmpty == true
+                        ? user!.fullName
+                        : 'User Full Name',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF382C2C),
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
 
-          const SizedBox(height: 14),
-
-          // User Full Name
-          Text(
-            user?.fullName.isNotEmpty == true
-                ? user!.fullName
-                : 'User Full Name',
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 0, 0, 0),
+            // 1. Profile Button
+            _buildActionButton(
+              title: 'Profile',
+              onTap: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ProfileScreen(),
+                  ),
+                );
+                if (!mounted) return;
+                _loadUser();
+              },
             ),
-          ),
 
-          const SizedBox(height: 28),
+            // 2. History Button
+            _buildActionButton(
+              title: 'History',
+              onTap: () {
+                Navigator.pushNamed(context, '/setting-history');
+              },
+            ),
 
-          // 1. Profile Button
-          _buildActionButton(
-            title: 'Profile',
-            onTap: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const ProfileScreen(),
-                ),
-              );
-              if (!mounted) return;
-              _loadUser();
-            },
-          ),
+            // 3. Counselor Contact Button
+            _buildActionButton(
+              title: 'Counselor Contact',
+              onTap: () {
+                Navigator.pushNamed(context, '/counselor');
+              },
+            ),
 
-          // 2. History Button
-          _buildActionButton(
-            title: 'History',
-            onTap: () {
-              Navigator.pushNamed(context, '/setting-history');
-            },
-          ),
+            // 4. Logout Button
+            _buildActionButton(
+              title: 'Logout',
+              onTap: _logout,
+            ),
 
-          // 3. Counselor Contact Button
-          _buildActionButton(
-            title: 'Counselor Contact',
-            onTap: () {
-              Navigator.pushNamed(context, '/counselor');
-            },
-          ),
+            // 5. Delete Account Button
+            _buildActionButton(
+              title: 'Delete Account',
+              onTap: _confirmDeleteAccount,
+            ),
 
-          // 4. Logout Button
-          _buildActionButton(
-            title: 'Logout',
-            onTap: _logout,
-          ),
-
-          // 5. Delete Account Button
-          _buildActionButton(
-            title: 'Delete Account',
-            onTap: _confirmDeleteAccount,
-          ),
-
-          const SizedBox(height: 20),
-        ],
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
 
     if (widget.showAppBar) {
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFFFF8F7),
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: const Color(0xFFFFF8F7),
+          surfaceTintColor: Colors.transparent,
           elevation: 0,
           scrolledUnderElevation: 0,
           centerTitle: true,
           title: const Text(
             'Settings',
             style: TextStyle(
-              color: Colors.red,
+              color: const Color(0xFFBD3546),
               fontSize: 22,
               fontWeight: FontWeight.w900,
             ),
           ),
         ),
-        body: bodyContent,
+        body: _buildSettingsBackground(child: bodyContent),
         bottomNavigationBar: SafeArea(
           top: false,
           child: _buildCustomBottomBar(context),
@@ -458,10 +509,61 @@ class _SettingScreenState extends State<SettingScreen>
       );
     }
 
-    return Container(
-      color: Colors.white,
+    return _buildSettingsBackground(
       child: SafeArea(
         child: bodyContent,
+      ),
+    );
+  }
+
+  Widget _buildSettingsBackground({required Widget child}) {
+    return Stack(
+      children: [
+        const Positioned.fill(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFFFFF5F2),
+                  Color(0xFFFFFCFB),
+                  Color(0xFFFFF1F3),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 28,
+          right: -70,
+          child: _backgroundOrb(
+            210,
+            const Color(0xFFF4A6A0).withOpacity(0.10),
+          ),
+        ),
+        Positioned(
+          bottom: 95,
+          left: -95,
+          child: _backgroundOrb(
+            230,
+            const Color(0xFFE98F9A).withOpacity(0.08),
+          ),
+        ),
+        child,
+      ],
+    );
+  }
+
+  Widget _backgroundOrb(double size, Color color) {
+    return IgnorePointer(
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color,
+        ),
       ),
     );
   }
@@ -471,13 +573,18 @@ class _SettingScreenState extends State<SettingScreen>
       margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
       height: 54,
       decoration: BoxDecoration(
-        color: const Color(0xFFFFCDD2), // Soft pink background
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFFFFDFC), Color(0xFFFFE9E8)],
+        ),
         borderRadius: BorderRadius.circular(27),
+        border: Border.all(color: const Color(0xFFF1D4D2)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
+            color: const Color(0xFF9F3D48).withOpacity(0.12),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -531,7 +638,13 @@ class _SettingScreenState extends State<SettingScreen>
           duration: const Duration(milliseconds: 200),
           height: 54,
           decoration: BoxDecoration(
-            color: isSelected ? Colors.red : Colors.transparent,
+            gradient: isSelected
+                ? const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xFFE65B63), Color(0xFFBD3546)],
+                  )
+                : null,
             borderRadius: BorderRadius.circular(27),
           ),
           child: Icon(

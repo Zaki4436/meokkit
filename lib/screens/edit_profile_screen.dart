@@ -22,6 +22,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late String selectedRole;
 
   bool saving = false;
+  String? _message;
 
   final roles = [
     'Lecturer',
@@ -34,9 +35,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
     fullNameController = TextEditingController(text: widget.user.fullName);
     usernameController = TextEditingController(text: widget.user.username);
-    selectedRole = widget.user.role.isNotEmpty && roles.contains(widget.user.role)
-        ? widget.user.role
-        : roles.first;
+    selectedRole =
+        widget.user.role.isNotEmpty && roles.contains(widget.user.role)
+            ? widget.user.role
+            : roles.first;
   }
 
   @override
@@ -85,17 +87,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         await AuthService.saveUser(updatedUser);
 
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Profile updated successfully!'),
-            backgroundColor: Colors.green,
-          ),
-        );
         Navigator.pop(context, true);
       } else {
         _showMessage(result['message']?.toString() ?? 'Update failed.');
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         saving = false;
       });
@@ -103,14 +100,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-
-
   void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
+    setState(() {
+      _message = message;
+    });
   }
 
   Widget _buildFormFieldWrapper({
@@ -279,6 +272,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
 
                     const SizedBox(height: 28),
+
+                    if (_message != null) ...[
+                      Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(bottom: 16),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFF1F0),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: const Color(0xFFF1D4D2)),
+                        ),
+                        child: Text(
+                          _message!,
+                          style: const TextStyle(color: Color(0xFF8E303A)),
+                        ),
+                      ),
+                    ],
 
                     // Button 1: Change Password
                     Container(

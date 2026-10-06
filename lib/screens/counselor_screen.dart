@@ -23,17 +23,9 @@ class _CounselorScreenState extends State<CounselorScreen> {
         uri,
         mode: LaunchMode.externalApplication,
       );
-      if (!launched && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Unable to open link: $urlString')),
-        );
-      }
-    } catch (_) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Unable to open link: $urlString')),
-        );
-      }
+      if (!launched) debugPrint('Unable to open link: $urlString');
+    } catch (error) {
+      debugPrint('Unable to open link: $urlString: $error');
     }
   }
 

@@ -57,13 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
       mode: LaunchMode.externalApplication,
     );
 
-    if (!opened && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Unable to open the link.'),
-        ),
-      );
-    }
+    if (!opened) debugPrint('Unable to open link: $uri');
   }
 
   @override

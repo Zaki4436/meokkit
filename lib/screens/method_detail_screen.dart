@@ -92,13 +92,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
       mode: LaunchMode.externalApplication,
     );
 
-    if (!opened && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Unable to open link.'),
-        ),
-      );
-    }
+    if (!opened) debugPrint('Unable to open link: $uri');
   }
 
   Future<void> _makeCall(String phoneNumber) async {
@@ -106,17 +100,9 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
     final uri = Uri.parse('tel:$cleanNumber');
     try {
       final launched = await launchUrl(uri);
-      if (!launched && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Unable to call $phoneNumber')),
-        );
-      }
-    } catch (_) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Unable to call $phoneNumber')),
-        );
-      }
+      if (!launched) debugPrint('Unable to call $phoneNumber');
+    } catch (error) {
+      debugPrint('Unable to call $phoneNumber: $error');
     }
   }
 
@@ -130,17 +116,9 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
         uri,
         mode: LaunchMode.externalApplication,
       );
-      if (!launched && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Unable to open WhatsApp for $phone')),
-        );
-      }
-    } catch (_) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Unable to open WhatsApp for $phone')),
-        );
-      }
+      if (!launched) debugPrint('Unable to open WhatsApp for $phone');
+    } catch (error) {
+      debugPrint('Unable to open WhatsApp for $phone: $error');
     }
   }
 
