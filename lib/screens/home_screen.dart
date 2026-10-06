@@ -137,53 +137,55 @@ class _HomeScreenState extends State<HomeScreen> {
           bottom: false,
           child: LayoutBuilder(
             builder: (context, constraints) {
-              return SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(32, 20, 50, 100),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight - 30,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 50),
-                      Center(
-                        child: Image.asset(
-                          'assets/icon/full_logo_nobg.png',
-                          height: 275,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-
-                      Transform.translate(
-                        offset: const Offset(0, -20),
-                        child: const Text(
-                          textAlign: TextAlign.center,
-                          'Unit Psikologi dan Kaunseling\nKolej Matrikulasi Johor',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 112, 112, 112),
+              return FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.topCenter,
+                child: SizedBox(
+                  width: constraints.maxWidth,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(32, 20, 50, 100),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 50),
+                        Center(
+                          child: Image.asset(
+                            'assets/icon/full_logo_nobg.png',
+                            height: 275,
+                            fit: BoxFit.contain,
                           ),
                         ),
-                      ),
 
-                      const SizedBox(height: 15),
+                        Transform.translate(
+                          offset: const Offset(0, -20),
+                          child: const Text(
+                            textAlign: TextAlign.center,
+                            'Unit Psikologi dan Kaunseling\nKolej Matrikulasi Johor',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 112, 112, 112),
+                            ),
+                          ),
+                        ),
 
-                      // Button 1: Information About Stress
-                      _buildActionCard1(),
+                        const SizedBox(height: 15),
 
-                      const SizedBox(height: 18),
+                        // Button 1: Information About Stress
+                        _buildActionCard1(),
 
-                      // Button 2: Stress Check
-                      _buildActionCard2(),
+                        const SizedBox(height: 18),
 
-                      const SizedBox(height: 18),
+                        // Button 2: Stress Check
+                        _buildActionCard2(),
 
-                      // Button 3: DASS Test
-                      _buildActionCard3(),
-                    ],
+                        const SizedBox(height: 18),
+
+                        // Button 3: DASS Test
+                        _buildActionCard3(),
+                      ],
+                    ),
                   ),
                 ),
               );
