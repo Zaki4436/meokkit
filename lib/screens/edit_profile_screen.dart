@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
+import '../widgets/app_background.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final User user;
@@ -168,41 +169,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF8F7),
-      body: SafeArea(
+      backgroundColor: Colors.transparent,
+      body: AppBackground(
+        child: SafeArea(
         child: Stack(
           children: [
-            const Positioned.fill(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFFFFF5F2),
-                      Color(0xFFFFFCFB),
-                      Color(0xFFFFF1F3),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 28,
-              right: -70,
-              child: _backgroundOrb(
-                210,
-                const Color(0xFFF4A6A0).withOpacity(0.10),
-              ),
-            ),
-            Positioned(
-              bottom: 20,
-              left: -95,
-              child: _backgroundOrb(
-                230,
-                const Color(0xFFE98F9A).withOpacity(0.08),
-              ),
-            ),
             SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(26, 68, 26, 24),
               child: TweenAnimationBuilder<double>(
@@ -376,18 +347,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _backgroundOrb(double size, Color color) {
-    return IgnorePointer(
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color,
-        ),
       ),
     );
   }

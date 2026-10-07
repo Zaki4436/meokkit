@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubits/auth_cubit.dart';
 import '../cubits/auth_state.dart';
+import '../widgets/app_background.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -155,18 +156,8 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFFFDF6F6),
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFFFFF5F5),
-                Color(0xFFFFFFFF),
-              ],
-            ),
-          ),
+        backgroundColor: Colors.transparent,
+        body: AppBackground(
           child: SafeArea(
             child: Center(
               child: SingleChildScrollView(

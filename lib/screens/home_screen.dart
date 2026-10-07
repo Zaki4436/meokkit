@@ -5,6 +5,7 @@ import 'check_emotion_screen.dart';
 import 'information_screen.dart';
 import 'methods_screen.dart';
 import 'setting_screen.dart';
+import '../widgets/app_background.dart';
 
 class HomeScreen extends StatefulWidget {
   final int initialIndex;
@@ -82,111 +83,56 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildHomeBody() {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: DecoratedBox(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFFFFF5F2),
-                  Color(0xFFFFFCFB),
-                  Color(0xFFFFF1F3),
-                ],
+    return AppBackground(
+      child: SafeArea(
+        bottom: false,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                width: constraints.maxWidth,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(32, 20, 50, 100),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 50),
+                      Center(
+                        child: Image.asset(
+                          'assets/icon/full_logo_nobg.png',
+                          height: 275,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      Transform.translate(
+                        offset: const Offset(0, -20),
+                        child: const Text(
+                          textAlign: TextAlign.center,
+                          'Unit Psikologi dan Kaunseling\nKolej Matrikulasi Johor',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 67, 67, 67),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      _buildActionCard1(),
+                      const SizedBox(height: 18),
+                      _buildActionCard2(),
+                      const SizedBox(height: 18),
+                      _buildActionCard3(),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 28,
-                  right: -70,
-                  child: Container(
-                    width: 210,
-                    height: 210,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: const Color(0xFFF4A6A0).withOpacity(0.10),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 95,
-                  left: -95,
-                  child: Container(
-                    width: 230,
-                    height: 230,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: const Color(0xFFE98F9A).withOpacity(0.08),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+            );
+          },
         ),
-        SafeArea(
-          bottom: false,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.topCenter,
-                child: SizedBox(
-                  width: constraints.maxWidth,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(32, 20, 50, 100),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 50),
-                        Center(
-                          child: Image.asset(
-                            'assets/icon/full_logo_nobg.png',
-                            height: 275,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-
-                        Transform.translate(
-                          offset: const Offset(0, -20),
-                          child: const Text(
-                            textAlign: TextAlign.center,
-                            'Unit Psikologi dan Kaunseling\nKolej Matrikulasi Johor',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 112, 112, 112),
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: 15),
-
-                        // Button 1: Information About Stress
-                        _buildActionCard1(),
-
-                        const SizedBox(height: 18),
-
-                        // Button 2: Stress Check
-                        _buildActionCard2(),
-
-                        const SizedBox(height: 18),
-
-                        // Button 3: DASS Test
-                        _buildActionCard3(),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
+      ),
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/user.dart';
 import '../services/auth_service.dart';
+import '../widgets/app_background.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -87,52 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildBackground({required Widget child}) {
-    return Stack(
-      children: [
-        const Positioned.fill(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFFFFF5F2),
-                  Color(0xFFFFFCFB),
-                  Color(0xFFFFF1F3),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          top: 18,
-          right: -76,
-          child: _backgroundOrb(
-            210,
-            const Color(0xFFF4A6A0).withOpacity(0.10),
-          ),
-        ),
-        Positioned(
-          bottom: 55,
-          left: -95,
-          child: _backgroundOrb(
-            230,
-            const Color(0xFFE98F9A).withOpacity(0.08),
-          ),
-        ),
-        child,
-      ],
-    );
-  }
-
-  Widget _backgroundOrb(double size, Color color) {
-    return IgnorePointer(
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-      ),
-    );
+    return AppBackground(child: child);
   }
 
   @override
@@ -257,8 +213,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFFFF8F7),
-      body: SafeArea(
-        child: _buildBackground(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      body: _buildBackground(
+        child: SafeArea(
           child: Stack(
             children: [
               if (loading)

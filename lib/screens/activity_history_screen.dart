@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/app_background.dart';
 import '../models/history.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 
-class ActivityHistoryScreen
-    extends StatefulWidget {
+class ActivityHistoryScreen extends StatefulWidget {
   const ActivityHistoryScreen({super.key});
 
   @override
-  State<ActivityHistoryScreen> createState() =>
-      _ActivityHistoryScreenState();
+  State<ActivityHistoryScreen> createState() => _ActivityHistoryScreenState();
 }
 
-class _ActivityHistoryScreenState
-    extends State<ActivityHistoryScreen> {
+class _ActivityHistoryScreenState extends State<ActivityHistoryScreen> {
   bool loading = true;
 
   List<ActivityHistory> history = [];
@@ -27,8 +25,7 @@ class _ActivityHistoryScreenState
   }
 
   Future<void> _loadHistory() async {
-    final user =
-        await AuthService.getUser();
+    final user = await AuthService.getUser();
 
     if (user == null) return;
 
@@ -42,13 +39,11 @@ class _ActivityHistoryScreenState
     if (result['success'] == true) {
       final data = result['data'];
 
-      final List<dynamic> items =
-          data['history'] ?? [];
+      final List<dynamic> items = data['history'] ?? [];
 
       history = items
           .map(
-            (item) =>
-                ActivityHistory.fromJson(item),
+            (item) => ActivityHistory.fromJson(item),
           )
           .toList();
 
@@ -64,43 +59,33 @@ class _ActivityHistoryScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Activity History',
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+          title: const Text('Activity History'),
         ),
-      ),
-      body: loading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : history.isEmpty
-              ? const Center(
-                  child: Text(
-                    'No activity history.',
+        body: loading
+            ? const Center(child: CircularProgressIndicator())
+            : history.isEmpty
+                ? const Center(child: Text('No activity history.'))
+                : ListView.builder(
+                    padding: const EdgeInsets.all(20),
+                    itemCount: history.length,
+                    itemBuilder: (context, index) {
+                      final item = history[index];
+                      return Card(
+                        child: ListTile(
+                          leading: const Icon(Icons.self_improvement),
+                          title: Text(item.methodName),
+                          subtitle: Text('${item.date} • ${item.time}'),
+                        ),
+                      );
+                    },
                   ),
-                )
-              : ListView.builder(
-                  padding: const EdgeInsets.all(20),
-                  itemCount: history.length,
-                  itemBuilder: (context, index) {
-                    final item = history[index];
-
-                    return Card(
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.self_improvement,
-                        ),
-                        title: Text(
-                          item.methodName,
-                        ),
-                        subtitle: Text(
-                          '${item.date} • ${item.time}',
-                        ),
-                      ),
-                    );
-                  },
-                ),
+      ),
     );
   }
 }

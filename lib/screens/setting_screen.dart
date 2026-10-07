@@ -9,6 +9,7 @@ import '../cubits/auth_cubit.dart';
 import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
+import '../widgets/app_background.dart';
 import 'profile_screen.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -481,27 +482,29 @@ class _SettingScreenState extends State<SettingScreen>
     );
 
     if (widget.showAppBar) {
-      return Scaffold(
-        backgroundColor: const Color(0xFFFFF8F7),
-        appBar: AppBar(
-          backgroundColor: const Color(0xFFFFF8F7),
-          surfaceTintColor: Colors.transparent,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          centerTitle: true,
-          title: const Text(
-            'Settings',
-            style: TextStyle(
-              color: const Color(0xFFBD3546),
-              fontSize: 22,
-              fontWeight: FontWeight.w900,
+      return AppBackground(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            centerTitle: true,
+            title: const Text(
+              'Settings',
+              style: TextStyle(
+                color: Color(0xFFBD3546),
+                fontSize: 22,
+                fontWeight: FontWeight.w900,
+              ),
             ),
           ),
-        ),
-        body: _buildSettingsBackground(child: bodyContent),
-        bottomNavigationBar: SafeArea(
-          top: false,
-          child: _buildCustomBottomBar(context),
+          body: bodyContent,
+          bottomNavigationBar: SafeArea(
+            top: false,
+            child: _buildCustomBottomBar(context),
+          ),
         ),
       );
     }
@@ -514,55 +517,7 @@ class _SettingScreenState extends State<SettingScreen>
   }
 
   Widget _buildSettingsBackground({required Widget child}) {
-    return Stack(
-      children: [
-        const Positioned.fill(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFFFFF5F2),
-                  Color(0xFFFFFCFB),
-                  Color(0xFFFFF1F3),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          top: 28,
-          right: -70,
-          child: _backgroundOrb(
-            210,
-            const Color(0xFFF4A6A0).withOpacity(0.10),
-          ),
-        ),
-        Positioned(
-          bottom: 95,
-          left: -95,
-          child: _backgroundOrb(
-            230,
-            const Color(0xFFE98F9A).withOpacity(0.08),
-          ),
-        ),
-        child,
-      ],
-    );
-  }
-
-  Widget _backgroundOrb(double size, Color color) {
-    return IgnorePointer(
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color,
-        ),
-      ),
-    );
+    return AppBackground(child: child);
   }
 
   Widget _buildCustomBottomBar(BuildContext context) {

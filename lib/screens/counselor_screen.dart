@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../widgets/app_background.dart';
+
 class CounselorScreen extends StatefulWidget {
   const CounselorScreen({super.key});
 
@@ -205,10 +207,11 @@ class _CounselorScreenState extends State<CounselorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
+    return AppBackground(
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
         leading: IconButton(
@@ -317,6 +320,7 @@ class _CounselorScreenState extends State<CounselorScreen> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

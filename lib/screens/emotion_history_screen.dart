@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/app_background.dart';
 import '../models/history.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
@@ -63,45 +64,37 @@ class _EmotionHistoryScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Emotion History',
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+          title: const Text('Emotion History'),
         ),
-      ),
-      body: loading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : history.isEmpty
-              ? const Center(
-                  child: Text(
-                    'No emotion history.',
+        body: loading
+            ? const Center(child: CircularProgressIndicator())
+            : history.isEmpty
+                ? const Center(child: Text('No emotion history.'))
+                : ListView.builder(
+                    padding: const EdgeInsets.all(20),
+                    itemCount: history.length,
+                    itemBuilder: (context, index) {
+                      final item = history[index];
+                      return Card(
+                        child: ListTile(
+                          leading: Icon(
+                            item.answer == 'Yes'
+                                ? Icons.mood_bad
+                                : Icons.check_circle,
+                          ),
+                          title: Text(item.answer),
+                          subtitle: Text('${item.date} • ${item.time}'),
+                        ),
+                      );
+                    },
                   ),
-                )
-              : ListView.builder(
-                  padding: const EdgeInsets.all(20),
-                  itemCount: history.length,
-                  itemBuilder: (context, index) {
-                    final item = history[index];
-
-                    return Card(
-                      child: ListTile(
-                        leading: Icon(
-                          item.answer == 'Yes'
-                              ? Icons.mood_bad
-                              : Icons.check_circle,
-                        ),
-                        title: Text(
-                          item.answer,
-                        ),
-                        subtitle: Text(
-                          '${item.date} • ${item.time}',
-                        ),
-                      ),
-                    );
-                  },
-                ),
+      ),
     );
   }
 }

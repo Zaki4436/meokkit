@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
+import '../widgets/app_background.dart';
 
 class CheckEmotionScreen extends StatefulWidget {
   const CheckEmotionScreen({super.key});
@@ -61,44 +62,10 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: const Color(0xFFFFF8F7),
-      body: Stack(
+      backgroundColor: Colors.transparent,
+      body: AppBackground(
+        child: Stack(
         children: [
-          Positioned.fill(
-            child: DecoratedBox(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFFFFF5F2),
-                    Color(0xFFFFFCFB),
-                    Color(0xFFFFF1F3),
-                  ],
-                ),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 28,
-                    right: -70,
-                    child: _backgroundOrb(
-                      210,
-                      const Color(0xFFF4A6A0).withOpacity(0.10),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 95,
-                    left: -95,
-                    child: _backgroundOrb(
-                      230,
-                      const Color(0xFFE98F9A).withOpacity(0.08),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
           SafeArea(
             child: LayoutBuilder(
               builder: (context, constraints) => Stack(
@@ -267,18 +234,6 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
           ),
         ],
       ),
-    );
-  }
-
-  Widget _backgroundOrb(double size, Color color) {
-    return IgnorePointer(
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
-        ),
       ),
     );
   }

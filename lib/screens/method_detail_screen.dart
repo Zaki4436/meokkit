@@ -5,6 +5,7 @@ import '../models/link.dart';
 import '../models/method.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
+import '../widgets/app_background.dart';
 import 'feedback_screen.dart';
 
 class MethodDetailScreen extends StatefulWidget {
@@ -282,9 +283,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
           colors: [Colors.white, Color(0xFFFFF9F8)],
         ),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: const Color(0xFF9B6669), 
-          width: 2),
+        border: Border.all(color: const Color(0xFF9B6669), width: 2),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF9F3D48).withOpacity(0.06),
@@ -855,342 +854,298 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF8F7),
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: DecoratedBox(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFFFFF5F2),
-                    Color(0xFFFFFCFB),
-                    Color(0xFFFFF1F3),
-                  ],
-                ),
-              ),
+      backgroundColor: Colors.transparent,
+      body: AppBackground(
+        child: Stack(
+          children: [
+            SafeArea(
               child: Stack(
                 children: [
-                  Positioned(
-                    top: 28,
-                    right: -70,
-                    child: _backgroundOrb(
-                      210,
-                      const Color(0xFFF4A6A0).withOpacity(0.10),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 95,
-                    left: -95,
-                    child: _backgroundOrb(
-                      230,
-                      const Color(0xFFE98F9A).withOpacity(0.08),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SafeArea(
-            child: Stack(
-              children: [
-                Column(
-                  children: [
-                    const SizedBox(height: 52),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 22),
-                      child: AnimatedBuilder(
-                        animation: _entranceController,
-                        builder: (context, child) {
-                          final progress = Curves.easeOutCubic.transform(
-                            (_entranceController.value / 0.8)
-                                .clamp(0.0, 1.0)
-                                .toDouble(),
-                          );
-                          return Opacity(
-                            opacity: progress,
-                            child: Transform.translate(
-                              offset: Offset(0, 16 * (1 - progress)),
-                              child: child,
-                            ),
-                          );
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 18,
-                            vertical: 16,
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  textAlign: TextAlign.center,
-                                  widget.method.methodName,
-                                  style: const TextStyle(
-                                    fontSize: 23.5,
-                                    fontWeight: FontWeight.w900,
-                                    color: _ink,
-                                    height: 1.2,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        physics: const ClampingScrollPhysics(),
-                        padding: const EdgeInsets.fromLTRB(22, 8, 22, 24),
+                  Column(
+                    children: [
+                      const SizedBox(height: 52),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 22),
                         child: AnimatedBuilder(
                           animation: _entranceController,
                           builder: (context, child) {
                             final progress = Curves.easeOutCubic.transform(
-                              ((_entranceController.value - 0.12) / 0.88)
+                              (_entranceController.value / 0.8)
                                   .clamp(0.0, 1.0)
                                   .toDouble(),
                             );
                             return Opacity(
                               opacity: progress,
                               child: Transform.translate(
-                                offset: Offset(0, 12 * (1 - progress)),
+                                offset: Offset(0, 16 * (1 - progress)),
                                 child: child,
                               ),
                             );
                           },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // About this technique card
-                              _buildDescriptionCard(),
-
-                              // Activities Section Header
-                              const Row(
-                                children: [
-                                  Text(
-                                    'Activities',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w800,
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 16,
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    textAlign: TextAlign.center,
+                                    widget.method.methodName,
+                                    style: const TextStyle(
+                                      fontSize: 23.5,
+                                      fontWeight: FontWeight.w900,
                                       color: _ink,
+                                      height: 1.2,
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          physics: const ClampingScrollPhysics(),
+                          padding: const EdgeInsets.fromLTRB(22, 8, 22, 24),
+                          child: AnimatedBuilder(
+                            animation: _entranceController,
+                            builder: (context, child) {
+                              final progress = Curves.easeOutCubic.transform(
+                                ((_entranceController.value - 0.12) / 0.88)
+                                    .clamp(0.0, 1.0)
+                                    .toDouble(),
+                              );
+                              return Opacity(
+                                opacity: progress,
+                                child: Transform.translate(
+                                  offset: Offset(0, 12 * (1 - progress)),
+                                  child: child,
+                                ),
+                              );
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // About this technique card
+                                _buildDescriptionCard(),
 
-                              const SizedBox(height: 14),
-
-                              if (loading)
-                                const Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 40),
-                                    child: CircularProgressIndicator(
-                                      color: _deepAccent,
+                                // Activities Section Header
+                                const Row(
+                                  children: [
+                                    Text(
+                                      'Activities',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w800,
+                                        color: _ink,
+                                      ),
                                     ),
+                                  ],
+                                ),
+
+                                const SizedBox(height: 14),
+
+                                if (loading)
+                                  const Center(
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 40),
+                                      child: CircularProgressIndicator(
+                                        color: _deepAccent,
+                                      ),
+                                    ),
+                                  )
+                                else if (links.isEmpty)
+                                  if (widget.method.methodId == '5' ||
+                                      widget.method.methodName
+                                          .toLowerCase()
+                                          .contains('bercakap'))
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        _buildSectionBox(
+                                          sectionTitle: 'Talian Kasih (15999)',
+                                          sectionSubtitle:
+                                              'KPWKM • Bantuan Krisis & Kaunseling 24 Jam',
+                                          contactCard: _buildContactCard(
+                                            title: 'Talian Kasih',
+                                            subtitle:
+                                                'KPWKM • Bantuan Krisis & Kaunseling 24 Jam',
+                                            phone: '15999',
+                                            whatsapp: '0192615999',
+                                            margin: EdgeInsets.zero,
+                                          ),
+                                        ),
+                                        _buildSectionBox(
+                                          sectionTitle: 'Befrienders KL',
+                                          sectionSubtitle:
+                                              'Sokongan Emosi Percuma & Rahsia 24 Jam',
+                                          contactCard: _buildContactCard(
+                                            title: 'Befrienders KL',
+                                            subtitle:
+                                                'Sokongan Emosi Percuma & Rahsia 24 Jam',
+                                            phone: '03-76272929',
+                                            margin: EdgeInsets.zero,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  else
+                                    Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 40),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'No activities recorded yet for this technique.',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey.shade600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                else
+                                  ...links
+                                      .map((link) => _buildActivityCard(link)),
+
+                                const SizedBox(height: 24),
+
+                                // Feedback Invitation Card
+                                Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.all(18),
+                                  decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      colors: [Color(0xFFFFE9E8), Colors.white],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(18),
+                                    border: Border.all(
+                                      color: const Color(0xFFF1D4D2),
+                                      width: 1.2,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: const Color(0xFF9F3D48)
+                                            .withOpacity(0.07),
+                                        blurRadius: 14,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
                                   ),
-                                )
-                              else if (links.isEmpty)
-                                if (widget.method.methodId == '5' ||
-                                    widget.method.methodName
-                                        .toLowerCase()
-                                        .contains('bercakap'))
-                                  Column(
+                                  child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      _buildSectionBox(
-                                        sectionTitle: 'Talian Kasih (15999)',
-                                        sectionSubtitle:
-                                            'KPWKM • Bantuan Krisis & Kaunseling 24 Jam',
-                                        contactCard: _buildContactCard(
-                                          title: 'Talian Kasih',
-                                          subtitle:
-                                              'KPWKM • Bantuan Krisis & Kaunseling 24 Jam',
-                                          phone: '15999',
-                                          whatsapp: '0192615999',
-                                          margin: EdgeInsets.zero,
-                                        ),
-                                      ),
-                                      _buildSectionBox(
-                                        sectionTitle: 'Befrienders KL',
-                                        sectionSubtitle:
-                                            'Sokongan Emosi Percuma & Rahsia 24 Jam',
-                                        contactCard: _buildContactCard(
-                                          title: 'Befrienders KL',
-                                          subtitle:
-                                              'Sokongan Emosi Percuma & Rahsia 24 Jam',
-                                          phone: '03-76272929',
-                                          margin: EdgeInsets.zero,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                else
-                                  Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 40),
-                                      child: Column(
+                                      const Row(
                                         children: [
-                                          Text(
-                                            'No activities recorded yet for this technique.',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey.shade600,
+                                          Expanded(
+                                            child: Text(
+                                              'Dah Cuba Kaedah Ini?',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF1E1E1E),
+                                              ),
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  )
-                              else
-                                ...links
-                                    .map((link) => _buildActivityCard(link)),
-
-                              const SizedBox(height: 24),
-
-                              // Feedback Invitation Card
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(18),
-                                decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    colors: [Color(0xFFFFE9E8), Colors.white],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                  borderRadius: BorderRadius.circular(18),
-                                  border: Border.all(
-                                    color: const Color(0xFFF1D4D2),
-                                    width: 1.2,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: const Color(0xFF9F3D48)
-                                          .withOpacity(0.07),
-                                      blurRadius: 14,
-                                      offset: const Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            'Dah Cuba Kaedah Ini?',
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        'Kongsi pendapat anda selepas mencuba kaedah ini.',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.grey.shade700,
+                                          height: 1.35,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 14),
+                                      SizedBox(
+                                        width: double.infinity,
+                                        height: 44,
+                                        child: ElevatedButton.icon(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: _deepAccent,
+                                            foregroundColor: Colors.white,
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          icon: const Icon(
+                                            Icons.edit_note_rounded,
+                                            size: 20,
+                                          ),
+                                          label: const Text(
+                                            'Beri Maklum Balas',
                                             style: TextStyle(
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.bold,
-                                              color: Color(0xFF1E1E1E),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      'Kongsi pendapat anda selepas mencuba kaedah ini.',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.grey.shade700,
-                                        height: 1.35,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 14),
-                                    SizedBox(
-                                      width: double.infinity,
-                                      height: 44,
-                                      child: ElevatedButton.icon(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: _deepAccent,
-                                          foregroundColor: Colors.white,
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                        icon: const Icon(
-                                          Icons.edit_note_rounded,
-                                          size: 20,
-                                        ),
-                                        label: const Text(
-                                          'Beri Maklum Balas',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (_) => FeedbackScreen(
-                                                initialMethodId:
-                                                    widget.method.methodId,
-                                                initialMethodName:
-                                                    widget.method.methodName,
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) => FeedbackScreen(
+                                                  initialMethodId:
+                                                      widget.method.methodId,
+                                                  initialMethodName:
+                                                      widget.method.methodName,
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
 
-                              const SizedBox(height: 20),
-                            ],
+                                const SizedBox(height: 20),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Positioned(
-                  top: 8,
-                  left: 12,
-                  child: Material(
-                    color: Colors.white.withOpacity(0.88),
-                    shape: const CircleBorder(),
-                    elevation: 3,
-                    shadowColor: _deepAccent.withOpacity(0.16),
-                    child: IconButton(
-                      tooltip: 'Back',
-                      icon: const Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: _deepAccent,
-                        size: 19,
+                    ],
+                  ),
+                  Positioned(
+                    top: 8,
+                    left: 12,
+                    child: Material(
+                      color: Colors.white.withOpacity(0.88),
+                      shape: const CircleBorder(),
+                      elevation: 3,
+                      shadowColor: _deepAccent.withOpacity(0.16),
+                      child: IconButton(
+                        tooltip: 'Back',
+                        icon: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: _deepAccent,
+                          size: 19,
+                        ),
+                        onPressed: () => Navigator.pop(context),
                       ),
-                      onPressed: () => Navigator.pop(context),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _backgroundOrb(double size, Color color) {
-    return IgnorePointer(
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color,
+          ],
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/app_background.dart';
 import '../models/history.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
@@ -107,41 +108,44 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.red),
-          onPressed: () => Navigator.pop(context),
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.red),
+            onPressed: () => Navigator.pop(context),
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 4),
+        body: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 4),
 
             // Stylized Title: HISTORY
-            const Text(
-              'HISTORY',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'serif',
-                color: Colors.red,
-                letterSpacing: 1.0,
+              const Text(
+                'HISTORY',
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'serif',
+                  color: Colors.red,
+                  letterSpacing: 1.0,
+                ),
               ),
-            ),
 
-            const SizedBox(height: 18),
+              const SizedBox(height: 18),
 
-            // Activity History Content
-            Expanded(
-              child: _buildActivityHistoryView(),
-            ),
-          ],
+              // Activity History Content
+              Expanded(
+                child: _buildActivityHistoryView(),
+              ),
+            ],
+          ),
         ),
       ),
     );

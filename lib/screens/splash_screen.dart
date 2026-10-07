@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubits/auth_cubit.dart';
 import '../cubits/auth_state.dart';
+import '../widgets/app_background.dart';
 import 'home_screen.dart';
 import 'login_screen.dart';
 
@@ -90,19 +91,21 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: FadeTransition(
-          opacity: _fadeAnimation,
-          child: ScaleTransition(
-            scale: _scaleAnimation,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Image.asset(
-                'assets/icon/full_logo.png',
-                width: 220,
-                fit: BoxFit.contain,
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: FadeTransition(
+            opacity: _fadeAnimation,
+            child: ScaleTransition(
+              scale: _scaleAnimation,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Image.asset(
+                  'assets/icon/full_logo_nobg.png',
+                  width: 220,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),
