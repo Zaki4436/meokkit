@@ -16,7 +16,7 @@ class ApiService {
       var response = await http.post(
         Uri.parse(baseUrl),
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'text/plain; charset=UTF-8',
         },
         body: jsonEncode(data),
       );

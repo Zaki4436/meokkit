@@ -80,24 +80,25 @@ class _CounselorScreenState extends State<CounselorScreen> {
 
   Widget _buildPosterCard() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 24),
+      margin: const EdgeInsets.only(bottom: 22),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, Color(0xFFFFF9F8)],
+        ),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+            color: const Color(0xFF9F3D48).withOpacity(0.09),
+            blurRadius: 16,
+            offset: const Offset(0, 5),
           ),
         ],
-        border: Border.all(
-          color: Colors.grey.shade200,
-          width: 1.2,
-        ),
+        border: Border.all(color: const Color(0xFFF1D4D2)),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -155,19 +156,20 @@ class _CounselorScreenState extends State<CounselorScreen> {
     required VoidCallback onTap,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
+      margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: Colors.grey.shade200,
-          width: 1.3,
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, Color(0xFFFFF9F8)],
         ),
+        borderRadius: BorderRadius.circular(17),
+        border: Border.all(color: const Color(0xFFF1D4D2)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: const Color(0xFF9F3D48).withOpacity(0.065),
+            blurRadius: 13,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -175,9 +177,9 @@ class _CounselorScreenState extends State<CounselorScreen> {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(17),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
             child: Row(
               children: [
                 iconWidget,
@@ -187,8 +189,8 @@ class _CounselorScreenState extends State<CounselorScreen> {
                     title,
                     style: const TextStyle(
                       fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF2C2C2C),
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF382C2C),
                     ),
                   ),
                 ),
@@ -209,118 +211,140 @@ class _CounselorScreenState extends State<CounselorScreen> {
   Widget build(BuildContext context) {
     return AppBackground(
       child: Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.red),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+        body: SafeArea(
+          child: Stack(
             children: [
-
-              // Title: KMJ COUNSELOR
-              const Text(
-                'KMJ COUNSELOR',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w900,
-                  fontFamily: 'serif',
-                  color: Colors.red,
-                  letterSpacing: 1.0,
-                ),
-              ),
-
-              const SizedBox(height: 22),
-
-              // Poster Card
-              _buildPosterCard(),
-
-              // Section: Borang Temujanji & Saluran Rasmi
-              const Text(
-                'Borang Temujanji & Saluran Rasmi',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w900,
-                  fontFamily: 'serif',
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  letterSpacing: 1.0,
-                ),
-              ),
-
-              // Google Form Card
-              _buildSocialCard(
-                title: 'Borang Temujanji Kaunseling',
-                iconWidget: Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE7F3FF),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.assignment,
-                    color: Color(0xFF1877F2),
-                    size: 28,
-                  ),
-                ),
-                onTap: () => _openUrl(_gformUrl),
-              ),
-
-              // Facebook Card
-              _buildSocialCard(
-                title: 'Facebook Rasmi UPsK KMJ',
-                iconWidget: Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE7F3FF),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.facebook,
-                    color: Color(0xFF1877F2),
-                    size: 28,
-                  ),
-                ),
-                onTap: () => _openUrl(_facebookUrl),
-              ),
-
-              // TikTok Card
-              _buildSocialCard(
-                title: 'TikTok Rasmi UPsK KMJ',
-                iconWidget: Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF1F1F1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.music_note,
-                      color: Colors.black87,
-                      size: 26,
+              SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(22, 68, 22, 24),
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0, end: 1),
+                  duration: const Duration(milliseconds: 450),
+                  curve: Curves.easeOutCubic,
+                  builder: (context, progress, child) => Opacity(
+                    opacity: progress,
+                    child: Transform.translate(
+                      offset: Offset(0, 14 * (1 - progress)),
+                      child: child,
                     ),
                   ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(bottom: 20),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 0,
+                        ),
+                        child: const Text(
+                          'KMJ COUNSELOR',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w900,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            letterSpacing: 0.7,
+                          ),
+                        ),
+                      ),
+                      _buildPosterCard(),
+                      Container(
+                        width: double.infinity,
+                        alignment: Alignment.centerLeft,
+                        margin: const EdgeInsets.only(bottom: 13),
+                        padding: const EdgeInsets.only(left: 2),
+                        child: const Text(
+                          'Borang Temujanji & Saluran Rasmi',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFF382C2C),
+                            letterSpacing: 0.1,
+                          ),
+                        ),
+                      ),
+                      _buildSocialCard(
+                        title: 'Borang Temujanji Kaunseling',
+                        iconWidget: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFE7F3FF),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.assignment,
+                            color: Color(0xFF1877F2),
+                            size: 28,
+                          ),
+                        ),
+                        onTap: () => _openUrl(_gformUrl),
+                      ),
+                      _buildSocialCard(
+                        title: 'Facebook Rasmi UPsK KMJ',
+                        iconWidget: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFE7F3FF),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.facebook,
+                            color: Color(0xFF1877F2),
+                            size: 28,
+                          ),
+                        ),
+                        onTap: () => _openUrl(_facebookUrl),
+                      ),
+                      _buildSocialCard(
+                        title: 'TikTok Rasmi UPsK KMJ',
+                        iconWidget: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF1F1F1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Center(
+                            child: Icon(
+                              Icons.music_note,
+                              color: Colors.black87,
+                              size: 26,
+                            ),
+                          ),
+                        ),
+                        onTap: () => _openUrl(_tiktokUrl),
+                      ),
+                    ],
+                  ),
                 ),
-                onTap: () => _openUrl(_tiktokUrl),
               ),
-
-              const SizedBox(height: 24),
+              Positioned(
+                top: 8,
+                left: 12,
+                child: Material(
+                  color: Colors.white.withOpacity(0.88),
+                  shape: const CircleBorder(),
+                  elevation: 3,
+                  shadowColor: const Color(0xFFBD3546).withOpacity(0.16),
+                  child: IconButton(
+                    tooltip: 'Back',
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: Color(0xFFBD3546),
+                      size: 19,
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
-      ),
       ),
     );
   }

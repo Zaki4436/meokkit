@@ -111,38 +111,55 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
     return AppBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.red),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ),
         body: SafeArea(
-          child: Column(
+          child: Stack(
             children: [
-              const SizedBox(height: 4),
-
-            // Stylized Title: HISTORY
-              const Text(
-                'HISTORY',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w900,
-                  fontFamily: 'serif',
-                  color: Colors.red,
-                  letterSpacing: 1.0,
-                ),
+              Column(
+                children: [
+                  const SizedBox(height: 45),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 22),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 16,
+                      ),
+                      child: const Text(
+                        'HISTORY',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 27,
+                          fontWeight: FontWeight.w900,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: _buildActivityHistoryView(),
+                  ),
+                ],
               ),
-
-              const SizedBox(height: 18),
-
-              // Activity History Content
-              Expanded(
-                child: _buildActivityHistoryView(),
+              Positioned(
+                top: 8,
+                left: 12,
+                child: Material(
+                  color: Colors.white.withOpacity(0.88),
+                  shape: const CircleBorder(),
+                  elevation: 3,
+                  shadowColor: const Color(0xFFBD3546).withOpacity(0.16),
+                  child: IconButton(
+                    tooltip: 'Back',
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: Color(0xFFBD3546),
+                      size: 19,
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
               ),
             ],
           ),
@@ -224,36 +241,49 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
 
           return Container(
             margin: const EdgeInsets.only(bottom: 12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade200, width: 1.2),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
-                  blurRadius: 6,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 4,
-              ),
-              leading: const CircleAvatar(
-                backgroundColor: Color(0xFFFFEBEE),
-                child: Icon(
-                  Icons.self_improvement,
-                  color: Colors.red,
+            child: TweenAnimationBuilder<double>(
+              key: ValueKey('${item.methodName}-$index'),
+              tween: Tween(begin: 0, end: 1),
+              duration: Duration(milliseconds: 320 + (index % 6) * 45),
+              curve: Curves.easeOutCubic,
+              builder: (context, progress, child) => Opacity(
+                opacity: progress,
+                child: Transform.translate(
+                  offset: Offset(0, 12 * (1 - progress)),
+                  child: child,
                 ),
               ),
-              title: Text(
-                item.methodName,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Color(0xFF2C2C2C),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Colors.white, Color(0xFFFFF9F8)],
+                  ),
+                  borderRadius: BorderRadius.circular(17),
+                  border: Border.all(color: const Color(0xFFF1D4D2)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF9F3D48).withOpacity(0.07),
+                      blurRadius: 13,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 2,
+                  ),
+                  title: Text(
+                    item.methodName,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                      color: Color(0xFF382C2C),
+                    ),
+                  ),
                 ),
               ),
             ),
