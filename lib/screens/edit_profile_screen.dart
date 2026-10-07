@@ -115,22 +115,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       children: [
         Text(
           label,
-          style: TextStyle(
-            color: Colors.grey.shade500,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+          style: const TextStyle(
+            color: Color(0xFF8D7476),
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.3,
           ),
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
+            color: Colors.white.withOpacity(0.82),
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: const Color(0xFFF1D4D2)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
-                blurRadius: 6,
-                offset: const Offset(0, 2),
+                color: const Color(0xFF9F3D48).withOpacity(0.045),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -143,26 +145,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   InputDecoration _inputDecoration() {
     return InputDecoration(
       filled: true,
-      fillColor: Colors.white,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      fillColor: Colors.transparent,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(
-          color: Colors.grey.shade300,
-          width: 1.5,
-        ),
+        borderRadius: BorderRadius.circular(15),
+        borderSide: BorderSide.none,
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(
-          color: Colors.grey.shade300,
-          width: 1.5,
-        ),
+        borderRadius: BorderRadius.circular(15),
+        borderSide: BorderSide.none,
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(15),
         borderSide: const BorderSide(
-          color: Colors.red,
+          color: Color(0xFFE65B63),
           width: 1.5,
         ),
       ),
@@ -172,24 +168,53 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.red),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
+      backgroundColor: const Color(0xFFFFF8F7),
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 28,
-                  vertical: 10,
+            const Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFFFFF5F2),
+                      Color(0xFFFFFCFB),
+                      Color(0xFFFFF1F3),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 28,
+              right: -70,
+              child: _backgroundOrb(
+                210,
+                const Color(0xFFF4A6A0).withOpacity(0.10),
+              ),
+            ),
+            Positioned(
+              bottom: 20,
+              left: -95,
+              child: _backgroundOrb(
+                230,
+                const Color(0xFFE98F9A).withOpacity(0.08),
+              ),
+            ),
+            SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(26, 68, 26, 24),
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0, end: 1),
+                duration: const Duration(milliseconds: 450),
+                curve: Curves.easeOutCubic,
+                builder: (context, progress, child) => Opacity(
+                  opacity: progress,
+                  child: Transform.translate(
+                    offset: Offset(0, 14 * (1 - progress)),
+                    child: child,
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -198,185 +223,229 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     const Text(
                       'EDIT PROFILE',
                       style: TextStyle(
-                        fontSize: 32,
+                        fontSize: 27,
                         fontWeight: FontWeight.w900,
-                        fontFamily: 'serif',
-                        color: Colors.red,
-                        letterSpacing: 1.0,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        letterSpacing: 0.7,
                       ),
                     ),
 
-                    const SizedBox(height: 36),
+                    const SizedBox(height: 26),
 
-                    // 1. Username
-                    _buildFormFieldWrapper(
-                      label: 'Username',
-                      child: TextFormField(
-                        controller: usernameController,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF2C2C2C),
-                          fontWeight: FontWeight.w500,
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(18, 20, 18, 18),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.68),
+                        borderRadius: BorderRadius.circular(23),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.92),
                         ),
-                        decoration: _inputDecoration(),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF9F3D48).withOpacity(0.055),
+                            blurRadius: 18,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          _buildFormFieldWrapper(
+                            label: 'Full Name',
+                            child: TextFormField(
+                              controller: fullNameController,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: Color(0xFF382C2C),
+                                fontWeight: FontWeight.w600,
+                              ),
+                              decoration: _inputDecoration(),
+                            ),
+                          ),
+                          const SizedBox(height: 18),
+                          _buildFormFieldWrapper(
+                            label: 'Username',
+                            child: TextFormField(
+                              controller: usernameController,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: Color(0xFF382C2C),
+                                fontWeight: FontWeight.w600,
+                              ),
+                              decoration: _inputDecoration(),
+                            ),
+                          ),
+                          const SizedBox(height: 18),
+                          _buildFormFieldWrapper(
+                            label: 'Role',
+                            child: DropdownButtonFormField<String>(
+                              value: selectedRole,
+                              icon: const Icon(
+                                Icons.arrow_drop_down,
+                                color: Color(0xFF8D7476),
+                                size: 28,
+                              ),
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: Color(0xFF382C2C),
+                                fontWeight: FontWeight.w600,
+                              ),
+                              decoration: _inputDecoration(),
+                              items: roles.map((role) {
+                                return DropdownMenuItem(
+                                  value: role,
+                                  child: Text(role),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                if (value == null) return;
+                                setState(() {
+                                  selectedRole = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
 
-                    const SizedBox(height: 20),
-
-                    // 2. Full Name
-                    _buildFormFieldWrapper(
-                      label: 'Full Name',
-                      child: TextFormField(
-                        controller: fullNameController,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF2C2C2C),
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: _inputDecoration(),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // 3. Role Dropdown
-                    _buildFormFieldWrapper(
-                      label: 'Role',
-                      child: DropdownButtonFormField<String>(
-                        value: selectedRole,
-                        icon: const Icon(
-                          Icons.arrow_drop_down,
-                          color: Color(0xFF555555),
-                          size: 28,
-                        ),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF2C2C2C),
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: _inputDecoration(),
-                        items: roles.map((role) {
-                          return DropdownMenuItem(
-                            value: role,
-                            child: Text(role),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          if (value == null) return;
-                          setState(() {
-                            selectedRole = value;
-                          });
-                        },
-                      ),
-                    ),
-
-                    const SizedBox(height: 28),
+                    const SizedBox(height: 24),
 
                     if (_message != null) ...[
                       Container(
                         width: double.infinity,
                         margin: const EdgeInsets.only(bottom: 16),
-                        padding: const EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(13),
                         decoration: BoxDecoration(
                           color: const Color(0xFFFFF1F0),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(14),
                           border: Border.all(color: const Color(0xFFF1D4D2)),
                         ),
                         child: Text(
                           _message!,
-                          style: const TextStyle(color: Color(0xFF8E303A)),
+                          style: const TextStyle(
+                            color: Color(0xFF8E303A),
+                            height: 1.4,
+                          ),
                         ),
                       ),
                     ],
 
                     // Button 1: Change Password
-                    Container(
-                      width: double.infinity,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.red.withOpacity(0.35),
-                            blurRadius: 8,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(10),
-                          onTap: () {
-                            Navigator.pushNamed(context, '/forgot-password');
-                          },
-                          child: const Center(
-                            child: Text(
-                              'Change Password',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                    _buildActionButton(
+                      title: 'Change Password',
+                      onTap: () {
+                        Navigator.pushNamed(context, '/forgot-password');
+                      },
+                      secondary: true,
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 14),
 
                     // Button 2: Save Edit
-                    Container(
-                      width: double.infinity,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.red.withOpacity(0.35),
-                            blurRadius: 8,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(10),
-                          onTap: saving ? null : _updateProfile,
-                          child: Center(
-                            child: saving
-                                ? const SizedBox(
-                                    width: 22,
-                                    height: 22,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                      strokeWidth: 2.5,
-                                    ),
-                                  )
-                                : const Text(
-                                    'Save Edit',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                          ),
-                        ),
-                      ),
+                    _buildActionButton(
+                      title: 'Save Edit',
+                      onTap: saving ? null : _updateProfile,
+                      loading: saving,
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 18),
                   ],
                 ),
               ),
             ),
+            Positioned(
+              top: 8,
+              left: 12,
+              child: Material(
+                color: Colors.white.withOpacity(0.88),
+                shape: const CircleBorder(),
+                elevation: 3,
+                shadowColor: const Color(0xFFBD3546).withOpacity(0.16),
+                child: IconButton(
+                  tooltip: 'Back',
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: Color(0xFFBD3546),
+                    size: 19,
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _backgroundOrb(double size, Color color) {
+    return IgnorePointer(
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButton({
+    required String title,
+    required VoidCallback? onTap,
+    bool secondary = false,
+    bool loading = false,
+  }) {
+    return Container(
+      width: double.infinity,
+      height: 54,
+      decoration: BoxDecoration(
+        gradient: secondary
+            ? null
+            : const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFFE65B63), Color(0xFFBD3546)],
+              ),
+        color: secondary ? Colors.white.withOpacity(0.8) : null,
+        borderRadius: BorderRadius.circular(16),
+        border: secondary ? Border.all(color: const Color(0xFFF1D4D2)) : null,
+        boxShadow: [
+          BoxShadow(
+            color: secondary
+                ? const Color(0xFF9F3D48).withOpacity(0.06)
+                : const Color(0xFFBD3546).withOpacity(0.22),
+            blurRadius: 14,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: onTap,
+          child: Center(
+            child: loading
+                ? const SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2.5,
+                    ),
+                  )
+                : Text(
+                    title,
+                    style: TextStyle(
+                      color: secondary ? const Color(0xFF8E303A) : Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+          ),
         ),
       ),
     );

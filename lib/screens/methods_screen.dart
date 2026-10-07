@@ -276,7 +276,7 @@ class _MethodsScreenState extends State<MethodsScreen>
             offset: const Offset(0, 4),
           ),
         ],
-        border: Border.all(color: const Color(0xFFE9C1C0)),
+        border: Border.all(color: const Color(0xFF9B6669), width: 2),
       ),
       child: Material(
         color: Colors.transparent,

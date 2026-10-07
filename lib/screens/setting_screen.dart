@@ -300,7 +300,8 @@ class _SettingScreenState extends State<SettingScreen>
           ),
         ],
         border: Border.all(
-          color: const Color(0xFFF1D4D2),
+          color: const Color(0xFF9B6669),
+          width: 2,
         ),
       ),
       child: Material(
@@ -372,10 +373,6 @@ class _SettingScreenState extends State<SettingScreen>
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          color: const Color(0xFFE9A7A8),
-                          width: 2,
-                        ),
                       ),
                       child: CircleAvatar(
                         radius: 48,

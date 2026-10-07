@@ -173,41 +173,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     const inkColor = Color(0xFF382C2C);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF8F7),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFFFF8F7),
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        centerTitle: true,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Material(
-            color: Colors.white.withOpacity(0.88),
-            shape: const CircleBorder(),
-            elevation: 3,
-            shadowColor: primaryColor.withOpacity(0.16),
-            child: IconButton(
-              tooltip: 'Back',
-              icon: const Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: primaryColor,
-                size: 19,
-              ),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ),
-        ),
-        title: const Text(
-          'FEEDBACK',
-          style: TextStyle(
-            color: primaryColor,
-            fontSize: 22,
-            fontWeight: FontWeight.w900,
-            letterSpacing: 1.0,
-          ),
-        ),
-      ),
+      backgroundColor: const Color(0xFFFFF5F2),
+      extendBody: true,
+      extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           Positioned.fill(
@@ -247,7 +215,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           ),
           SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
+              padding: const EdgeInsets.fromLTRB(22, 66, 22, 12),
               child: TweenAnimationBuilder<double>(
                 tween: Tween(begin: 0, end: 1),
                 duration: const Duration(milliseconds: 500),
@@ -262,6 +230,18 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const Center(
+                      child: Text(
+                        'FEEDBACK',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 22,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
                     // Header Card
                     Container(
                       width: double.infinity,
@@ -583,6 +563,25 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     const SizedBox(height: 30),
                   ],
                 ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 41,
+            left: 12,
+            child: Material(
+              color: Colors.white.withOpacity(0.88),
+              shape: const CircleBorder(),
+              elevation: 3,
+              shadowColor: primaryColor.withOpacity(0.16),
+              child: IconButton(
+                tooltip: 'Back',
+                icon: const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: primaryColor,
+                  size: 19,
+                ),
+                onPressed: () => Navigator.pop(context),
               ),
             ),
           ),
