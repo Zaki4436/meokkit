@@ -187,12 +187,6 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.self_improvement,
-                    size: 64,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(height: 16),
                   Text(
                     'Tiada teknik yang dilakukan.',
                     style: TextStyle(

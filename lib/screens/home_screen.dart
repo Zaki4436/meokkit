@@ -226,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           child: const Center(
             child: Text(
-              'Periksa Tahap Stres',
+              'Semak Stres Anda',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF382C2C),

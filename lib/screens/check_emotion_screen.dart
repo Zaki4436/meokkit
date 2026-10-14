@@ -132,7 +132,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
                                   child: Column(
                                     children: [
                                       const Text(
-                                        'Apakah anda sedang mengalami stres atau tekanan emosi sekarang?',
+                                        'Adakah anda sedang mengalami stres sekarang?',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 18,

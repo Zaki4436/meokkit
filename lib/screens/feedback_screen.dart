@@ -25,7 +25,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   bool _isSubmitting = false;
   String? _statusMessage;
   bool _statusIsSuccess = false;
-  String _selectedMethod = 'Keseluruhan Kaedah 10B';
+  String _selectedMethod = 'Keseluruhan Teknik 10B';
   String? _selectedMethodId;
   String? _selectedAnswer; // 'Yes' or 'No'
 
@@ -43,7 +43,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   };
 
   final List<String> _methodsList = [
-    'Keseluruhan Kaedah 10B',
+    'Keseluruhan Teknik 10B',
     'Bertenang',
     'Bernafas Dengan Dalam',
     'Berkata "Relakslah"',
@@ -119,7 +119,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       _statusMessage = null;
     });
 
-    final isAll = _selectedMethod == 'Keseluruhan Kaedah 10B';
+    final isAll = _selectedMethod == 'Keseluruhan Teknik 10B';
     final methodName = isAll ? '' : _selectedMethod;
     final methodId = isAll
         ? ''
@@ -199,7 +199,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   children: [
                     const Center(
                       child: Text(
-                        'FEEDBACK',
+                        'Maklum Balas Teknik 10B',
                         style: TextStyle(
                           color: Color.fromARGB(255, 0, 0, 0),
                           fontSize: 22,
@@ -248,15 +248,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Maklum Balas Kaedah 10B',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: inkColor,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
                                 Text(
                                   'Kongsi pendapat, perasaan, atau pengalaman anda selepas mencuba teknik pengurusan stres 10B.',
                                   style: TextStyle(
@@ -276,7 +267,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
                     // Method selection dropdown
                     const Text(
-                      'Kaedah 10B Yang Dicuba',
+                      'Teknik 10B Yang Dicuba',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -327,7 +318,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
                     // Ya/Tidak Selection (Simple Box)
                     const Text(
-                      'Adakah kaedah ini membantu anda?',
+                      'Adakah teknik ini membantu anda?',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -406,7 +397,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         ),
                         decoration: InputDecoration(
                           hintText:
-                              'Tulis apa sahaja maklum balas anda di sini... Contohnya bagaimana kaedah ini membantu anda berasa lebih tenang.',
+                              'Tulis apa sahaja maklum balas anda di sini... Contohnya bagaimana teknik ini membantu anda berasa lebih tenang.',
                           hintStyle: TextStyle(
                             fontSize: 13,
                             color: Colors.grey.shade400,
