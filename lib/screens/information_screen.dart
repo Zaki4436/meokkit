@@ -25,7 +25,7 @@ class _InformationScreenState extends State<InformationScreen>
   static final List<InformationModel> _defaultInformation = [
     InformationModel(
       infoId: '1',
-      infoName: 'Istilah Stres',
+      infoName: 'Definisi Stres',
       infoDescription:
           'Desakan atau tekanan yang dihadapi oleh individu berikutan peristiwa yang berlaku pada mereka. Apa jua keadaan atau situasi yang mengancam atau dianggap mengganggu keadaan diri seseorang. Stres menyebabkan individu memerlukan keupayaan dan cara untuk menghadapinya.\n\nBoleh berlaku dari segi emosi dan juga fizikal. Perkara yang sering berlaku kepada manusia yang normal. Merupakan cabaran emosi yang tidak dapat dipisahkan dari kehidupan manusia. Berlaku akibat perubahan luaran atau dalaman yang melebihi kemampuan individu.',
     ),
