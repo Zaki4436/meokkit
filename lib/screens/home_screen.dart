@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(height: 18),
                       _buildActionCard2(),
                       const SizedBox(height: 18),
-                      _buildActionCard3(),
+                      // _buildActionCard3(),
                     ],
                   ),
                 ),
@@ -174,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           child: const Center(
             child: Text(
-              'Information About Stress',
+              'Informasi Mengenai Stres',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF382C2C),
@@ -226,52 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           child: const Center(
             child: Text(
-              'Stress Check',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Color(0xFF382C2C),
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Button 3: DASS Test
-  Widget _buildActionCard3() {
-    return Container(
-      width: double.infinity,
-      height: 56,
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.white, Color(0xFFFFF9F8)],
-        ),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFB64A52).withOpacity(0.10),
-            blurRadius: 16,
-            offset: const Offset(0, 6),
-          ),
-        ],
-        border: Border.all(
-          color: const Color.fromARGB(255, 155, 102, 105),
-          width: 2,
-        ),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: _openDass,
-          child: const Center(
-            child: Text(
-              'DASS Test',
+              'Periksa Tahap Stres',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF382C2C),

@@ -24,9 +24,9 @@ class _SignupScreenState extends State<SignupScreen> {
   String? _formSuccess;
 
   final List<String> roles = [
-    'Lecturer',
-    'Staff',
-    'Student',
+    'Pensyarah',
+    'Staf',
+    'Pelajar',
   ];
 
   @override
@@ -61,32 +61,32 @@ class _SignupScreenState extends State<SignupScreen> {
     final confirmPassword = confirmPasswordController.text;
 
     if (fullName.isEmpty) {
-      _setFormError('Please enter your full name.');
+      _setFormError('Sila masukkan nama penuh anda.');
       return;
     }
 
     if (selectedRole == null) {
-      _setFormError('Please select your role.');
+      _setFormError('Sila pilih peranan anda.');
       return;
     }
 
     if (username.isEmpty) {
-      _setFormError('Please enter your username.');
+      _setFormError('Sila masukkan nama pengguna anda.');
       return;
     }
 
     if (password.isEmpty) {
-      _setFormError('Please enter a password.');
+      _setFormError('Sila masukkan kata laluan anda.');
       return;
     }
 
     if (password.length < 6) {
-      _setFormError('Password must be at least 6 characters.');
+      _setFormError('Kata laluan mesti sekurang-kurangnya 6 aksara.');
       return;
     }
 
     if (password != confirmPassword) {
-      _setFormError('Password and confirm password do not match.');
+      _setFormError('Kata laluan dan pengesahan kata laluan tidak sepadan.');
       return;
     }
 
@@ -120,7 +120,7 @@ class _SignupScreenState extends State<SignupScreen> {
       });
       setState(() {
         _formSuccess =
-            'Account created successfully. You can now log in with your new account.';
+            'Akaun anda telah berjaya didaftarkan. Sila log masuk untuk meneruskan.';
       });
     } else {
       _setFormError(result['message']?.toString() ?? 'Registration failed.');
@@ -246,22 +246,12 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       const SizedBox(height: 22),
                       const Text(
-                        'Create your account',
+                        'Daftar Akaun Baru',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 27,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Join MeOkKit and start your wellness journey.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey.shade600,
-                          height: 1.4,
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -274,7 +264,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'Full Name',
+                            'Nama Penuh',
                             Icons.badge_outlined,
                           ),
                         ),
@@ -294,14 +284,14 @@ class _SignupScreenState extends State<SignupScreen> {
                             color: Colors.black87,
                           ),
                           hint: Text(
-                            'Role',
+                            'Jawatan',
                             style: TextStyle(
                               color: Colors.grey.shade400,
                               fontSize: 16,
                             ),
                           ),
                           decoration: _inputDecoration(
-                            'Role',
+                            'Jawatan',
                             Icons.work_outline,
                           ).copyWith(
                             contentPadding: const EdgeInsets.symmetric(
@@ -333,7 +323,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'Username',
+                            'Nama Pengguna',
                             Icons.person_outline,
                           ),
                         ),
@@ -348,7 +338,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'Password',
+                            'Kata Laluan',
                             Icons.lock_outline,
                           ).copyWith(
                             suffixIcon: IconButton(
@@ -380,7 +370,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'Confirm Password',
+                            'Sahkan Kata Laluan',
                             Icons.lock_reset_outlined,
                           ).copyWith(
                             suffixIcon: IconButton(
@@ -440,7 +430,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ),
                                 )
                               : const Text(
-                                  'Create account',
+                                  'Daftar Akaun',
                                   style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
@@ -454,7 +444,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           Text(
-                            'Already have an account? ',
+                            'Sudah mempunyai akaun? ',
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey.shade700,
@@ -463,7 +453,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           GestureDetector(
                             onTap: () => Navigator.pop(context),
                             child: Text(
-                              'Login',
+                              'Log Masuk',
                               style: TextStyle(
                                 color: primaryColor,
                                 fontSize: 14,

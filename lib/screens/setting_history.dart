@@ -126,7 +126,7 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
                         vertical: 16,
                       ),
                       child: const Text(
-                        'HISTORY',
+                        'Teknik yang Dilakukan',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 27,
@@ -194,7 +194,7 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'No activity history recorded yet.',
+                    'Tiada teknik yang dilakukan.',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey,

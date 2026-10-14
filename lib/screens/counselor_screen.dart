@@ -130,7 +130,7 @@ class _CounselorScreenState extends State<CounselorScreen> {
                           Icon(Icons.zoom_in, color: Colors.white, size: 16),
                           SizedBox(width: 4),
                           Text(
-                            'Tap to view poster',
+                            'Tekan untuk lihat poster penuh',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 11,
@@ -239,7 +239,7 @@ class _CounselorScreenState extends State<CounselorScreen> {
                           vertical: 0,
                         ),
                         child: const Text(
-                          'KMJ COUNSELOR',
+                          'KMJ KAUNSELOR',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 25,

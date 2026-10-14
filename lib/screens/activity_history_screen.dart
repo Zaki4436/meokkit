@@ -65,12 +65,12 @@ class _ActivityHistoryScreenState extends State<ActivityHistoryScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
-          title: const Text('Activity History'),
+          title: const Text('Teknik yang Dilakukan'),
         ),
         body: loading
             ? const Center(child: CircularProgressIndicator())
             : history.isEmpty
-                ? const Center(child: Text('No activity history.'))
+                ? const Center(child: Text('Tiada teknik yang dilakukan.'))
                 : ListView.builder(
                     padding: const EdgeInsets.all(20),
                     itemCount: history.length,

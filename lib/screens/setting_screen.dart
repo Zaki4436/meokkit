@@ -118,14 +118,10 @@ class _SettingScreenState extends State<SettingScreen>
           });
         }
 
-      } else {
-        debugPrint(
-          result['message']?.toString() ??
-              'Profile picture updated locally but upload failed.',
-        );
       }
+
     } catch (e) {
-      debugPrint('Error uploading image: $e');
+      debugPrint('Error uploading image');
     } finally {
       if (mounted) {
         setState(() {
@@ -161,7 +157,7 @@ class _SettingScreenState extends State<SettingScreen>
                 ),
                 const Center(
                   child: Text(
-                    'Update Profile Picture',
+                    'Kemaskini Gambar Profil',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -175,7 +171,7 @@ class _SettingScreenState extends State<SettingScreen>
                     backgroundColor: Color(0xFFFFEBEE),
                     child: Icon(Icons.camera_alt, color: Colors.red),
                   ),
-                  title: const Text('Take Photo with Camera'),
+                  title: const Text('Ambil gambar dari Kamera'),
                   onTap: () => _pickImage(ImageSource.camera),
                 ),
                 ListTile(
@@ -183,7 +179,7 @@ class _SettingScreenState extends State<SettingScreen>
                     backgroundColor: Color(0xFFFFEBEE),
                     child: Icon(Icons.photo_library, color: Colors.red),
                   ),
-                  title: const Text('Choose from Gallery'),
+                  title: const Text('Pilih gambar dari Galeri'),
                   onTap: () => _pickImage(ImageSource.gallery),
                 ),
               ],
@@ -216,14 +212,14 @@ class _SettingScreenState extends State<SettingScreen>
           side: const BorderSide(color: Color(0xFFF1D4D2)),
         ),
         title: const Text(
-          'Delete Account',
+          'Padamkan Akaun',
           style: TextStyle(
             color: Color(0xFF382C2C),
             fontWeight: FontWeight.w800,
           ),
         ),
         content: const Text(
-          'Are you sure you want to delete your account? This action cannot be undone.',
+          'Anda pasti mahu memadamkan akaun ini? Tindakan ini tidak boleh dibatalkan.',
           style: TextStyle(
             color: Color(0xFF65585A),
             height: 1.45,
@@ -235,7 +231,7 @@ class _SettingScreenState extends State<SettingScreen>
             style: TextButton.styleFrom(
               foregroundColor: const Color(0xFF775F62),
             ),
-            child: const Text('Cancel'),
+            child: const Text('Batal'),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -247,7 +243,7 @@ class _SettingScreenState extends State<SettingScreen>
               ),
             ),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete'),
+            child: const Text('Padam'),
           ),
         ],
       ),
@@ -263,12 +259,6 @@ class _SettingScreenState extends State<SettingScreen>
 
       await authCubit.logout();
       if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Account deleted successfully.'),
-        ),
-      );
 
       Navigator.pushNamedAndRemoveUntil(
         context,
@@ -434,7 +424,7 @@ class _SettingScreenState extends State<SettingScreen>
 
             // 1. Profile Button
             _buildActionButton(
-              title: 'Profile',
+              title: 'Profil',
               onTap: () async {
                 await Navigator.push(
                   context,
@@ -449,7 +439,7 @@ class _SettingScreenState extends State<SettingScreen>
 
             // 2. History Button
             _buildActionButton(
-              title: 'History',
+              title: 'Teknik yang Dilakukan',
               onTap: () {
                 Navigator.pushNamed(context, '/setting-history');
               },
@@ -457,7 +447,7 @@ class _SettingScreenState extends State<SettingScreen>
 
             // 3. Counselor Contact Button
             _buildActionButton(
-              title: 'Counselor Contact',
+              title: 'Hubungi Kaunselor',
               onTap: () {
                 Navigator.pushNamed(context, '/counselor');
               },
@@ -465,13 +455,13 @@ class _SettingScreenState extends State<SettingScreen>
 
             // 4. Logout Button
             _buildActionButton(
-              title: 'Logout',
+              title: 'Log Keluar',
               onTap: _logout,
             ),
 
             // 5. Delete Account Button
             _buildActionButton(
-              title: 'Delete Account',
+              title: 'Padam Akaun',
               onTap: _confirmDeleteAccount,
             ),
 

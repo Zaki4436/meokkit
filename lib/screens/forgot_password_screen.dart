@@ -75,21 +75,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         newPassword.isEmpty ||
         confirmPassword.isEmpty) {
       setState(() {
-        _formError = 'Please complete all fields to reset your password.';
+        _formError = 'Sila masukkan semua ruangan yang diperlukan.';
       });
       return;
     }
 
     if (newPassword.length < 6) {
       setState(() {
-        _formError = 'Password must be at least 6 characters.';
+        _formError = 'Kata laluan mesti mengandungi sekurang-kurangnya 6 aksara.';
       });
       return;
     }
 
     if (newPassword != confirmPassword) {
       setState(() {
-        _formError = 'Passwords do not match.';
+        _formError = 'Kata laluan tidak sepadan.';
       });
       return;
     }
@@ -104,7 +104,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       if (!isFullNameMatch || !isUsernameMatch) {
         setState(() {
           _formError =
-              'Full name or username does not match your currently logged-in account.';
+              'Nama Penuh atau Nama Pengguna tidak sepadan.';
         });
         return;
       }
@@ -135,13 +135,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       confirmPasswordController.clear();
 
       setState(() {
-        _formSuccess = 'Password reset successful. You can now log in with your new password.';
+        _formSuccess = 'Kata laluan anda telah berjaya ditetapkan semula. Sila log masuk dengan kata laluan baharu.';
       });
     } else {
       // Don't show AlertDialog for reset failed, display error right under Confirm New Password
       setState(() {
         _formError = result['message']?.toString() ??
-            'New password cannot be the same as current password.';
+            'Kata laluan baharu tidak boleh sama dengan kata laluan semasa.';
       });
     }
   }
@@ -265,22 +265,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       ),
                       const SizedBox(height: 22),
                       const Text(
-                        'Reset your password',
+                        'Penukaran Kata Laluan',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 27,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Verify your account and choose a new password.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey.shade600,
-                          height: 1.4,
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -293,7 +283,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'Full Name',
+                            'Nama Penuh',
                             Icons.badge_outlined,
                           ),
                         ),
@@ -307,7 +297,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'Username',
+                            'Nama Pengguna',
                             Icons.person_outline,
                           ),
                         ),
@@ -322,7 +312,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             color: Colors.black87,
                           ),
                           decoration:
-                              _inputDecoration('New Password', Icons.lock_outline)
+                              _inputDecoration('Kata Laluan Baharu', Icons.lock_outline)
                                   .copyWith(
                             suffixIcon: IconButton(
                               tooltip: obscureNewPassword
@@ -353,7 +343,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'Confirm New Password',
+                            'Sahkan Kata Laluan Baharu',
                             Icons.lock_reset_outlined,
                           ).copyWith(
                             suffixIcon: IconButton(
@@ -473,7 +463,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   ),
                                 )
                               : const Text(
-                                  'Confirm Reset',
+                                  'Tetapkan Semula Kata Laluan',
                                   style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
@@ -496,7 +486,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           ),
                           onPressed: loading ? null : () => Navigator.pop(context),
                           child: const Text(
-                            'Cancel',
+                            'Batal',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,

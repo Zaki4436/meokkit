@@ -189,7 +189,7 @@ class _MethodsScreenState extends State<MethodsScreen>
         children: [
           const Expanded(
             child: Text(
-              'KAEDAH 10B',
+              'TEKNIK 10B',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF382C2C),
@@ -251,7 +251,7 @@ class _MethodsScreenState extends State<MethodsScreen>
               ),
               SizedBox(width: 9),
               Text(
-                'Feedback',
+                'Maklum Balas',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF382C2C),
@@ -312,7 +312,7 @@ class _MethodsScreenState extends State<MethodsScreen>
             centerTitle: true,
             iconTheme: const IconThemeData(color: Color(0xFFBD3546)),
             title: const Text(
-              'KAEDAH 10B',
+              'TEKNIK 10B',
               style: TextStyle(
                 color: Color(0xFFBD3546),
                 fontSize: 24,

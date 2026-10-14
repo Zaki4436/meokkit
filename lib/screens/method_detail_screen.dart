@@ -298,7 +298,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
           Row(
             children: [
               const Text(
-                'About this technique',
+                'Penerangan Teknik',
                 style: TextStyle(
                   color: _ink,
                   fontSize: 17,
@@ -455,7 +455,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      link.linkName.isEmpty ? 'Video Activity' : link.linkName,
+                      link.linkName.isEmpty ? 'Video Aktiviti' : link.linkName,
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -475,7 +475,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                         ),
                         const SizedBox(width: 6),
                         const Text(
-                          'Tap to watch video',
+                          'Tekan untuk menonton video',
                           style: TextStyle(
                             color: Colors.red,
                             fontSize: 13,
@@ -549,7 +549,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: const Text(
-                          'INTERACTIVE GAME',
+                          'MIni Game',
                           style: TextStyle(
                             color: Color(0xFF673AB7),
                             fontSize: 10,
@@ -647,7 +647,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: const Text(
-                          'RESOURCE / LINK',
+                          'LINK',
                           style: TextStyle(
                             color: Colors.red,
                             fontSize: 10,
@@ -658,7 +658,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        link.linkName.isEmpty ? 'Activity Link' : link.linkName,
+                        link.linkName.isEmpty ? 'Link Aktiviti' : link.linkName,
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -934,21 +934,6 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                                 // About this technique card
                                 _buildDescriptionCard(),
 
-                                // Activities Section Header
-                                const Row(
-                                  children: [
-                                    Text(
-                                      'Activities',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w800,
-                                        color: _ink,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                                const SizedBox(height: 14),
 
                                 if (loading)
                                   const Center(
@@ -1004,7 +989,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                                         child: Column(
                                           children: [
                                             Text(
-                                              'No activities recorded yet for this technique.',
+                                              'Tiada aktiviti direkodkan lagi untuk teknik ini.',
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.grey.shade600,

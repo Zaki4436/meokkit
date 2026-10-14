@@ -95,7 +95,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
                                       const SizedBox(width: 14),
                                       const Expanded(
                                         child: Text(
-                                          'STRESS CHECK',
+                                          'PEMERIKSAAN EMOSI',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: _ink,
@@ -132,7 +132,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
                                   child: Column(
                                     children: [
                                       const Text(
-                                        'Are you feeling stressed?',
+                                        'Apakah anda sedang mengalami stres atau tekanan emosi sekarang?',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 18,
@@ -145,35 +145,35 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
                                         children: [
                                           Expanded(
                                             child: _buildChoiceCard(
-                                              label: 'No',
-                                              sublabel: 'I feel calm & okay',
+                                              label: 'Tidak',
+                                              sublabel: 'Saya tidak merasa stres',
                                               icon: Icons
                                                   .sentiment_satisfied_alt_rounded,
                                               isSelected:
-                                                  _selectedAnswer == 'No',
+                                                  _selectedAnswer == 'Tidak',
                                               isLocked: _selectedAnswer != null,
                                               activeColor:
                                                   const Color(0xFF5B9B70),
                                               onTap: _selectedAnswer == null
                                                   ? () =>
-                                                      _onAnswerSelected('No')
+                                                      _onAnswerSelected('Tidak')
                                                   : null,
                                             ),
                                           ),
                                           const SizedBox(width: 12),
                                           Expanded(
                                             child: _buildChoiceCard(
-                                              label: 'Yes',
-                                              sublabel: 'I feel stressed',
+                                              label: 'Ya',
+                                              sublabel: 'Saya merasa stres',
                                               icon: Icons
                                                   .sentiment_dissatisfied_rounded,
                                               isSelected:
-                                                  _selectedAnswer == 'Yes',
+                                                  _selectedAnswer == 'Ya',
                                               isLocked: _selectedAnswer != null,
                                               activeColor: _accent,
                                               onTap: _selectedAnswer == null
                                                   ? () =>
-                                                      _onAnswerSelected('Yes')
+                                                      _onAnswerSelected('Ya')
                                                   : null,
                                             ),
                                           ),
@@ -288,7 +288,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
             child: child,
           ),
           child: Text(
-            'Select your current emotion\nstate to see the result',
+            'Sila pilih pilihan di atas.',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: _ink,
@@ -438,7 +438,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
   }
 
   Widget _buildResultCard() {
-    final isYes = _selectedAnswer == 'Yes';
+    final isYes = _selectedAnswer == 'Ya';
     final resultColor = isYes ? _deepAccent : const Color(0xFF5B9B70);
 
     return Container(
@@ -469,7 +469,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
         children: [
           // Card Title: WHY? or CONGRATULATIONS
           Text(
-            isYes ? 'WHY?' : 'CONGRATULATIONS',
+            isYes ? 'ANDA STRES?' : 'TAHNIAH!',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: resultColor,
@@ -484,8 +484,8 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
           // Card Description matching original wording
           Text(
             isYes
-                ? 'Take early preventive measures to prevent the situation from worsening.'
-                : 'You have managed your emotion succesfully.\nContinue your positive life.',
+                ? 'Ambil langkah pencegehanan stres untuk menguruskan emosi.'
+                : 'Anda telah berjaya menguruskan emosi anda.\nTeruskan kehidupan positif anda.',
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 14,
@@ -507,7 +507,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [_accent, _deepAccent],
+                  colors: [Color(0xFFE65B63), _deepAccent],
                 ),
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
@@ -529,18 +529,12 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Start 10B Techniques',
+                        'Lakukan Teknik 10B',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
-                      SizedBox(width: 8),
-                      Icon(
-                        Icons.arrow_forward_rounded,
-                        color: Colors.white,
-                        size: 20,
                       ),
                     ],
                   ),
@@ -554,7 +548,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
                 Navigator.pushNamed(context, '/counselor');
               },
               child: Text(
-                'Need to talk to someone? Contact a counselor',
+                'Perlu bercakap dengan seseorang? Hubungi konselor',
                 style: TextStyle(
                   fontSize: 12,
                   color: _deepAccent,
@@ -572,17 +566,14 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Colors.white, Color(0xFFFFF1F0)],
+                  colors: [Color(0xFFE65B63), _deepAccent],
                 ),
-                borderRadius: BorderRadius.circular(13),
-                border: Border.all(
-                  color: const Color(0xFFF1D4D2),
-                ),
+                borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
-                    color: _deepAccent.withOpacity(0.08),
-                    blurRadius: 10,
-                    offset: const Offset(0, 3),
+                    color: _deepAccent.withOpacity(0.28),
+                    blurRadius: 14,
+                    offset: const Offset(0, 5),
                   ),
                 ],
               ),
@@ -601,11 +592,11 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Back to Home',
+                        'Ke Laman Utama',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: _ink,
+                          color: Color.fromARGB(255, 250, 250, 250),
                         ),
                       ),
                     ],

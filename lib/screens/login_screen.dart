@@ -26,10 +26,10 @@ class _LoginScreenState extends State<LoginScreen> {
     if (username.isEmpty || password.isEmpty) {
       setState(() {
         _errorMessage = username.isEmpty && password.isEmpty
-            ? 'Please enter your username and password.'
+            ? 'Sila masukkan nama pengguna dan kata laluan.'
             : username.isEmpty
-                ? 'Please enter your username.'
-                : 'Please enter your password.';
+                ? 'Sila masukkan nama pengguna.'
+                : 'Sila masukkan kata laluan.';
       });
       return;
     }
@@ -199,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 24),
                         const Text(
-                          'Welcome',
+                          'Selamat Datang',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 28,
@@ -209,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Login to continue your wellness journey',
+                          'SIla log masuk untuk meneruskan ke aplikasi Meokkit.',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15,
@@ -220,14 +220,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(height: 28),
                         _buildInputField(
                           controller: usernameController,
-                          hintText: 'Username',
+                          hintText: 'Nama Pengguna',
                           icon: Icons.person_outline,
                           onChanged: (_) => _clearError(),
                         ),
                         const SizedBox(height: 16),
                         _buildInputField(
                           controller: passwordController,
-                          hintText: 'Password',
+                          hintText: 'Kata Laluan',
                           icon: Icons.lock_outline,
                           obscureText: obscurePassword,
                           onToggleVisibility: () {
@@ -285,7 +285,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               );
                             },
                             child: Text(
-                              'Forgot Password?',
+                              'Lupa Kata Laluan?',
                               style: TextStyle(
                                 color: primaryColor,
                                 fontSize: 14,
@@ -332,7 +332,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   )
                                 : const Text(
-                                    'Login',
+                                    'Log Masuk',
                                     style: TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold,
@@ -346,7 +346,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Don’t have an account? ',
+                              'Anda tiada akaun? ',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey.shade700,
@@ -360,7 +360,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
                               },
                               child: Text(
-                                'Sign up',
+                                'Daftar Akaun',
                                 style: TextStyle(
                                   color: primaryColor,
                                   fontWeight: FontWeight.w700,

@@ -26,9 +26,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String? _message;
 
   final roles = [
-    'Lecturer',
-    'Staff',
-    'Student',
+    'Pensyarah',
+    'Staf',
+    'Pelajar',
   ];
 
   @override
@@ -54,7 +54,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final username = usernameController.text.trim();
 
     if (fullName.isEmpty || username.isEmpty) {
-      _showMessage('Please fill in all fields.');
+      _showMessage('Sila lengkapkan semua ruangan.');
       return;
     }
 
@@ -192,7 +192,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     // Title: PROFILE
                     const Text(
-                      'EDIT PROFILE',
+                      'KEMAS KINI PROFIL',
                       style: TextStyle(
                         fontSize: 27,
                         fontWeight: FontWeight.w900,
@@ -222,7 +222,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       child: Column(
                         children: [
                           _buildFormFieldWrapper(
-                            label: 'Full Name',
+                            label: 'Nama Penuh',
                             child: TextFormField(
                               controller: fullNameController,
                               style: const TextStyle(
@@ -235,7 +235,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                           const SizedBox(height: 18),
                           _buildFormFieldWrapper(
-                            label: 'Username',
+                            label: 'Nama Pengguna',
                             child: TextFormField(
                               controller: usernameController,
                               style: const TextStyle(
@@ -248,7 +248,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                           const SizedBox(height: 18),
                           _buildFormFieldWrapper(
-                            label: 'Role',
+                            label: 'Jawatan',
                             child: DropdownButtonFormField<String>(
                               value: selectedRole,
                               icon: const Icon(
@@ -304,7 +304,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                     // Button 1: Change Password
                     _buildActionButton(
-                      title: 'Change Password',
+                      title: 'Tukar Kata Laluan',
                       onTap: () {
                         Navigator.pushNamed(context, '/forgot-password');
                       },
@@ -315,7 +315,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                     // Button 2: Save Edit
                     _buildActionButton(
-                      title: 'Save Edit',
+                      title: 'Kemas Kini',
                       onTap: saving ? null : _updateProfile,
                       loading: saving,
                     ),

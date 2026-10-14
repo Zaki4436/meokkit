@@ -110,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'PROFILE',
+              'PROFIL',
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 23,
@@ -137,17 +137,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 children: [
                   _buildFieldBox(
-                    label: 'Full Name',
+                    label: 'Nama Penuh',
                     value: user?.fullName ?? '',
                   ),
                   const SizedBox(height: 17),
                   _buildFieldBox(
-                    label: 'Username',
+                    label: 'Nama Pengguna',
                     value: user?.username ?? '',
                   ),
                   const SizedBox(height: 17),
                   _buildFieldBox(
-                    label: 'Role',
+                    label: 'Jawatan',
                     value: user?.role ?? '',
                   ),
                 ],
@@ -194,7 +194,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                   child: const Center(
                     child: Text(
-                      'Edit Profile',
+                      'Kemas Kini Profil',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,

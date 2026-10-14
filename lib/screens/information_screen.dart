@@ -25,19 +25,19 @@ class _InformationScreenState extends State<InformationScreen>
   static final List<InformationModel> _defaultInformation = [
     InformationModel(
       infoId: '1',
-      infoName: 'What is Stress?',
+      infoName: 'Istilah Stres',
       infoDescription:
           'Desakan atau tekanan yang dihadapi oleh individu berikutan peristiwa yang berlaku pada mereka. Apa jua keadaan atau situasi yang mengancam atau dianggap mengganggu keadaan diri seseorang. Stres menyebabkan individu memerlukan keupayaan dan cara untuk menghadapinya.\n\nBoleh berlaku dari segi emosi dan juga fizikal. Perkara yang sering berlaku kepada manusia yang normal. Merupakan cabaran emosi yang tidak dapat dipisahkan dari kehidupan manusia. Berlaku akibat perubahan luaran atau dalaman yang melebihi kemampuan individu.',
     ),
     InformationModel(
       infoId: '2',
-      infoName: 'Signs of Stress?',
+      infoName: 'Tanda-tanda Stres',
       infoDescription:
           'FIZIKAL\n• Kering mulut\n• Gementar\n• Sakit kepala\n• Masalah tidur\n• Cepat letih\n• Lenguh badan\n• Jantung berdebar-debar\n• Sakit perut\n• Cirit-birit\n\nPSIKOLOGI\n• Gelisah\n• Cepat marah\n• Lemah semangat\n• Bimbang\n• Kurang daya tumpuan\n• Mudah lupa\n• Takut gagal\n• Bosan',
     ),
     InformationModel(
       infoId: '3',
-      infoName: 'Effect of Stress?',
+      infoName: 'Kesan Stres',
       infoDescription:
           'Stres akan mengakibatkan gangguan emosi, masalah tingkah laku, perubahan personaliti. Keadaan ini menambahkan lagi risiko penyakit mental dan fizikal.\n\nStres boleh menyebabkan :\n• Penyakit jantung korona\n• Angin ahmar (strok)\n• Kegagalan jantung\n• Kemurungan',
     ),
@@ -156,7 +156,7 @@ class _InformationScreenState extends State<InformationScreen>
                                       children: [
                                         const Expanded(
                                           child: Text(
-                                            'INFORMATION',
+                                            'INFORMASI',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: _ink,
