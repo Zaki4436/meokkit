@@ -484,7 +484,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
           // Card Description matching original wording
           Text(
             isYes
-                ? 'Ambil langkah pencegehanan stres untuk menguruskan emosi.'
+                ? 'Ambil langkah pencegahan stres untuk menguruskan emosi.'
                 : 'Anda telah berjaya menguruskan emosi anda.\nTeruskan kehidupan positif anda.',
             textAlign: TextAlign.center,
             style: const TextStyle(
@@ -548,7 +548,8 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
                 Navigator.pushNamed(context, '/counselor');
               },
               child: Text(
-                'Perlu bercakap dengan seseorang? Hubungi konselor',
+                'Perlu bercakap dengan seseorang? Hubungi kaunselor',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 12,
                   color: _deepAccent,
