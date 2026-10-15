@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'check_emotion_screen.dart';
+import 'dass_questions_screen.dart';
 import 'information_screen.dart';
 import 'methods_screen.dart';
 import 'setting_screen.dart';
@@ -22,9 +22,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late int _currentIndex;
   late final PageController _pageController;
-
-  static const String dassUrl =
-      'https://e2pk.moe.gov.my/kframe.cfm?page_daftar#!';
 
   @override
   void initState() {
@@ -49,17 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
       duration: const Duration(milliseconds: 320),
       curve: Curves.fastOutSlowIn,
     );
-  }
-
-  // ignore: unused_element
-  Future<void> _openDass() async {
-    final uri = Uri.parse(dassUrl);
-    final opened = await launchUrl(
-      uri,
-      mode: LaunchMode.externalApplication,
-    );
-
-    if (!opened) debugPrint('Unable to open link: $uri');
   }
 
   @override
@@ -123,9 +109,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(height: 15),
                       _buildActionCard1(),
                       const SizedBox(height: 18),
-                      _buildActionCard2(),
+                      _buildActionCardDass(),
                       const SizedBox(height: 18),
-                      // _buildActionCard3(),
+                      _buildActionCard2(),
                     ],
                   ),
                 ),
@@ -176,6 +162,58 @@ class _HomeScreenState extends State<HomeScreen> {
           child: const Center(
             child: Text(
               'Informasi Mengenai Stres',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xFF382C2C),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Button DASS: Ujian DASS
+  Widget _buildActionCardDass() {
+    return Container(
+      width: double.infinity,
+      height: 56,
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, Color(0xFFFFF9F8)],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFB64A52).withOpacity(0.10),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+        border: Border.all(
+          color: const Color(0xFF9B6669),
+          width: 2,
+        ),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const DassQuestionsScreen(),
+              ),
+            );
+          },
+          child: const Center(
+            child: Text(
+              'Ujian DASS',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF382C2C),
