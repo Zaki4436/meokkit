@@ -84,6 +84,7 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
       final result = await ApiService.get(
         'getActivityHistory',
         params: {
+          'matrik_no': user.matrikNo,
           'user_id': user.userId,
         },
       );

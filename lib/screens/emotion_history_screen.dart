@@ -35,6 +35,7 @@ class _EmotionHistoryScreenState
     final result = await ApiService.get(
       'getEmotionHistory',
       params: {
+        'matrik_no': user.matrikNo,
         'user_id': user.userId,
       },
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
+import '../utils/app_messages.dart';
 import '../widgets/app_background.dart';
 
 class FeedbackScreen extends StatefulWidget {
@@ -130,6 +131,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     try {
       final result = await ApiService.post({
         'action': 'saveFeedback',
+        'matrik_no': user.matrikNo,
         'user_id': user.userId,
         'method_id': methodId,
         'method_name': methodName,
@@ -144,13 +146,17 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         _focusNode.unfocus();
         setState(() {
           _selectedAnswer = null;
-          _statusMessage =
-              'Maklum balas anda telah berjaya dihantar! Terima kasih.';
+          _statusMessage = AppMessages.feedbackSuccess;
           _statusIsSuccess = true;
         });
       } else {
         _showStatus(
-          result['message'] ?? 'Gagal menghantar maklum balas.',
+          result['message'] ??
+              AppMessages.getErrorMessage(
+                result['error'],
+                defaultMessage:
+                    'Gagal menghantar maklum balas. Sila cuba lagi.',
+              ),
           isSuccess: false,
         );
       }

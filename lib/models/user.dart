@@ -1,24 +1,32 @@
 class User {
   final String userId;
+  final String matrikNo;
   final String fullName;
-  final String role;
   final String username;
   final String profilePicture;
 
   User({
     required this.userId,
+    String? matrikNo,
     required this.fullName,
-    required this.role,
-    required this.username,
+    String? username,
     this.profilePicture = '',
-  });
+  })  : matrikNo = (matrikNo != null && matrikNo.isNotEmpty) ? matrikNo : userId,
+        username = (username != null && username.isNotEmpty)
+            ? username
+            : ((matrikNo != null && matrikNo.isNotEmpty) ? matrikNo : userId);
 
   factory User.fromJson(Map<String, dynamic> json) {
+    final rawUserId = json['user_id']?.toString() ?? '';
+    final rawMatrikNo = json['matrik_no']?.toString() ?? '';
+    final effectiveUserId = rawUserId.isNotEmpty ? rawUserId : rawMatrikNo;
+    final effectiveMatrikNo = rawMatrikNo.isNotEmpty ? rawMatrikNo : rawUserId;
+
     return User(
-      userId: json['user_id']?.toString() ?? '',
+      userId: effectiveUserId,
+      matrikNo: effectiveMatrikNo,
       fullName: json['full_name']?.toString() ?? '',
-      role: json['role']?.toString() ?? '',
-      username: json['username']?.toString() ?? '',
+      username: json['username']?.toString() ?? effectiveMatrikNo,
       profilePicture: json['user_image']?.toString() ??
           json['profile_picture']?.toString() ??
           json['profile_image']?.toString() ??
@@ -29,9 +37,9 @@ class User {
 
   Map<String, dynamic> toJson() {
     return {
+      'matrik_no': matrikNo,
       'user_id': userId,
       'full_name': fullName,
-      'role': role,
       'username': username,
       'profile_picture': profilePicture,
       'user_image': profilePicture,
@@ -40,15 +48,16 @@ class User {
 
   User copyWith({
     String? userId,
+    String? matrikNo,
     String? fullName,
-    String? role,
     String? username,
     String? profilePicture,
   }) {
+    final newId = userId ?? matrikNo ?? this.userId;
     return User(
-      userId: userId ?? this.userId,
+      userId: newId,
+      matrikNo: matrikNo ?? userId ?? this.matrikNo,
       fullName: fullName ?? this.fullName,
-      role: role ?? this.role,
       username: username ?? this.username,
       profilePicture: profilePicture ?? this.profilePicture,
     );

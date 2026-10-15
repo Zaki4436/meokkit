@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../utils/app_messages.dart';
 
 class ApiService {
   static const String baseUrl =
-      'https://script.google.com/macros/s/AKfycbzepsJeNHAVnixif0EPJbOnT2kE4HmtAzwlseeFcSi4qmBhLMk-WPQgHRjsZxsZHVUUzw/exec';
+      'https://script.google.com/macros/s/AKfycbyz6OD3gjN7D8tEKTwJzGssuPopRk48fXbeXXsOzQ-fcTPyDB-piD_7s6F8M9MPAohJoA/exec';
 
   // =========================
   // POST REQUEST
@@ -32,18 +33,34 @@ class ApiService {
       }
 
       if (response.statusCode == 200) {
-        return jsonDecode(response.body);
+        final decoded = jsonDecode(response.body);
+        if (decoded is Map<String, dynamic>) {
+          if (decoded['success'] != true) {
+            final error = decoded['error'];
+            if (decoded['message'] == null ||
+                decoded['message'].toString().isEmpty) {
+              decoded['message'] = AppMessages.getErrorMessage(error);
+            }
+          }
+          return decoded;
+        }
+        return {
+          'success': false,
+          'error': 'SERVER_ERROR',
+          'message': AppMessages.getErrorMessage('SERVER_ERROR'),
+        };
       } else {
         return {
           'success': false,
-          'message':
-              'Server error: ${response.statusCode}',
+          'error': 'SERVER_ERROR',
+          'message': AppMessages.getErrorMessage('SERVER_ERROR'),
         };
       }
     } catch (e) {
       return {
         'success': false,
-        'message': 'Connection error: $e',
+        'error': 'CONNECTION_ERROR',
+        'message': AppMessages.getErrorMessage('CONNECTION_ERROR'),
       };
     }
   }
@@ -79,19 +96,112 @@ class ApiService {
       }
 
       if (response.statusCode == 200) {
-        return jsonDecode(response.body);
+        final decoded = jsonDecode(response.body);
+        if (decoded is Map<String, dynamic>) {
+          if (decoded['success'] != true) {
+            final error = decoded['error'];
+            if (decoded['message'] == null ||
+                decoded['message'].toString().isEmpty) {
+              decoded['message'] = AppMessages.getErrorMessage(error);
+            }
+          }
+          return decoded;
+        }
+        return {
+          'success': false,
+          'error': 'SERVER_ERROR',
+          'message': AppMessages.getErrorMessage('SERVER_ERROR'),
+        };
       } else {
         return {
           'success': false,
-          'message':
-              'Server error: ${response.statusCode}',
+          'error': 'SERVER_ERROR',
+          'message': AppMessages.getErrorMessage('SERVER_ERROR'),
         };
       }
     } catch (e) {
       return {
         'success': false,
-        'message': 'Connection error: $e',
+        'error': 'CONNECTION_ERROR',
+        'message': AppMessages.getErrorMessage('CONNECTION_ERROR'),
       };
     }
+  }
+
+  // =========================
+  // BOOKING HELPERS
+  // =========================
+
+  static Future<Map<String, dynamic>> saveBooking({
+    String? userId,
+    required String matrikNo,
+    required String email,
+    required String noIc,
+    required String praktikum,
+    required String noPhone,
+    String? fullName,
+    String? gender,
+    String? race,
+    String? aliran,
+    String? jenisPerkhidmatan,
+    String? isu,
+    String? tarikh,
+    String? masa,
+  }) async {
+    return await post({
+      'action': 'saveBooking',
+      'user_id': userId ?? matrikNo,
+      'matrik_no': matrikNo,
+      'email': email,
+      'full_name': fullName ?? '',
+      'no_ic': noIc,
+      'gender': gender ?? '',
+      'race': race ?? '',
+      'aliran': aliran ?? '',
+      'praktikum': praktikum,
+      'no_phone': noPhone,
+      'jenis_perkhidmatan': jenisPerkhidmatan ?? '',
+      'isu': isu ?? '',
+      'tarikh': tarikh ?? '',
+      'masa': masa ?? '',
+    });
+  }
+
+  static Future<Map<String, dynamic>> getBookings(String matrikNo, {String? userId}) async {
+    return await get('getBooking', params: {
+      'user_id': userId ?? matrikNo,
+      'matrik_no': matrikNo,
+    });
+  }
+
+  // =========================
+  // DASS TEST HELPERS
+  // =========================
+
+  static Future<Map<String, dynamic>> saveDassTest({
+    String? userId,
+    required String matrikNo,
+    required String stress,
+    required String anzieti,
+    required String depression,
+    String? fullName,
+  }) async {
+    return await post({
+      'action': 'saveDassTest',
+      'user_id': userId ?? matrikNo,
+      'matrik_no': matrikNo,
+      'full_name': fullName ?? '',
+      'stress': stress,
+      'anzieti': anzieti,
+      'anxiety': anzieti,
+      'depression': depression,
+    });
+  }
+
+  static Future<Map<String, dynamic>> getDassHistory(String matrikNo, {String? userId}) async {
+    return await get('getDassTest', params: {
+      'user_id': userId ?? matrikNo,
+      'matrik_no': matrikNo,
+    });
   }
 }

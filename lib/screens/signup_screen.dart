@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/api_service.dart';
+import '../utils/app_messages.dart';
 import '../widgets/app_background.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -16,18 +17,11 @@ class _SignupScreenState extends State<SignupScreen> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
-  String? selectedRole;
+  bool loading = false;
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
-  bool loading = false;
   String? _formError;
   String? _formSuccess;
-
-  final List<String> roles = [
-    'Pensyarah',
-    'Staf',
-    'Pelajar',
-  ];
 
   @override
   void initState() {
@@ -65,13 +59,8 @@ class _SignupScreenState extends State<SignupScreen> {
       return;
     }
 
-    if (selectedRole == null) {
-      _setFormError('Sila pilih peranan anda.');
-      return;
-    }
-
     if (username.isEmpty) {
-      _setFormError('Sila masukkan nama pengguna anda.');
+      _setFormError('Sila masukkan No. Matrik anda.');
       return;
     }
 
@@ -98,9 +87,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
     final result = await ApiService.post({
       'action': 'register',
-      'full_name': fullName,
-      'role': selectedRole,
+      'matrik_no': username,
       'username': username,
+      'user_id': username,
+      'full_name': fullName,
       'password': password,
     });
 
@@ -116,14 +106,16 @@ class _SignupScreenState extends State<SignupScreen> {
       passwordController.clear();
       confirmPasswordController.clear();
       setState(() {
-        selectedRole = null;
-      });
-      setState(() {
-        _formSuccess =
-            'Akaun anda telah berjaya didaftarkan. Sila log masuk untuk meneruskan.';
+        _formSuccess = AppMessages.registerSuccess;
       });
     } else {
-      _setFormError(result['message']?.toString() ?? 'Registration failed.');
+      _setFormError(
+        result['message']?.toString() ??
+            AppMessages.getErrorMessage(
+              result['error'],
+              defaultMessage: 'Pendaftaran akaun gagal. Sila cuba lagi.',
+            ),
+      );
     }
   }
 
@@ -257,6 +249,20 @@ class _SignupScreenState extends State<SignupScreen> {
                       const SizedBox(height: 24),
                       _buildFieldContainer(
                         child: TextField(
+                          controller: usernameController,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
+                          decoration: _inputDecoration(
+                            'No. Matrik',
+                            Icons.person_outline,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+                      _buildFieldContainer(
+                        child: TextField(
                           controller: fullNameController,
                           textCapitalization: TextCapitalization.words,
                           style: const TextStyle(
@@ -266,65 +272,6 @@ class _SignupScreenState extends State<SignupScreen> {
                           decoration: _inputDecoration(
                             'Nama Penuh',
                             Icons.badge_outlined,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      _buildFieldContainer(
-                        child: DropdownButtonFormField<String>(
-                          value: selectedRole,
-                          icon: Icon(
-                            Icons.arrow_drop_down_rounded,
-                            color: Colors.grey.shade600,
-                            size: 28,
-                          ),
-                          isExpanded: true,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.black87,
-                          ),
-                          hint: Text(
-                            'Jawatan',
-                            style: TextStyle(
-                              color: Colors.grey.shade400,
-                              fontSize: 16,
-                            ),
-                          ),
-                          decoration: _inputDecoration(
-                            'Jawatan',
-                            Icons.work_outline,
-                          ).copyWith(
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 14,
-                            ),
-                          ),
-                          items: roles.map((role) {
-                            return DropdownMenuItem(
-                              value: role,
-                              child: Text(role),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedRole = value;
-                              _formError = null;
-                              _formSuccess = null;
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      _buildFieldContainer(
-                        child: TextField(
-                          controller: usernameController,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.black87,
-                          ),
-                          decoration: _inputDecoration(
-                            'Nama Pengguna',
-                            Icons.person_outline,
                           ),
                         ),
                       ),

@@ -94,6 +94,7 @@ class _SettingScreenState extends State<SettingScreen>
 
       final result = await ApiService.post({
         'action': 'uploadProfileImage',
+        'matrik_no': user!.matrikNo,
         'user_id': user!.userId,
         'image_base64': base64Image,
         'file_name': filename,
@@ -253,6 +254,7 @@ class _SettingScreenState extends State<SettingScreen>
       try {
         await ApiService.post({
           'action': 'deleteAccount',
+          'matrik_no': user!.matrikNo,
           'user_id': user!.userId,
         });
       } catch (_) {}

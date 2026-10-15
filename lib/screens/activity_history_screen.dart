@@ -32,6 +32,7 @@ class _ActivityHistoryScreenState extends State<ActivityHistoryScreen> {
     final result = await ApiService.get(
       'getActivityHistory',
       params: {
+        'matrik_no': user.matrikNo,
         'user_id': user.userId,
       },
     );

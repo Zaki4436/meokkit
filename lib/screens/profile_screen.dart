@@ -142,13 +142,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   const SizedBox(height: 17),
                   _buildFieldBox(
-                    label: 'Nama Pengguna',
-                    value: user?.username ?? '',
-                  ),
-                  const SizedBox(height: 17),
-                  _buildFieldBox(
-                    label: 'Jawatan',
-                    value: user?.role ?? '',
+                    label: 'No. Matrik',
+                    value: user?.matrikNo ?? user?.username ?? '',
                   ),
                 ],
               ),

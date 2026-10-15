@@ -51,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // ignore: unused_element
   Future<void> _openDass() async {
     final uri = Uri.parse(dassUrl);
     final opened = await launchUrl(

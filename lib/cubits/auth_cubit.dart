@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
+import '../utils/app_messages.dart';
 import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -29,7 +30,9 @@ class AuthCubit extends Cubit<AuthState> {
 
     final result = await ApiService.post({
       'action': 'login',
+      'matrik_no': username,
       'username': username,
+      'user_id': username,
       'password': password,
     });
 
@@ -40,7 +43,11 @@ class AuthCubit extends Cubit<AuthState> {
     } else {
       emit(AuthState(
         status: AuthStatus.failure,
-        message: result['message']?.toString() ?? 'Login failed.',
+        message: result['message']?.toString() ??
+            AppMessages.getErrorMessage(
+              result['error'],
+              defaultMessage: 'No. Matrik atau kata laluan tidak sah.',
+            ),
       ));
     }
   }

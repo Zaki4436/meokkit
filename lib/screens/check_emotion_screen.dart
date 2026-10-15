@@ -50,6 +50,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
     try {
       await ApiService.post({
         'action': 'saveEmotion',
+        'matrik_no': user.matrikNo,
         'user_id': user.userId,
         'answer': answer,
       });

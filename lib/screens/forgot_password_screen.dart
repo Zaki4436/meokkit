@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
+import '../utils/app_messages.dart';
 import '../widgets/app_background.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -99,12 +100,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       final isFullNameMatch =
           _currentUser!.fullName.trim().toLowerCase() == fullName.toLowerCase();
       final isUsernameMatch =
+          _currentUser!.matrikNo.trim().toLowerCase() == username.toLowerCase() ||
           _currentUser!.username.trim().toLowerCase() == username.toLowerCase();
 
       if (!isFullNameMatch || !isUsernameMatch) {
         setState(() {
           _formError =
-              'Nama Penuh atau Nama Pengguna tidak sepadan.';
+              'Nama Penuh atau No. Matrik tidak sepadan.';
         });
         return;
       }
@@ -118,7 +120,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     final result = await ApiService.post({
       'action': 'forgotPassword',
       'full_name': fullName,
+      'matrik_no': username,
       'username': username,
+      'user_id': username,
       'new_password': newPassword,
     });
 
@@ -135,13 +139,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       confirmPasswordController.clear();
 
       setState(() {
-        _formSuccess = 'Kata laluan anda telah berjaya ditetapkan semula. Sila log masuk dengan kata laluan baharu.';
+        _formSuccess = AppMessages.passwordResetSuccess;
       });
     } else {
       // Don't show AlertDialog for reset failed, display error right under Confirm New Password
       setState(() {
         _formError = result['message']?.toString() ??
-            'Kata laluan baharu tidak boleh sama dengan kata laluan semasa.';
+            AppMessages.getErrorMessage(
+              result['error'],
+              defaultMessage:
+                  'Kata laluan baharu tidak boleh sama dengan kata laluan semasa.',
+            );
       });
     }
   }
@@ -297,7 +305,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'Nama Pengguna',
+                            'No. Matrik',
                             Icons.person_outline,
                           ),
                         ),

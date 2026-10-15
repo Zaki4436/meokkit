@@ -77,6 +77,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
     try {
       await ApiService.post({
         'action': 'saveActivity',
+        'matrik_no': user.matrikNo,
         'user_id': user.userId,
         'method_id': widget.method.methodId,
         'method_name': widget.method.methodName,

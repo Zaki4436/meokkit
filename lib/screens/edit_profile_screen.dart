@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
+import '../utils/app_messages.dart';
 import '../widgets/app_background.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -20,26 +21,19 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   late TextEditingController fullNameController;
   late TextEditingController usernameController;
-  late String selectedRole;
 
   bool saving = false;
   String? _message;
-
-  final roles = [
-    'Pensyarah',
-    'Staf',
-    'Pelajar',
-  ];
 
   @override
   void initState() {
     super.initState();
     fullNameController = TextEditingController(text: widget.user.fullName);
-    usernameController = TextEditingController(text: widget.user.username);
-    selectedRole =
-        widget.user.role.isNotEmpty && roles.contains(widget.user.role)
-            ? widget.user.role
-            : roles.first;
+    usernameController = TextEditingController(
+      text: widget.user.matrikNo.isNotEmpty
+          ? widget.user.matrikNo
+          : widget.user.username,
+    );
   }
 
   @override
@@ -51,9 +45,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future<void> _updateProfile() async {
     final fullName = fullNameController.text.trim();
-    final username = usernameController.text.trim();
+    final matrikNo = usernameController.text.trim();
 
-    if (fullName.isEmpty || username.isEmpty) {
+    if (fullName.isEmpty || matrikNo.isEmpty) {
       _showMessage('Sila lengkapkan semua ruangan.');
       return;
     }
@@ -66,9 +60,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       final result = await ApiService.post({
         'action': 'updateProfile',
         'user_id': widget.user.userId,
+        'current_matrik_no': widget.user.matrikNo,
+        'new_matrik_no': matrikNo,
+        'matrik_no': matrikNo,
         'full_name': fullName,
-        'role': selectedRole,
-        'username': username,
       });
 
       setState(() {
@@ -90,14 +85,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         if (!mounted) return;
         Navigator.pop(context, true);
       } else {
-        _showMessage(result['message']?.toString() ?? 'Update failed.');
+        _showMessage(
+          result['message']?.toString() ??
+              AppMessages.getErrorMessage(
+                result['error'],
+                defaultMessage: 'Gagal mengemaskini profil. Sila cuba lagi.',
+              ),
+        );
       }
     } catch (e) {
       if (!mounted) return;
       setState(() {
         saving = false;
       });
-      _showMessage('Error updating profile: $e');
+      _showMessage('Ralat mengemaskini profil: $e');
     }
   }
 
@@ -235,7 +236,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                           const SizedBox(height: 18),
                           _buildFormFieldWrapper(
-                            label: 'Nama Pengguna',
+                            label: 'No. Matrik',
                             child: TextFormField(
                               controller: usernameController,
                               style: const TextStyle(
@@ -244,36 +245,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 fontWeight: FontWeight.w600,
                               ),
                               decoration: _inputDecoration(),
-                            ),
-                          ),
-                          const SizedBox(height: 18),
-                          _buildFormFieldWrapper(
-                            label: 'Jawatan',
-                            child: DropdownButtonFormField<String>(
-                              value: selectedRole,
-                              icon: const Icon(
-                                Icons.arrow_drop_down,
-                                color: Color(0xFF8D7476),
-                                size: 28,
-                              ),
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Color(0xFF382C2C),
-                                fontWeight: FontWeight.w600,
-                              ),
-                              decoration: _inputDecoration(),
-                              items: roles.map((role) {
-                                return DropdownMenuItem(
-                                  value: role,
-                                  child: Text(role),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                if (value == null) return;
-                                setState(() {
-                                  selectedRole = value;
-                                });
-                              },
                             ),
                           ),
                         ],
