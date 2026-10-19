@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../widgets/app_background.dart';
+import '../widgets/app_back_button.dart';
 
 class CheckEmotionScreen extends StatefulWidget {
   const CheckEmotionScreen({super.key});
@@ -210,25 +211,7 @@ class _CheckEmotionScreenState extends State<CheckEmotionScreen>
                       ),
                     ),
                   ),
-                  Positioned(
-                    top: 8,
-                    left: 12,
-                    child: Material(
-                      color: Colors.white.withOpacity(0.88),
-                      shape: const CircleBorder(),
-                      elevation: 3,
-                      shadowColor: _deepAccent.withOpacity(0.16),
-                      child: IconButton(
-                        tooltip: 'Back',
-                        icon: const Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                          color: _deepAccent,
-                          size: 19,
-                        ),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ),
-                  ),
+                  AppBackButton(color: _deepAccent),
                 ],
               ),
             ),

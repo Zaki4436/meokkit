@@ -5,6 +5,7 @@ import '../services/api_service.dart';
 import 'method_detail_screen.dart';
 import 'feedback_screen.dart';
 import '../widgets/app_background.dart';
+import '../widgets/app_back_button.dart';
 
 class MethodsScreen extends StatefulWidget {
   final bool showAppBar;
@@ -305,23 +306,19 @@ class _MethodsScreenState extends State<MethodsScreen>
       return AppBackground(
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            centerTitle: true,
-            iconTheme: const IconThemeData(color: Color(0xFFBD3546)),
-            title: const Text(
-              'TEKNIK 10B',
-              style: TextStyle(
-                color: Color(0xFFBD3546),
-                fontSize: 24,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 0.5,
-              ),
+          body: SafeArea(
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    _buildMethodsHeader(),
+                    Expanded(child: content),
+                  ],
+                ),
+                const AppBackButton(),
+              ],
             ),
           ),
-          body: SafeArea(child: content),
         ),
       );
     }

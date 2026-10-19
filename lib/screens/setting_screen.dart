@@ -10,6 +10,7 @@ import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../widgets/app_background.dart';
+import '../widgets/app_back_button.dart';
 import 'profile_screen.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -441,7 +442,7 @@ class _SettingScreenState extends State<SettingScreen>
 
             // 2. History Button
             _buildActionButton(
-              title: 'Teknik yang Dilakukan',
+              title: 'History',
               onTap: () {
                 Navigator.pushNamed(context, '/setting-history');
               },
@@ -477,22 +478,39 @@ class _SettingScreenState extends State<SettingScreen>
       return AppBackground(
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            surfaceTintColor: Colors.transparent,
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            centerTitle: true,
-            title: const Text(
-              'Settings',
-              style: TextStyle(
-                color: Color(0xFFBD3546),
-                fontSize: 22,
-                fontWeight: FontWeight.w900,
-              ),
+          body: SafeArea(
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    const SizedBox(height: 45),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 22),
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 16,
+                        ),
+                        child: const Text(
+                          'Settings',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 27,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFFBD3546),
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(child: bodyContent),
+                  ],
+                ),
+                const AppBackButton(),
+              ],
             ),
           ),
-          body: bodyContent,
           bottomNavigationBar: SafeArea(
             top: false,
             child: _buildCustomBottomBar(context),

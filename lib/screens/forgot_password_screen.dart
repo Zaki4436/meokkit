@@ -5,6 +5,7 @@ import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../utils/app_messages.dart';
 import '../widgets/app_background.dart';
+import '../widgets/app_back_button.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -233,8 +234,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       backgroundColor: Colors.transparent,
       body: AppBackground(
         child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Center(
+                child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(
                 horizontal: 24,
                 vertical: 20,
@@ -506,7 +509,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                 ),
               ),
-            ),
+              ),
+              ),
+              const AppBackButton(),
+            ],
           ),
         ),
       ),

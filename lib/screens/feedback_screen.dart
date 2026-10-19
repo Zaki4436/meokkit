@@ -4,6 +4,7 @@ import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../utils/app_messages.dart';
 import '../widgets/app_background.dart';
+import '../widgets/app_back_button.dart';
 
 class FeedbackScreen extends StatefulWidget {
   final String? initialMethodId;
@@ -181,14 +182,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      extendBody: true,
-      extendBodyBehindAppBar: true,
       body: AppBackground(
-        child: Stack(
-        children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(22, 66, 22, 12),
+        child: SafeArea(
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(22, 60, 22, 12),
               child: TweenAnimationBuilder<double>(
                 tween: Tween(begin: 0, end: 1),
                 duration: const Duration(milliseconds: 500),
@@ -528,29 +527,11 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   ],
                 ),
               ),
-            ),
-          ),
-          Positioned(
-            top: 41,
-            left: 12,
-            child: Material(
-              color: Colors.white.withOpacity(0.88),
-              shape: const CircleBorder(),
-              elevation: 3,
-              shadowColor: primaryColor.withOpacity(0.16),
-              child: IconButton(
-                tooltip: 'Back',
-                icon: const Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  color: primaryColor,
-                  size: 19,
-                ),
-                onPressed: () => Navigator.pop(context),
               ),
-            ),
+              const AppBackButton(),
+            ],
           ),
-        ],
-      ),
+        ),
       ),
     );
   }

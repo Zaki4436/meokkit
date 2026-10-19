@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../widgets/app_background.dart';
+import '../widgets/app_back_button.dart';
 import 'counselor_screen.dart';
 
 class ResultDassScreen extends StatefulWidget {
@@ -187,83 +188,70 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: AppBackground(
-        child: SafeArea(
-          child: Column(
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Stack(
             children: [
-              // Header
-              _buildHeader(),
+              Column(
+                children: [
+                  const SizedBox(height: 45),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 22),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 16,
+                      ),
+                      child: const Text(
+                        'Keputusan Ujian DASS',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 27,
+                          fontWeight: FontWeight.w900,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                    ),
+                  ),
 
-              // Content
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.fromLTRB(18, 12, 18, 40),
-                  children: [
-                    // Save Status Banner
-                    _buildSaveStatusBanner(),
-                    const SizedBox(height: 14),
+                  // Content
+                  Expanded(
+                    child: ListView(
+                      padding: const EdgeInsets.fromLTRB(18, 0, 18, 40),
+                      children: [
+                        // Save Status Banner
+                        _buildSaveStatusBanner(),
+                        const SizedBox(height: 14),
 
-                    // BAHAGIAN 3: KEPUTUSAN UJIAN DASS
-                    _buildBahagian3Card(),
-                    const SizedBox(height: 18),
+                        // BAHAGIAN 3: KEPUTUSAN UJIAN DASS
+                        _buildBahagian3Card(),
+                        const SizedBox(height: 18),
 
-                    // Counselor prompt if high stress/anxiety/depression
-                    if (_needsCounselorAdvice) ...[
-                      _buildCounselorPromptCard(),
-                      const SizedBox(height: 18),
-                    ],
+                        // Counselor prompt if high stress/anxiety/depression
+                        if (_needsCounselorAdvice) ...[
+                          _buildCounselorPromptCard(),
+                          const SizedBox(height: 18),
+                        ],
 
-                    // BAHAGIAN 2: PANDUAN MENGIRA SKOR & SKOR SARINGAN
-                    _buildBahagian2Card(),
-                    const SizedBox(height: 24),
+                        // BAHAGIAN 2: PANDUAN MENGIRA SKOR & SKOR SARINGAN
+                        _buildBahagian2Card(),
+                        const SizedBox(height: 24),
 
-                    // Home button
-                    _buildActionButton(),
-                  ],
-                ),
+                        // Home button
+                        _buildActionButton(),
+                      ],
+                    ),
+                  ),
+                ],
               ),
+              const AppBackButton(),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.92),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new, size: 20),
-            color: const Color(0xFF382C2C),
-            onPressed: () => Navigator.pop(context),
-          ),
-          const Expanded(
-            child: Text(
-              'Keputusan Ujian DASS',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 19,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF382C2C),
-              ),
-            ),
-          ),
-          const SizedBox(width: 48),
-        ],
       ),
     );
   }

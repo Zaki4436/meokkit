@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
 import '../widgets/app_background.dart';
+import '../widgets/app_back_button.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -222,25 +223,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 )
               else
                 bodyContent,
-              Positioned(
-                top: 8,
-                left: 12,
-                child: Material(
-                  color: Colors.white.withOpacity(0.88),
-                  shape: const CircleBorder(),
-                  elevation: 3,
-                  shadowColor: const Color(0xFFBD3546).withOpacity(0.16),
-                  child: IconButton(
-                    tooltip: 'Back',
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: Color(0xFFBD3546),
-                      size: 19,
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ),
-              ),
+              const AppBackButton(),
             ],
           ),
         ),

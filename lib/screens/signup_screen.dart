@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../utils/app_messages.dart';
 import '../widgets/app_background.dart';
+import '../widgets/app_back_button.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -198,8 +199,10 @@ class _SignupScreenState extends State<SignupScreen> {
       backgroundColor: Colors.transparent,
       body: AppBackground(
         child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Center(
+                child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(
                 horizontal: 24,
                 vertical: 20,
@@ -414,7 +417,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
-            ),
+              ),
+              ),
+              const AppBackButton(),
+            ],
           ),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/app_background.dart';
+import '../widgets/app_back_button.dart';
 import 'result_dass_screen.dart';
 
 class DassQuestionsScreen extends StatefulWidget {
@@ -131,7 +132,7 @@ class _DassQuestionsScreenState extends State<DassQuestionsScreen> {
                         vertical: 16,
                       ),
                       child: const Text(
-                        'Ujian DASS',
+                        'UJIAN DASS',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 27,
@@ -172,25 +173,7 @@ class _DassQuestionsScreenState extends State<DassQuestionsScreen> {
                   ),
                 ],
               ),
-              Positioned(
-                top: 8,
-                left: 12,
-                child: Material(
-                  color: Colors.white.withOpacity(0.88),
-                  shape: const CircleBorder(),
-                  elevation: 3,
-                  shadowColor: const Color(0xFFBD3546).withOpacity(0.16),
-                  child: IconButton(
-                    tooltip: 'Back',
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: Color(0xFFBD3546),
-                      size: 19,
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ),
-              ),
+              const AppBackButton(),
             ],
           ),
         ),
