@@ -204,7 +204,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   children: [
                     const Center(
                       child: Text(
-                        'Maklum Balas Teknik 10B',
+                        'MAKLUM BALAS',
                         style: TextStyle(
                           color: Color.fromARGB(255, 0, 0, 0),
                           fontSize: 22,
@@ -213,7 +213,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    /*const SizedBox(height: 20),
                     // Header Card
                     Container(
                       width: double.infinity,
@@ -254,7 +254,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Kongsi pendapat, perasaan, atau pengalaman anda selepas mencuba teknik pengurusan stres 10B.',
+                                  'Kongsi pendapat atau pengalaman anda selepas mencuba teknik pengurusan stres 10B.',
                                   style: TextStyle(
                                     fontSize: 13,
                                     color: Colors.grey.shade700,
@@ -266,7 +266,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           ),
                         ],
                       ),
-                    ),
+                    ),*/
 
                     const SizedBox(height: 22),
 
@@ -402,7 +402,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         ),
                         decoration: InputDecoration(
                           hintText:
-                              'Tulis apa sahaja maklum balas anda di sini... Contohnya bagaimana teknik ini membantu anda berasa lebih tenang.',
+                              'Kongsi pendapat atau pengalaman anda selepas mencuba teknik pengurusan stres 10B.',
                           hintStyle: TextStyle(
                             fontSize: 13,
                             color: Colors.grey.shade400,
@@ -510,7 +510,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                                     Icon(Icons.send_rounded, size: 18),
                                     SizedBox(width: 8),
                                     Text(
-                                      'Hantar Maklum Balas',
+                                      'Hantar',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,

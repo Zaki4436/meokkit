@@ -174,133 +174,134 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       backgroundColor: Colors.transparent,
       body: AppBackground(
         child: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(26, 55, 26, 24),
-              child: TweenAnimationBuilder<double>(
-                tween: Tween(begin: 0, end: 1),
-                duration: const Duration(milliseconds: 450),
-                curve: Curves.easeOutCubic,
-                builder: (context, progress, child) => Opacity(
-                  opacity: progress,
-                  child: Transform.translate(
-                    offset: Offset(0, 14 * (1 - progress)),
-                    child: child,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(26, 55, 26, 24),
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0, end: 1),
+                  duration: const Duration(milliseconds: 450),
+                  curve: Curves.easeOutCubic,
+                  builder: (context, progress, child) => Opacity(
+                    opacity: progress,
+                    child: Transform.translate(
+                      offset: Offset(0, 14 * (1 - progress)),
+                      child: child,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // Title: PROFILE
+                      const Text(
+                        'KEMAS KINI PROFIL',
+                        style: TextStyle(
+                          fontSize: 27,
+                          fontWeight: FontWeight.w900,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          letterSpacing: 0.7,
+                        ),
+                      ),
+
+                      const SizedBox(height: 26),
+
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(18, 20, 18, 18),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.68),
+                          borderRadius: BorderRadius.circular(23),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.92),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF9F3D48).withOpacity(0.055),
+                              blurRadius: 18,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            _buildFormFieldWrapper(
+                              label: 'Nama Penuh',
+                              child: TextFormField(
+                                controller: fullNameController,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF382C2C),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                decoration: _inputDecoration(),
+                              ),
+                            ),
+                            const SizedBox(height: 18),
+                            _buildFormFieldWrapper(
+                              label: 'No. Matrik',
+                              child: TextFormField(
+                                controller: usernameController,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF382C2C),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                decoration: _inputDecoration(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 24),
+
+                      if (_message != null) ...[
+                        Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          padding: const EdgeInsets.all(13),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFF1F0),
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(color: const Color(0xFFF1D4D2)),
+                          ),
+                          child: Text(
+                            _message!,
+                            style: const TextStyle(
+                              color: Color(0xFF8E303A),
+                              height: 1.4,
+                            ),
+                          ),
+                        ),
+                      ],
+
+                      // Button 1: Change Password
+                      _buildActionButton(
+                        title: 'Tukar Kata Laluan',
+                        onTap: () {
+                          Navigator.pushNamed(context, '/forgot-password');
+                        },
+                        secondary: true,
+                      ),
+
+                      const SizedBox(height: 14),
+
+                      // Button 2: Save Edit
+                      _buildActionButton(
+                        icon: Icons.save_rounded,
+                        title: 'Kemas Kini',
+                        onTap: saving ? null : _updateProfile,
+                        loading: saving,
+                      ),
+
+                      const SizedBox(height: 18),
+                    ],
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Title: PROFILE
-                    const Text(
-                      'KEMAS KINI PROFIL',
-                      style: TextStyle(
-                        fontSize: 27,
-                        fontWeight: FontWeight.w900,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        letterSpacing: 0.7,
-                      ),
-                    ),
-
-                    const SizedBox(height: 26),
-
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(18, 20, 18, 18),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.68),
-                        borderRadius: BorderRadius.circular(23),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.92),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF9F3D48).withOpacity(0.055),
-                            blurRadius: 18,
-                            offset: const Offset(0, 6),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          _buildFormFieldWrapper(
-                            label: 'Nama Penuh',
-                            child: TextFormField(
-                              controller: fullNameController,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Color(0xFF382C2C),
-                                fontWeight: FontWeight.w600,
-                              ),
-                              decoration: _inputDecoration(),
-                            ),
-                          ),
-                          const SizedBox(height: 18),
-                          _buildFormFieldWrapper(
-                            label: 'No. Matrik',
-                            child: TextFormField(
-                              controller: usernameController,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Color(0xFF382C2C),
-                                fontWeight: FontWeight.w600,
-                              ),
-                              decoration: _inputDecoration(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    if (_message != null) ...[
-                      Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.only(bottom: 16),
-                        padding: const EdgeInsets.all(13),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFFF1F0),
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: const Color(0xFFF1D4D2)),
-                        ),
-                        child: Text(
-                          _message!,
-                          style: const TextStyle(
-                            color: Color(0xFF8E303A),
-                            height: 1.4,
-                          ),
-                        ),
-                      ),
-                    ],
-
-                    // Button 1: Change Password
-                    _buildActionButton(
-                      title: 'Tukar Kata Laluan',
-                      onTap: () {
-                        Navigator.pushNamed(context, '/forgot-password');
-                      },
-                      secondary: true,
-                    ),
-
-                    const SizedBox(height: 14),
-
-                    // Button 2: Save Edit
-                    _buildActionButton(
-                      title: 'Kemas Kini',
-                      onTap: saving ? null : _updateProfile,
-                      loading: saving,
-                    ),
-
-                    const SizedBox(height: 18),
-                  ],
-                ),
               ),
-            ),
-            const AppBackButton(),
-          ],
+              const AppBackButton(),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -308,6 +309,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget _buildActionButton({
     required String title,
     required VoidCallback? onTap,
+    IconData? icon,
     bool secondary = false,
     bool loading = false,
   }) {
@@ -350,13 +352,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       strokeWidth: 2.5,
                     ),
                   )
-                : Text(
-                    title,
-                    style: TextStyle(
-                      color: secondary ? const Color(0xFF8E303A) : Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
+                : Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (icon != null) ...[
+                        Icon(
+                          icon,
+                          size: 19,
+                          color: secondary
+                              ? const Color(0xFF8E303A)
+                              : Colors.white,
+                        ),
+                        const SizedBox(width: 9),
+                      ],
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: secondary
+                              ? const Color(0xFF8E303A)
+                              : Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
                   ),
           ),
         ),

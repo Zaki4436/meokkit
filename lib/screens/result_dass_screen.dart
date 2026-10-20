@@ -295,14 +295,10 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
                 ),
               ),
               onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/methods',
-                  (route) => true,
-                );
+                Navigator.pushNamed(context, '/counselor');
               },
               child: const Text(
-                'Lakukan Teknik 10B',
+                'Hubungi Kaunselor',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -310,10 +306,14 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
           const SizedBox(height: 5),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/counselor');
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/methods',
+                (route) => true,
+              );
             },
             child: Text(
-              'Perlu bercakap dengan seseorang? Hubungi kaunselor',
+              'Lakukan Teknik 10B',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 12,

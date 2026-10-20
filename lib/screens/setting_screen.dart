@@ -416,7 +416,7 @@ class _SettingScreenState extends State<SettingScreen>
                         : 'User Full Name',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                      fontSize: 22,
+                      fontSize: 18,
                       fontWeight: FontWeight.w800,
                       color: Color(0xFF382C2C),
                     ),
@@ -442,7 +442,7 @@ class _SettingScreenState extends State<SettingScreen>
 
             // 2. History Button
             _buildActionButton(
-              title: 'History',
+              title: 'Teknik Yang Dilakukan',
               onTap: () {
                 Navigator.pushNamed(context, '/setting-history');
               },

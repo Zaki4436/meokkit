@@ -185,7 +185,7 @@ class _MethodsScreenState extends State<MethodsScreen>
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.fromLTRB(18, 17, 18, 17),
+      padding: const EdgeInsets.fromLTRB(18, 25, 18, 0),
       child: Row(
         children: [
           const Expanded(

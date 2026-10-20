@@ -128,10 +128,10 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
                         vertical: 16,
                       ),
                       child: const Text(
-                        'HISTORY',
+                        'TEKNIK YANG DILAKUKAN',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 27,
+                          fontSize: 24.32,
                           fontWeight: FontWeight.w900,
                           color: Color.fromARGB(255, 0, 0, 0),
                           letterSpacing: 1.0,
@@ -172,7 +172,7 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Tiada teknik yang dilakukan.',
+                    'Tiada teknik yang direkodkan.',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey,

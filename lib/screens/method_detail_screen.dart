@@ -886,10 +886,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                           },
                           child: Container(
                             width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 18,
-                              vertical: 16,
-                            ),
+                            padding: const EdgeInsets.fromLTRB(32, 18, 50, 10),
                             child: Row(
                               children: [
                                 Expanded(
