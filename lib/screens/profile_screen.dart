@@ -95,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final bodyContent = SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 60),
+      padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 55),
       child: TweenAnimationBuilder<double>(
         tween: Tween(begin: 0, end: 1),
         duration: const Duration(milliseconds: 450),

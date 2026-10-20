@@ -865,7 +865,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                 children: [
                   Column(
                     children: [
-                      const SizedBox(height: 52),
+                      const SizedBox(height: 40),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 22),
                         child: AnimatedBuilder(

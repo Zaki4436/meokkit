@@ -187,7 +187,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           child: Stack(
             children: [
               SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(22, 60, 22, 12),
+                padding: const EdgeInsets.fromLTRB(22, 55, 22, 12),
               child: TweenAnimationBuilder<double>(
                 tween: Tween(begin: 0, end: 1),
                 duration: const Duration(milliseconds: 500),

@@ -217,7 +217,7 @@ class _CounselorScreenState extends State<CounselorScreen> {
           child: Stack(
             children: [
               SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(22, 68, 22, 24),
+                padding: const EdgeInsets.fromLTRB(22, 55, 22, 24),
                 child: TweenAnimationBuilder<double>(
                   tween: Tween(begin: 0, end: 1),
                   duration: const Duration(milliseconds: 450),

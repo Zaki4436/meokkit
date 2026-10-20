@@ -122,7 +122,7 @@ class _DassQuestionsScreenState extends State<DassQuestionsScreen> {
             children: [
               Column(
                 children: [
-                  const SizedBox(height: 45),
+                  const SizedBox(height: 40),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 22),
                     child: Container(

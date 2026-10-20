@@ -131,7 +131,7 @@ class _InformationScreenState extends State<InformationScreen>
                           children: [
                             Padding(
                               padding:
-                                  const EdgeInsets.fromLTRB(32, 72, 50, 30),
+                                  const EdgeInsets.fromLTRB(32, 55, 50, 30),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
@@ -161,7 +161,7 @@ class _InformationScreenState extends State<InformationScreen>
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: _ink,
-                                              fontSize: 23,
+                                              fontSize: 27,
                                               fontWeight: FontWeight.w900,
                                               letterSpacing: 1,
                                             ),

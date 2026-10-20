@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'check_emotion_screen.dart';
+//import 'check_emotion_screen.dart';
 import 'dass_questions_screen.dart';
 import 'information_screen.dart';
 import 'methods_screen.dart';
@@ -111,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(height: 18),
                       _buildActionCardDass(),
                       const SizedBox(height: 18),
-                      _buildActionCard2(),
+                      //_buildActionCard2(),
                     ],
                   ),
                 ),
@@ -228,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // Button 2: Stress Check
-  Widget _buildActionCard2() {
+  /*Widget _buildActionCard2() {
     return Container(
       width: double.infinity,
       height: 56,
@@ -277,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
+  }*/
 
   Widget _buildCustomBottomBar() {
     return Container(

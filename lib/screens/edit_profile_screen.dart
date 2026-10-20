@@ -177,7 +177,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         child: Stack(
           children: [
             SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(26, 68, 26, 24),
+              padding: const EdgeInsets.fromLTRB(26, 55, 26, 24),
               child: TweenAnimationBuilder<double>(
                 tween: Tween(begin: 0, end: 1),
                 duration: const Duration(milliseconds: 450),
