@@ -449,12 +449,12 @@ class _SettingScreenState extends State<SettingScreen>
             ),
 
             // 3. Counselor Contact Button
-            _buildActionButton(
+            /*_buildActionButton(
               title: 'Hubungi Kaunselor',
               onTap: () {
                 Navigator.pushNamed(context, '/counselor');
               },
-            ),
+            ),*/
 
             // 4. Logout Button
             _buildActionButton(

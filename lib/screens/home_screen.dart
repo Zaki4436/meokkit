@@ -6,6 +6,7 @@ import 'information_screen.dart';
 import 'methods_screen.dart';
 import 'setting_screen.dart';
 import '../widgets/app_background.dart';
+import 'counselor_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final int initialIndex;
@@ -109,9 +110,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(height: 15),
                       _buildActionCard1(),
                       const SizedBox(height: 18),
-                      _buildActionCardDass(),
+                      _buildActionCard2(),
                       const SizedBox(height: 18),
-                      //_buildActionCard2(),
+                      _buildActionCard3(),
                     ],
                   ),
                 ),
@@ -175,8 +176,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Button DASS: Ujian DASS
-  Widget _buildActionCardDass() {
+  // Button 2: Ujian DASS
+  Widget _buildActionCard2() {
     return Container(
       width: double.infinity,
       height: 56,
@@ -227,8 +228,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Button 2: Stress Check
-  /*Widget _buildActionCard2() {
+  //Button 3: HUbungi Kaunselor
+  Widget _buildActionCard3() {
     return Container(
       width: double.infinity,
       height: 56,
@@ -259,13 +260,13 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => const CheckEmotionScreen(),
+                builder: (_) => const CounselorScreen(),
               ),
             );
           },
           child: const Center(
             child: Text(
-              'Semak Stres Anda',
+              'HUbungi Kaunselor',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF382C2C),
@@ -277,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }*/
+  }
 
   Widget _buildCustomBottomBar() {
     return Container(

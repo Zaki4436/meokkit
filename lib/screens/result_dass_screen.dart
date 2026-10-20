@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../services/dass_service.dart';
 import '../utils/dass_calculator.dart';
 import '../widgets/app_background.dart';
-import 'counselor_screen.dart';
-import 'methods_screen.dart';
+/*import 'counselor_screen.dart';
+import 'methods_screen.dart';*/
 
 class ResultDassScreen extends StatefulWidget {
   final Map<int, int> answers;
@@ -136,7 +136,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF382C2C),
+                  color: Color(0xFF000000),
                 ),
               ),
             ],
@@ -146,8 +146,9 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
             'Berikut adalah status kesihatan mental anda berdasarkan jawapan yang telah anda berikan:',
             style: TextStyle(
               fontSize: 13,
-              color: Color(0xFF6E5658),
+              color: Color(0xFF000000),
               height: 1.4,
+              //fontWeight: FontWeight.w300
             ),
           ),
           const SizedBox(height: 16),
@@ -205,7 +206,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
                   style: const TextStyle(
                     fontSize: 14.5,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF2E2223),
+                    color: Color(0xFF000000),
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -213,7 +214,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
                   'Jumlah Skor: $score',
                   style: const TextStyle(
                     fontSize: 12.5,
-                    color: Color(0xFF5A4647),
+                    color: Color(0xFF000000),
                   ),
                 ),
               ],
@@ -251,7 +252,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 255, 255, 255),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: const Color.fromARGB(255, 190, 0, 0), width: 1.2),
       ),
@@ -275,11 +276,11 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
           ),
           const SizedBox(height: 8),
           const Text(
-            'Keputusan saringan anda menunjukkan indeks pada tahap yang memerlukan perhatian. Anda digalakkan untuk berbincang bersama Kaunselor bagi sokongan bimbingan.',
+            'Keputusan saringan anda menunjukkan indeks pada tahap yang memerlukan perhatian. Anda digalakkan untuk berbincang bersama Kaunselor bagi sokongan bimbingan. Atau anda boleh melakukan Teknik Pengurusan Stress 10B.',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 13,
-              color: Color(0xFF5D4037),
+              color: Color(0xFF000000),
               height: 1.4,
             ),
           ),
@@ -303,15 +304,30 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 5),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/methods',
-                (route) => true,
-              );
-            },
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 190, 0, 0),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/methods',
+                  (route) => true,
+                );
+              },
+              child: const Text(
+                'Teknik 10B',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          /*GestureDetector(
             child: Text(
               'Lakukan Teknik 10B',
               textAlign: TextAlign.center,
@@ -322,7 +338,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
                 decoration: TextDecoration.underline,
               ),
             ),
-          ),
+          ),*/
         ],
       ),
     );
@@ -358,7 +374,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF382C2C),
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -369,7 +385,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
             'Skala markah jawapan bagi setiap soalan mengikut kategori:',
             style: TextStyle(
               fontSize: 13,
-              color: Color(0xFF6E5658),
+              color: Colors.black,
             ),
           ),
           const SizedBox(height: 12),
@@ -446,7 +462,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF382C2C),
+                color: Colors.black,
               ),
             ),
           ),
@@ -635,7 +651,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
         style: const TextStyle(
           fontSize: 11.5,
           fontWeight: FontWeight.bold,
-          color: Color(0xFF2E2223),
+          color: Color(0xFF000000),
         ),
       ),
     );
@@ -663,7 +679,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
             style: const TextStyle(
               fontSize: 11.5,
               fontWeight: FontWeight.w600,
-              color: Color(0xFF382C2C),
+              color: Color(0xFF000000),
             ),
           ),
         ),
@@ -684,36 +700,51 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
         style: TextStyle(
           fontSize: 11.5,
           fontWeight: isHighlight ? FontWeight.bold : FontWeight.normal,
-          color: isHighlight ? const Color(0xFFD94B4B) : const Color(0xFF382C2C),
+          color: isHighlight ? const Color(0xFFD94B4B) : const Color(0xFF000000),
         ),
       ),
     );
   }
 
   Widget _buildActionButton() {
-    return SizedBox(
-      height: 52,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFD94B4B),
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          elevation: 0,
+    return Container(
+      width: double.infinity,
+      height: 54,
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFE65B63), Color(0xFFBD3546)],
         ),
-        onPressed: () {
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            '/home',
-            (route) => false,
-          );
-        },
-        child: const Text(
-          'Kembali ke Laman Utama',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFBD3546).withOpacity(0.25),
+            blurRadius: 14,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/home',
+              (route) => false,
+            );
+          },
+          child: const Center(
+            child: Text(
+              'Kembali ke Laman Utama',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
         ),
       ),
