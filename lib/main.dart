@@ -50,6 +50,40 @@ class MeOkKitApp extends StatelessWidget {
           },
         ),
       ),
+      builder: (context, child) {
+        final mediaQuery = MediaQuery.of(context);
+        final isWide = mediaQuery.size.width > 500;
+        final effectiveWidth = isWide ? 500.0 : mediaQuery.size.width;
+
+        return ColoredBox(
+          color: const Color(0xFFF7EBEA),
+          child: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 500),
+              decoration: isWide
+                  ? BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFFBD3546).withOpacity(0.12),
+                          blurRadius: 30,
+                          spreadRadius: 2,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    )
+                  : null,
+              child: ClipRect(
+                child: MediaQuery(
+                  data: mediaQuery.copyWith(
+                    size: Size(effectiveWidth, mediaQuery.size.height),
+                  ),
+                  child: child ?? const SizedBox.shrink(),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),

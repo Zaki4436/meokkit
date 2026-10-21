@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: SizedBox(
                 width: constraints.maxWidth,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(32, 20, 50, 100),
+                  padding: const EdgeInsets.fromLTRB(26, 20, 26, 100),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,

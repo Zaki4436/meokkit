@@ -84,9 +84,12 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
                         _buildBahagian3Card(),
                         const SizedBox(height: 18),
 
-                        // Counselor prompt if high stress/anxiety/depression
+                        // Counselor prompt if high stress/anxiety/depression, or Tahniah if normal/good
                         if (calculationResult.needsCounselorAdvice) ...[
                           _buildCounselorPromptCard(),
+                          const SizedBox(height: 18),
+                        ] else ...[
+                          _buildTahniahCard(),
                           const SizedBox(height: 18),
                         ],
 
@@ -339,6 +342,50 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
               ),
             ),
           ),*/
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTahniahCard() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: const Color(0xFF2E7D32),
+          width: 1.2,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Tahniah!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF2E7D32),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Keputusan saringan anda menunjukkan tahap kesihatan emosi dan mental anda berada dalam keadaan yang baik dan terkawal. Teruskan mengekalkan gaya hidup sihat dan amalkan Teknik Pengurusan Stres 10B untuk mengekalkan kesejahteraan diri.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 13,
+              color: Color(0xFF000000),
+              height: 1.4,
+            ),
+          ),
         ],
       ),
     );
