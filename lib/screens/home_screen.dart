@@ -165,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
               'Informasi Mengenai Stres',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color(0xFF382C2C),
+                color: Color(0xFF000000),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -217,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
               'Ujian DASS',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color(0xFF382C2C),
+                color: Color(0xFF000000),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -266,10 +266,10 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           child: const Center(
             child: Text(
-              'HUbungi Kaunselor',
+              'Hubungi Kaunselor',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color(0xFF382C2C),
+                color: Color(0xFF000000),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),

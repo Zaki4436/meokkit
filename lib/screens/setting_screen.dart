@@ -63,7 +63,7 @@ class _SettingScreenState extends State<SettingScreen>
   }
 
   Future<void> _pickImage(ImageSource source) async {
-    Navigator.pop(context); // Close bottom sheet
+    Navigator.pop(context);
     if (user == null) return;
 
     try {
@@ -274,29 +274,42 @@ class _SettingScreenState extends State<SettingScreen>
   Widget _buildActionButton({
     required String title,
     required VoidCallback onTap,
+    Color? backgroundColor,
+    Color? textColor,
+    Color? borderColor,
   }) {
+    final hasCustomBg = backgroundColor != null;
     return Container(
       width: double.infinity,
       height: 54,
       margin: const EdgeInsets.only(bottom: 13),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.white, Color(0xFFFFF9F8)],
-        ),
+        color: backgroundColor,
+        gradient: hasCustomBg
+            ? null
+            : const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.white, Color(0xFFFFF9F8)],
+              ),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF9F3D48).withOpacity(0.07),
+            color: hasCustomBg
+                ? backgroundColor.withOpacity(0.25)
+                : const Color(0xFF9F3D48).withOpacity(0.07),
             blurRadius: 13,
             offset: const Offset(0, 4),
           ),
         ],
-        border: Border.all(
-          color: const Color(0xFF9B6669),
-          width: 2,
-        ),
+        border: hasCustomBg
+            ? (borderColor != null
+                ? Border.all(color: borderColor, width: 2)
+                : null)
+            : Border.all(
+                color: borderColor ?? const Color(0xFF9B6669),
+                width: 2,
+              ),
       ),
       child: Material(
         color: Colors.transparent,
@@ -307,8 +320,8 @@ class _SettingScreenState extends State<SettingScreen>
             child: Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Color(0xFF382C2C),
+              style: TextStyle(
+                color: textColor ?? const Color(0xFF382C2C),
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
               ),
@@ -466,9 +479,9 @@ class _SettingScreenState extends State<SettingScreen>
             _buildActionButton(
               title: 'Padam Akaun',
               onTap: _confirmDeleteAccount,
+              backgroundColor: const Color(0xFFBD3546),
+              textColor: Colors.white,
             ),
-
-            const SizedBox(height: 20),
           ],
         ),
       ),
