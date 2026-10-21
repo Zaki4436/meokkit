@@ -2,31 +2,35 @@
     "name": "MeOkKit",
     "short_name": "MeOkKit",
     "start_url": ".",
+    "scope": ".",
+    "id": "meokkit-app",
     "display": "standalone",
-    "background_color": "#FFDAB9",
-    "theme_color": "#FFDAB9",
-    "description": "A new Flutter project.",
+    "background_color": "#FFF8F7",
+    "theme_color": "#D94B4B",
+    "description": "Unit Psikologi dan Kaunseling Kolej Matrikulasi Johor",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {
-            "src": "assets/icon/full_logo_nobg.png",
+            "src": "icons/Icon-192.png",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any"
         },
         {
-            "src": "assets/icon/full_logo_nobg.png",
+            "src": "icons/Icon-512.png",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any"
         },
         {
-            "src": "assets/icon/full_logo_nobg.png",
+            "src": "icons/Icon-maskable-192.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "assets/icon/full_logo_nobg.png",
+            "src": "icons/Icon-maskable-512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
