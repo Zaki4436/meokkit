@@ -3,30 +3,30 @@
     "short_name": "MeOkKit",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
+    "background_color": "#FFDAB9",
+    "theme_color": "#FFDAB9",
     "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {
-            "src": "icons/full_logo_nobg.png",
+            "src": "assets/icon/full_logo_nobg.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "icons/full_logo_nobg.png",
+            "src": "assets/icon/full_logo_nobg.png",
             "sizes": "512x512",
             "type": "image/png"
         },
         {
-            "src": "icons/full_logo_nobg.png",
+            "src": "assets/icon/full_logo_nobg.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "icons/full_logo_nobg.png",
+            "src": "assets/icon/full_logo_nobg.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
