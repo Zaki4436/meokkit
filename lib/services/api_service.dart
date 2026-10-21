@@ -4,7 +4,7 @@ import '../utils/app_messages.dart';
 
 class ApiService {
   static const String baseUrl =
-      'https://script.google.com/macros/s/AKfycbyz6OD3gjN7D8tEKTwJzGssuPopRk48fXbeXXsOzQ-fcTPyDB-piD_7s6F8M9MPAohJoA/exec';
+      'https://script.google.com/macros/s/AKfycbxQyN57RSQ2W7GRMDSKVUqCqh9uc1wsXYUkRrql3AgA0HMlS_Crllwt0NxUpq4FJkfwtg/exec';
 
   // =========================
   // POST REQUEST

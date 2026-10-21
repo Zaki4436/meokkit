@@ -59,7 +59,56 @@ class _SettingScreenState extends State<SettingScreen>
       setState(() {
         _localImageBytes = base64Decode(base64Str);
       });
+      return;
     }
+
+    // Jika tiada dalam simpanan tempatan, muat turun dari backend (elak isu CORS)
+    if (user != null && user!.profilePicture.isNotEmpty) {
+      _fetchProfileImageFromServer(userId);
+    }
+  }
+
+  Future<void> _fetchProfileImageFromServer(String userId) async {
+    try {
+      final result = await ApiService.post({
+        'action': 'getProfileImage',
+        'user_id': userId,
+        'matrik_no': user?.matrikNo ?? userId,
+      });
+
+      if (result['success'] == true && result['data'] != null) {
+        final base64Data = result['data']['image_base64']?.toString() ?? '';
+        if (base64Data.isNotEmpty) {
+          final cleanBase64 = base64Data.contains(',')
+              ? base64Data.split(',').last
+              : base64Data;
+          final bytes = base64Decode(cleanBase64);
+
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('profile_image_$userId', cleanBase64);
+
+          if (mounted) {
+            setState(() {
+              _localImageBytes = bytes;
+            });
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('Error fetching profile image: $e');
+    }
+  }
+
+  String _formatDriveImageUrl(String url) {
+    if (url.isEmpty) return '';
+    if (url.contains('drive.google.com')) {
+      final regExp = RegExp(r'(?:id=|\/d\/)([a-zA-Z0-9_-]+)');
+      final match = regExp.firstMatch(url);
+      if (match != null && match.group(1) != null) {
+        return 'https://drive.google.com/thumbnail?id=${match.group(1)}&sz=w800';
+      }
+    }
+    return url;
   }
 
   Future<void> _pickImage(ImageSource source) async {
@@ -402,7 +451,8 @@ class _SettingScreenState extends State<SettingScreen>
                                     ? ClipOval(
                                         child: SizedBox.expand(
                                           child: Image.network(
-                                            user!.profilePicture,
+                                            _formatDriveImageUrl(
+                                                user!.profilePicture),
                                             fit: BoxFit.cover,
                                             filterQuality: FilterQuality.high,
                                             errorBuilder: (_, __, ___) =>
