@@ -4,6 +4,10 @@
     "start_url": ".",
     "scope": ".",
     "id": "meokkit-app",
+    "display_override": [
+        "fullscreen",
+        "standalone"
+    ],
     "display": "standalone",
     "background_color": "#FFF8F7",
     "theme_color": "#D94B4B",
