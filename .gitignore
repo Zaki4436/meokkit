@@ -32,6 +32,17 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+!/build/
+/build/*
+!/build/web/
+/build/web/*
+!/build/web/assets/
+!/build/web/assets/**
+!/build/web/favicon.png
+!/build/web/flutter_service_worker.js
+!/build/web/icons/
+!/build/web/icons/**
+!/build/web/manifest.json
 
 # Symbolication related
 app.*.symbols
