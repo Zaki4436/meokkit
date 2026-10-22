@@ -385,7 +385,7 @@ class _SettingScreenState extends State<SettingScreen>
   Widget build(BuildContext context) {
     super.build(context);
     final bodyContent = SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
+      padding: EdgeInsets.fromLTRB(28, 20, 28, widget.showAppBar ? 20 : 90),
       child: TweenAnimationBuilder<double>(
         tween: Tween(begin: 0, end: 1),
         duration: const Duration(milliseconds: 450),

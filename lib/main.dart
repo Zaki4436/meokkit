@@ -52,30 +52,31 @@ class MeOkKitApp extends StatelessWidget {
       ),
       builder: (context, child) {
         final mediaQuery = MediaQuery.of(context);
-        final isWide = mediaQuery.size.width > 300;
-        final effectiveWidth = mediaQuery.size.width;
+        final isWide = mediaQuery.size.width > 500;
+
+        if (!isWide) {
+          return child ?? const SizedBox.shrink();
+        }
 
         return ColoredBox(
           color: const Color(0xFFF7EBEA),
           child: Center(
             child: Container(
               constraints: const BoxConstraints(maxWidth: 500),
-              decoration: isWide
-                  ? BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFFBD3546).withOpacity(0.12),
-                          blurRadius: 30,
-                          spreadRadius: 2,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    )
-                  : null,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFBD3546).withOpacity(0.12),
+                    blurRadius: 30,
+                    spreadRadius: 2,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
               child: ClipRect(
                 child: MediaQuery(
                   data: mediaQuery.copyWith(
-                    size: Size(effectiveWidth, mediaQuery.size.height),
+                    size: Size(500, mediaQuery.size.height),
                   ),
                   child: child ?? const SizedBox.shrink(),
                 ),

@@ -51,30 +51,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      backgroundColor: const Color(0xFFFFF8F7),
-      body: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          _buildHomeBody(),
-          const MethodsScreen(showAppBar: false),
-          const SettingScreen(showAppBar: false),
-        ],
-      ),
-      bottomNavigationBar: SafeArea(
-        top: false,
-        child: _buildCustomBottomBar(),
+    return AppBackground(
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: Colors.transparent,
+        body: PageView(
+          controller: _pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            _buildHomeBody(),
+            const MethodsScreen(showAppBar: false),
+            const SettingScreen(showAppBar: false),
+          ],
+        ),
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: _buildCustomBottomBar(),
+        ),
       ),
     );
   }
 
   Widget _buildHomeBody() {
-    return AppBackground(
-      child: SafeArea(
-        bottom: false,
-        child: LayoutBuilder(
+    return SafeArea(
+      bottom: false,
+      child: LayoutBuilder(
           builder: (context, constraints) {
             return FittedBox(
               fit: BoxFit.scaleDown,
@@ -120,7 +121,6 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
-      ),
     );
   }
 

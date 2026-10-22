@@ -289,7 +289,7 @@ class _MethodsScreenState extends State<MethodsScreen>
           left: 22,
           right: 22,
           top: widget.showAppBar ? 12 : 4,
-          bottom: 24,
+          bottom: widget.showAppBar ? 24 : 90,
         ),
         itemCount: methods.length + 1,
         itemBuilder: (context, index) {
