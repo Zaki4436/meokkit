@@ -76,51 +76,51 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       bottom: false,
       child: LayoutBuilder(
-          builder: (context, constraints) {
-            return FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.topCenter,
-              child: SizedBox(
+        builder: (context, constraints) {
+          return FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.topCenter,
+            child: SizedBox(
                 width: constraints.maxWidth,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(26, 20, 26, 100),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 50),
-                      Center(
-                        child: Image.asset(
-                          'assets/icon/full_logo_nobg.png',
-                          height: 275,
-                          fit: BoxFit.contain,
-                        ),
+                padding: const EdgeInsets.fromLTRB(26, 20, 26, 100),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 50),
+                    Center(
+                      child: Image.asset(
+                        'assets/icon/full_logo_nobg.png',
+                        height: 275,
+                        fit: BoxFit.contain,
                       ),
-                      Transform.translate(
-                        offset: const Offset(0, -20),
-                        child: const Text(
-                          textAlign: TextAlign.center,
-                          'Unit Psikologi dan Kaunseling\nKolej Matrikulasi Johor',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 67, 67, 67),
-                          ),
-                        ),
+                    ),
+                    Transform.translate(
+                      offset: const Offset(0, -20),
+                      child: const Text(
+                        'Unit Psikologi dan Kaunseling\nKolej Matrikulasi Johor',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 67, 67, 67),
                       ),
-                      const SizedBox(height: 15),
-                      _buildActionCard1(),
-                      const SizedBox(height: 18),
-                      _buildActionCard2(),
-                      const SizedBox(height: 18),
-                      _buildActionCard3(),
-                    ],
-                  ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    _buildActionCard1(),
+                    const SizedBox(height: 18),
+                    _buildActionCard2(),
+                    const SizedBox(height: 18),
+                    _buildActionCard3(),
+                  ],
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
+      ),
     );
   }
 
