@@ -52,7 +52,7 @@ class MeOkKitApp extends StatelessWidget {
       ),
       builder: (context, child) {
         final mediaQuery = MediaQuery.of(context);
-        final isWide = mediaQuery.size.width > 500;
+        final isWide = mediaQuery.size.width > 300;
         final effectiveWidth = mediaQuery.size.width;
 
         return ColoredBox(
