@@ -265,15 +265,15 @@ class _SettingScreenState extends State<SettingScreen>
           borderRadius: BorderRadius.circular(22),
           side: const BorderSide(color: Color(0xFFF1D4D2)),
         ),
-        title: const Text(
-          'Padamkan Akaun',
+        title: Text(
+          context.tr('Padamkan Akaun', 'Delete Account'),
           style: TextStyle(
             color: Color(0xFF382C2C),
             fontWeight: FontWeight.w800,
           ),
         ),
-        content: const Text(
-          'Anda pasti mahu memadamkan akaun ini? Tindakan ini tidak boleh dibatalkan.',
+        content: Text(
+          context.tr('Anda pasti mahu memadamkan akaun ini? Tindakan ini tidak boleh dibatalkan.', 'Are you sure want to delete this account? This action cannnot be undone.'),
           style: TextStyle(
             color: Color(0xFF65585A),
             height: 1.45,
@@ -285,7 +285,7 @@ class _SettingScreenState extends State<SettingScreen>
             style: TextButton.styleFrom(
               foregroundColor: const Color(0xFF775F62),
             ),
-            child: const Text('Batal'),
+            child: Text(context.tr('Batal', 'Cancel')),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -297,7 +297,7 @@ class _SettingScreenState extends State<SettingScreen>
               ),
             ),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Padam'),
+            child: Text(context.tr('Padam', 'Delete')),
           ),
         ],
       ),
@@ -508,7 +508,7 @@ class _SettingScreenState extends State<SettingScreen>
 
             // 2. History Button
             _buildActionButton(
-              title: context.tr('Teknik Yang Dilakukan', 'Techniques Performed'),
+              title: context.tr('Teknik Yang Dilakukan', 'History'),
               onTap: () {
                 Navigator.pushNamed(context, '/setting-history');
               },
@@ -585,19 +585,6 @@ class _SettingScreenState extends State<SettingScreen>
             const AppBackButton()
           else
             const SizedBox(width: 86), // balances width of EN/BM toggle on the right
-
-          Expanded(
-            child: Text(
-              context.tr('Tetapan', 'Settings'),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 27,
-                fontWeight: FontWeight.w900,
-                color: Color(0xFFBD3546),
-                letterSpacing: 1.0,
-              ),
-            ),
-          ),
 
           _buildLanguageToggle(context),
         ],

@@ -129,7 +129,7 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
                         vertical: 16,
                       ),
                       child: Text(
-                        context.tr('TEKNIK YANG DILAKUKAN', 'TECHNIQUES PERFORMED'),
+                        context.tr('TEKNIK YANG DILAKUKAN', 'HISTORY'),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 24.32,
