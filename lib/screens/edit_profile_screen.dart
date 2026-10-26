@@ -4,6 +4,7 @@ import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../utils/app_messages.dart';
+import '../utils/app_translations.dart';
 import '../widgets/app_background.dart';
 import '../widgets/app_back_button.dart';
 
@@ -49,7 +50,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final matrikNo = usernameController.text.trim();
 
     if (fullName.isEmpty || matrikNo.isEmpty) {
-      _showMessage('Sila lengkapkan semua ruangan.');
+      _showMessage(context.tr('Sila lengkapkan semua ruangan.', 'Please fill in all fields.'));
       return;
     }
 
@@ -193,8 +194,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       // Title: PROFILE
-                      const Text(
-                        'KEMAS KINI PROFIL',
+                      Text(
+                        context.tr('KEMAS KINI PROFIL', 'UPDATE PROFILE'),
                         style: TextStyle(
                           fontSize: 27,
                           fontWeight: FontWeight.w900,
@@ -224,7 +225,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         child: Column(
                           children: [
                             _buildFormFieldWrapper(
-                              label: 'Nama Penuh',
+                              label: context.tr('Nama Penuh', 'Full Name'),
                               child: TextFormField(
                                 controller: fullNameController,
                                 style: const TextStyle(
@@ -237,7 +238,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                             const SizedBox(height: 18),
                             _buildFormFieldWrapper(
-                              label: 'No. Matrik',
+                              label: context.tr('No. Matrik', 'Matric No.'),
                               child: TextFormField(
                                 controller: usernameController,
                                 style: const TextStyle(
@@ -276,7 +277,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                       // Button 1: Change Password
                       _buildActionButton(
-                        title: 'Tukar Kata Laluan',
+                        title: context.tr('Tukar Kata Laluan', 'Change Password'),
                         onTap: () {
                           Navigator.pushNamed(context, '/forgot-password');
                         },
@@ -288,7 +289,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       // Button 2: Save Edit
                       _buildActionButton(
                         icon: Icons.save_rounded,
-                        title: 'Kemas Kini',
+                        title: context.tr('Kemas Kini', 'Update'),
                         onTap: saving ? null : _updateProfile,
                         loading: saving,
                       ),

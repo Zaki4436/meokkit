@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../widgets/app_background.dart';
 import '../widgets/app_back_button.dart';
 import 'result_dass_screen.dart';
+import '../utils/app_translations.dart';
 
 class DassQuestionsScreen extends StatefulWidget {
   const DassQuestionsScreen({super.key});
@@ -131,8 +132,8 @@ class _DassQuestionsScreenState extends State<DassQuestionsScreen> {
                         horizontal: 18,
                         vertical: 16,
                       ),
-                      child: const Text(
-                        'UJIAN DASS',
+                      child: Text(
+                        context.tr('UJIAN DASS', 'DASS TEST'),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 27,
@@ -160,7 +161,7 @@ class _DassQuestionsScreenState extends State<DassQuestionsScreen> {
 
                         // 21 Question cards
                         for (int i = 0; i < questions.length; i++) ...[
-                          _buildQuestionCard(i + 1, questions[i]),
+                          _buildQuestionCard(i + 1, AppTranslations.getDassQuestions(context.isEnglish)[i]),
                           const SizedBox(height: 14),
                         ],
 
@@ -189,8 +190,8 @@ class _DassQuestionsScreenState extends State<DassQuestionsScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Kemajuan Jawapan',
+              Text(
+                context.tr('Kemajuan Jawapan', 'Progress'),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
@@ -198,7 +199,7 @@ class _DassQuestionsScreenState extends State<DassQuestionsScreen> {
                 ),
               ),
               Text(
-                '$answeredCount / $totalCount soalan',
+                context.tr('$answeredCount / $totalCount soalan', '$answeredCount / $totalCount questions'),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
@@ -239,7 +240,7 @@ class _DassQuestionsScreenState extends State<DassQuestionsScreen> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Sila lengkapkan ${totalCount - answeredCount} soalan lagi untuk mendapatkan keputusan.',
+                      context.tr('Sila lengkapkan ${totalCount - answeredCount} soalan lagi untuk mendapatkan keputusan.', 'Please answer ${totalCount - answeredCount} more questions to get your results.'),
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -289,8 +290,8 @@ class _DassQuestionsScreenState extends State<DassQuestionsScreen> {
             ],
           ),
           const SizedBox(height: 10),
-          const Text(
-            'Sila baca kenyataan dan pilih jawapan (skala 0, 1, 2, 3) yang menggambarkan keadaan anda SEMINGGU yang lepas. Tidak ada jawapan yang betul atau salah. Jangan guna terlalu banyak masa untuk mana-mana kenyataan.',
+          Text(
+            context.tr('Sila baca kenyataan dan pilih jawapan (skala 0, 1, 2, 3) yang menggambarkan keadaan anda SEMINGGU yang lepas. Tidak ada jawapan yang betul atau salah. Jangan guna terlalu banyak masa untuk mana-mana kenyataan.', 'Please read each statement and select a score (scale 0, 1, 2, 3) that indicates how much the statement applied to you over the past week. There are no right or wrong answers. Do not spend too much time on any statement.'),
             style: TextStyle(
               fontSize: 13,
               height: 1.45,
@@ -298,8 +299,8 @@ class _DassQuestionsScreenState extends State<DassQuestionsScreen> {
             ),
           ),
           const Divider(height: 20, thickness: 0.8),
-          const Text(
-            'Panduan Skala Markah:',
+          Text(
+            context.tr('Panduan Skala Markah:', 'Score Scale Guide:'),
             style: TextStyle(
               fontSize: 12.5,
               fontWeight: FontWeight.bold,
@@ -311,10 +312,10 @@ class _DassQuestionsScreenState extends State<DassQuestionsScreen> {
             spacing: 8,
             runSpacing: 6,
             children: [
-              _buildScaleBadge('0', 'Tidak pernah sama sekali'),
-              _buildScaleBadge('1', 'Jarang'),
-              _buildScaleBadge('2', 'Kerap'),
-              _buildScaleBadge('3', 'Sangat kerap'),
+              _buildScaleBadge('0', context.tr('Tidak pernah sama sekali', 'Did not apply to me at all')),
+              _buildScaleBadge('1', context.tr('Jarang', 'Applied to me to some degree')),
+              _buildScaleBadge('2', context.tr('Kerap', 'Applied a considerable degree')),
+              _buildScaleBadge('3', context.tr('Sangat kerap', 'Applied to me very much')),
             ],
           ),
         ],

@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/app_background.dart';
 import '../widgets/app_back_button.dart';
+import '../utils/app_translations.dart';
 
 class CounselorScreen extends StatefulWidget {
   const CounselorScreen({super.key});
@@ -239,8 +240,8 @@ class _CounselorScreenState extends State<CounselorScreen> {
                           horizontal: 18,
                           vertical: 0,
                         ),
-                        child: const Text(
-                          'KMJ KAUNSELOR',
+                        child: Text(
+                          context.tr('KMJ KAUNSELOR', 'KMJ COUNSELORS'),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 25,
@@ -256,8 +257,8 @@ class _CounselorScreenState extends State<CounselorScreen> {
                         alignment: Alignment.centerLeft,
                         margin: const EdgeInsets.only(bottom: 13),
                         padding: const EdgeInsets.only(left: 2),
-                        child: const Text(
-                          'Borang Temujanji & Saluran Rasmi',
+                        child: Text(
+                          context.tr('Borang Temujanji & Saluran Rasmi', 'Appointment Form & Official Channels'),
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 17,

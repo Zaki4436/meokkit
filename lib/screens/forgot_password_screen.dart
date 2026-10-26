@@ -4,6 +4,7 @@ import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../utils/app_messages.dart';
+import '../utils/app_translations.dart';
 import '../widgets/app_background.dart';
 import '../widgets/app_back_button.dart';
 
@@ -77,21 +78,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         newPassword.isEmpty ||
         confirmPassword.isEmpty) {
       setState(() {
-        _formError = 'Sila masukkan semua ruangan yang diperlukan.';
+        _formError = context.tr('Sila masukkan semua ruangan yang diperlukan.', 'Please fill in all required fields.');
       });
       return;
     }
 
     if (newPassword.length < 6) {
       setState(() {
-        _formError = 'Kata laluan mesti mengandungi sekurang-kurangnya 6 aksara.';
+        _formError = context.tr('Kata laluan mesti mengandungi sekurang-kurangnya 6 aksara.', 'Password must be at least 6 characters.');
       });
       return;
     }
 
     if (newPassword != confirmPassword) {
       setState(() {
-        _formError = 'Kata laluan tidak sepadan.';
+        _formError = context.tr('Kata laluan tidak sepadan.', 'Passwords do not match.');
       });
       return;
     }
@@ -106,8 +107,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
       if (!isFullNameMatch || !isUsernameMatch) {
         setState(() {
-          _formError =
-              'Nama Penuh atau No. Matrik tidak sepadan.';
+          _formError = context.tr('Nama Penuh atau No. Matrik tidak sepadan.', 'Full Name or Matric No. does not match.');
         });
         return;
       }
@@ -140,7 +140,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       confirmPasswordController.clear();
 
       setState(() {
-        _formSuccess = AppMessages.passwordResetSuccess;
+        _formSuccess = context.tr(AppMessages.passwordResetSuccess, 'Password has been successfully reset.');
       });
     } else {
       // Don't show AlertDialog for reset failed, display error right under Confirm New Password
@@ -148,8 +148,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         _formError = result['message']?.toString() ??
             AppMessages.getErrorMessage(
               result['error'],
-              defaultMessage:
-                  'Kata laluan baharu tidak boleh sama dengan kata laluan semasa.',
+              defaultMessage: context.tr('Kata laluan baharu tidak boleh sama dengan kata laluan semasa.', 'New password cannot be the same as the current password.'),
             );
       });
     }
@@ -275,8 +274,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                       ),
                       const SizedBox(height: 22),
-                      const Text(
-                        'Penukaran Kata Laluan',
+                      Text(
+                        context.tr('Penukaran Kata Laluan', 'Reset Password'),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 22,
@@ -294,7 +293,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'Nama Penuh',
+                            context.tr('Nama Penuh', 'Full Name'),
                             Icons.badge_outlined,
                           ),
                         ),
@@ -308,7 +307,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'No. Matrik',
+                            context.tr('No. Matrik', 'Matric No'),
                             Icons.person_outline,
                           ),
                         ),
@@ -323,7 +322,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             color: Colors.black87,
                           ),
                           decoration:
-                              _inputDecoration('Kata Laluan Baharu', Icons.lock_outline)
+                              _inputDecoration(context.tr('Kata Laluan Baharu', 'New Password'), Icons.lock_outline)
                                   .copyWith(
                             suffixIcon: IconButton(
                               tooltip: obscureNewPassword
@@ -354,7 +353,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'Sahkan Kata Laluan Baharu',
+                            context.tr('Sahkan Kata Laluan Baharu', 'Confirm New Password'),
                             Icons.lock_reset_outlined,
                           ).copyWith(
                             suffixIcon: IconButton(
@@ -473,8 +472,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                     color: Colors.white,
                                   ),
                                 )
-                              : const Text(
-                                  'Tetapkan Semula Kata Laluan',
+                              : Text(
+                                  context.tr('Tetapkan Semula Kata Laluan', 'Reset Password'),
                                   style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
@@ -496,8 +495,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             ),
                           ),
                           onPressed: loading ? null : () => Navigator.pop(context),
-                          child: const Text(
-                            'Batal',
+                          child: Text(
+                            context.tr('Batal', 'Cancel'),
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,

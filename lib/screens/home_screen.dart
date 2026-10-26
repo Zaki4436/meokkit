@@ -7,6 +7,7 @@ import 'methods_screen.dart';
 import 'setting_screen.dart';
 import '../widgets/app_background.dart';
 import 'counselor_screen.dart';
+import '../utils/app_translations.dart';
 
 class HomeScreen extends StatefulWidget {
   final int initialIndex;
@@ -98,14 +99,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Transform.translate(
                       offset: const Offset(0, -20),
-                      child: const Text(
-                        'Unit Psikologi dan Kaunseling\nKolej Matrikulasi Johor',
+                      child: Text(
+                        context.tr(
+                          'Unit Psikologi dan Kaunseling\nKolej Matrikulasi Johor',
+                          'Psychology and Counseling Unit\nJohor Matriculation College',
+                        ),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Color.fromARGB(255, 67, 67, 67),
-                      ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 15),
@@ -160,11 +164,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           },
-          child: const Center(
+          child: Center(
             child: Text(
-              'Informasi Mengenai Stres',
+              context.tr('Informasi Mengenai Stres', 'Information on Stress'),
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF000000),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -212,11 +216,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           },
-          child: const Center(
+          child: Center(
             child: Text(
-              'Ujian DASS',
+              context.tr('Ujian DASS', 'DASS Test'),
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF000000),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -264,11 +268,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           },
-          child: const Center(
+          child: Center(
             child: Text(
-              'Hubungi Kaunselor',
+              context.tr('Hubungi Kaunselor', 'Contact Counselor'),
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF000000),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

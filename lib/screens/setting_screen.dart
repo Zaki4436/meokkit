@@ -6,6 +6,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../cubits/auth_cubit.dart';
+import '../cubits/language_cubit.dart';
+import '../cubits/language_state.dart';
+import '../utils/app_translations.dart';
 import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
@@ -206,9 +209,9 @@ class _SettingScreenState extends State<SettingScreen>
                     ),
                   ),
                 ),
-                const Center(
+                Center(
                   child: Text(
-                    'Kemaskini Gambar Profil',
+                    context.tr('Kemaskini Gambar Profil', 'Update Profile Picture'),
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -222,7 +225,7 @@ class _SettingScreenState extends State<SettingScreen>
                     backgroundColor: Color(0xFFFFEBEE),
                     child: Icon(Icons.camera_alt, color: Colors.red),
                   ),
-                  title: const Text('Ambil gambar dari Kamera'),
+                  title: Text(context.tr('Ambil gambar dari Kamera', 'Take photo from Camera')),
                   onTap: () => _pickImage(ImageSource.camera),
                 ),
                 ListTile(
@@ -230,7 +233,7 @@ class _SettingScreenState extends State<SettingScreen>
                     backgroundColor: Color(0xFFFFEBEE),
                     child: Icon(Icons.photo_library, color: Colors.red),
                   ),
-                  title: const Text('Pilih gambar dari Galeri'),
+                  title: Text(context.tr('Pilih gambar dari Galeri', 'Choose image from Gallery')),
                   onTap: () => _pickImage(ImageSource.gallery),
                 ),
               ],
@@ -476,7 +479,7 @@ class _SettingScreenState extends State<SettingScreen>
                   Text(
                     user?.fullName.isNotEmpty == true
                         ? user!.fullName
-                        : 'User Full Name',
+                        : context.tr('Nama Pengguna', 'User Full Name'),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 18,
@@ -490,7 +493,7 @@ class _SettingScreenState extends State<SettingScreen>
 
             // 1. Profile Button
             _buildActionButton(
-              title: 'Profil',
+              title: context.tr('Profil', 'Profile'),
               onTap: () async {
                 await Navigator.push(
                   context,
@@ -505,7 +508,7 @@ class _SettingScreenState extends State<SettingScreen>
 
             // 2. History Button
             _buildActionButton(
-              title: 'Teknik Yang Dilakukan',
+              title: context.tr('Teknik Yang Dilakukan', 'Techniques Performed'),
               onTap: () {
                 Navigator.pushNamed(context, '/setting-history');
               },
@@ -521,13 +524,13 @@ class _SettingScreenState extends State<SettingScreen>
 
             // 4. Logout Button
             _buildActionButton(
-              title: 'Log Keluar',
+              title: context.tr('Log Keluar', 'Log Out'),
               onTap: _logout,
             ),
 
             // 5. Delete Account Button
             _buildActionButton(
-              title: 'Padam Akaun',
+              title: context.tr('Padam Akaun', 'Delete Account'),
               onTap: _confirmDeleteAccount,
               backgroundColor: const Color(0xFFBD3546),
               textColor: Colors.white,
@@ -537,40 +540,17 @@ class _SettingScreenState extends State<SettingScreen>
       ),
     );
 
+    final header = _buildHeader(context);
+
     if (widget.showAppBar) {
       return AppBackground(
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: SafeArea(
-            child: Stack(
+            child: Column(
               children: [
-                Column(
-                  children: [
-                    const SizedBox(height: 45),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 22),
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 16,
-                        ),
-                        child: const Text(
-                          'Settings',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 27,
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xFFBD3546),
-                            letterSpacing: 1.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(child: bodyContent),
-                  ],
-                ),
-                const AppBackButton(),
+                header,
+                Expanded(child: bodyContent),
               ],
             ),
           ),
@@ -584,7 +564,128 @@ class _SettingScreenState extends State<SettingScreen>
 
     return _buildSettingsBackground(
       child: SafeArea(
-        child: bodyContent,
+        child: Column(
+          children: [
+            header,
+            Expanded(child: bodyContent),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (widget.showAppBar)
+            const AppBackButton()
+          else
+            const SizedBox(width: 86), // balances width of EN/BM toggle on the right
+
+          Expanded(
+            child: Text(
+              context.tr('Tetapan', 'Settings'),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 27,
+                fontWeight: FontWeight.w900,
+                color: Color(0xFFBD3546),
+                letterSpacing: 1.0,
+              ),
+            ),
+          ),
+
+          _buildLanguageToggle(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLanguageToggle(BuildContext context) {
+    final isEnglish = context.isEnglish;
+
+    return Container(
+      height: 38,
+      padding: const EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(19),
+        border: Border.all(
+          color: const Color(0xFFF1D4D2),
+          width: 1.2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFBD3546).withOpacity(0.08),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildLanguageChip(
+            label: 'BM',
+            isSelected: !isEnglish,
+            onTap: () => context.read<LanguageCubit>().setLanguage(AppLanguage.bm),
+          ),
+          _buildLanguageChip(
+            label: 'EN',
+            isSelected: isEnglish,
+            onTap: () => context.read<LanguageCubit>().setLanguage(AppLanguage.en),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLanguageChip({
+    required String label,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          gradient: isSelected
+              ? const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xFFE65B63), Color(0xFFBD3546)],
+                )
+              : null,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: const Color(0xFFBD3546).withOpacity(0.3),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
+              : null,
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 12.5,
+              fontWeight: FontWeight.w800,
+              color: isSelected ? Colors.white : const Color(0xFF8A7375),
+              letterSpacing: 0.5,
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubits/auth_cubit.dart';
 import '../cubits/auth_state.dart';
 import '../widgets/app_background.dart';
+import '../utils/app_translations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -198,8 +199,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        const Text(
-                          'Selamat Datang',
+                        Text(
+                          context.tr('Selamat Datang', 'Welcome'),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 28,
@@ -209,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'SIla log masuk untuk meneruskan ke aplikasi Meokkit.',
+                          context.tr('Sila log masuk untuk meneruskan ke aplikasi Meokkit.', 'Please log in to continue to the MeOkKit app.'),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15,
@@ -220,14 +221,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(height: 28),
                         _buildInputField(
                           controller: usernameController,
-                          hintText: 'No. Matrik',
+                          hintText: context.tr('No. Matrik', 'Matric No.'),
                           icon: Icons.person_outline,
                           onChanged: (_) => _clearError(),
                         ),
                         const SizedBox(height: 16),
                         _buildInputField(
                           controller: passwordController,
-                          hintText: 'Kata Laluan',
+                          hintText: context.tr('Kata Laluan', 'Password'),
                           icon: Icons.lock_outline,
                           obscureText: obscurePassword,
                           onToggleVisibility: () {
@@ -285,7 +286,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               );
                             },
                             child: Text(
-                              'Lupa Kata Laluan?',
+                              context.tr('Lupa Kata Laluan?', 'Forgot Password?'),
                               style: TextStyle(
                                 color: primaryColor,
                                 fontSize: 14,
@@ -331,8 +332,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       color: Colors.white,
                                     ),
                                   )
-                                : const Text(
-                                    'Log Masuk',
+                                : Text(
+                                    context.tr('Log Masuk', 'Log In'),
                                     style: TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold,
@@ -346,7 +347,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Anda tiada akaun? ',
+                              context.tr('Anda tiada akaun? ', "Don't have an account? "),
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey.shade700,
@@ -360,7 +361,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
                               },
                               child: Text(
-                                'Daftar Akaun',
+                                context.tr('Daftar Akaun', 'Register Account'),
                                 style: TextStyle(
                                   color: primaryColor,
                                   fontWeight: FontWeight.w700,

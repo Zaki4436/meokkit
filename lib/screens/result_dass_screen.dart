@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/dass_service.dart';
 import '../utils/dass_calculator.dart';
 import '../widgets/app_background.dart';
+import '../utils/app_translations.dart';
 /*import 'counselor_screen.dart';
 import 'methods_screen.dart';*/
 
@@ -131,11 +132,11 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
       ),
       child: Column(
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'KEPUTUSAN UJIAN DASS',
+                context.tr('KEPUTUSAN UJIAN DASS', 'DASS TEST RESULTS'),
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -145,8 +146,8 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Berikut adalah status kesihatan mental anda berdasarkan jawapan yang telah anda berikan:',
+          Text(
+            context.tr('Berikut adalah status kesihatan mental anda berdasarkan jawapan yang telah anda berikan:', 'Here is your mental health status based on the answers you provided:'),
             style: TextStyle(
               fontSize: 13,
               color: Color(0xFF000000),
@@ -158,7 +159,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
 
           // Result Tile 1: Stres
           _buildResultTile(
-            categoryTitle: 'Stres',
+            categoryTitle: context.tr('Stres', 'Stress'),
             score: calculationResult.stressScore,
             level: calculationResult.stressLevel,
           ),
@@ -166,7 +167,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
 
           // Result Tile 2: Anzieti
           _buildResultTile(
-            categoryTitle: 'Anzieti',
+            categoryTitle: context.tr('Anzieti', 'Anxiety'),
             score: calculationResult.anxietyScore,
             level: calculationResult.anxietyLevel,
           ),
@@ -174,13 +175,31 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
 
           // Result Tile 3: Kemurungan
           _buildResultTile(
-            categoryTitle: 'Kemurungan',
+            categoryTitle: context.tr('Kemurungan', 'Depression'),
             score: calculationResult.depressionScore,
             level: calculationResult.depressionLevel,
           ),
         ],
       ),
     );
+  }
+
+  String _translateLevel(String level, bool isEnglish) {
+    if (!isEnglish) return level;
+    switch (level.toLowerCase()) {
+      case 'normal':
+        return 'Normal';
+      case 'ringan':
+        return 'Mild';
+      case 'sederhana':
+        return 'Moderate';
+      case 'teruk':
+        return 'Severe';
+      case 'sangat teruk':
+        return 'Extremely Severe';
+      default:
+        return level;
+    }
   }
 
   Widget _buildResultTile({
@@ -214,7 +233,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Jumlah Skor: $score',
+                  context.tr('Jumlah Skor: $score', 'Total Score: $score'),
                   style: const TextStyle(
                     fontSize: 12.5,
                     color: Color(0xFF000000),
@@ -237,7 +256,7 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
               ],
             ),
             child: Text(
-              level,
+              _translateLevel(level, context.isEnglish),
               style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -262,11 +281,11 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Row(
+          Row(
             children: [
               Expanded(
                 child: Text(
-                  'Saranan Sokongan Psikologi',
+                  context.tr('Saranan Sokongan Psikologi', 'Psychological Support Recommendation'),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
@@ -278,8 +297,8 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Keputusan saringan anda menunjukkan indeks pada tahap yang memerlukan perhatian. Anda digalakkan untuk berbincang bersama Kaunselor bagi sokongan bimbingan. Atau anda boleh melakukan Teknik Pengurusan Stress 10B.',
+          Text(
+            context.tr('Keputusan saringan anda menunjukkan indeks pada tahap yang memerlukan perhatian. Anda digalakkan untuk berbincang bersama Kaunselor bagi sokongan bimbingan. Atau anda boleh melakukan Teknik Pengurusan Stress 10B.', 'Your screening results indicate levels that require attention. You are encouraged to speak with a Counselor for guidance and support, or you may practice the 10B Stress Management Techniques.'),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 13,
@@ -301,8 +320,8 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
               onPressed: () {
                 Navigator.pushNamed(context, '/counselor');
               },
-              child: const Text(
-                'Hubungi Kaunselor',
+              child: Text(
+                context.tr('Hubungi Kaunselor', 'Contact Counselor'),
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -324,8 +343,8 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
                   (route) => true,
                 );
               },
-              child: const Text(
-                'Teknik 10B',
+              child: Text(
+                context.tr('Teknik 10B', '10B Techniques'),
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -361,11 +380,11 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Row(
+          Row(
             children: [
               Expanded(
                 child: Text(
-                  'Tahniah!',
+                  context.tr('Tahniah!', 'Congratulations!'),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
@@ -377,8 +396,8 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Keputusan saringan anda menunjukkan tahap kesihatan emosi dan mental anda berada dalam keadaan yang baik dan terkawal. Teruskan mengekalkan gaya hidup sihat dan amalkan Teknik Pengurusan Stres 10B untuk mengekalkan kesejahteraan diri.',
+          Text(
+            context.tr('Keputusan saringan anda menunjukkan tahap kesihatan emosi dan mental anda berada dalam keadaan yang baik dan terkawal. Teruskan mengekalkan gaya hidup sihat dan amalkan Teknik Pengurusan Stres 10B untuk mengekalkan kesejahteraan diri.', 'Your screening results show that your emotional and mental health levels are in good and well-managed condition. Continue to maintain a healthy lifestyle and practice the 10B Stress Management Techniques to sustain your well-being.'),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 13,
@@ -412,11 +431,11 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Row(
+          Row(
             children: [
               Expanded(
                 child: Text(
-                  'PANDUAN MENGIRA SKOR & SARINGAN',
+                  context.tr('PANDUAN MENGIRA SKOR & SARINGAN', 'SCORE CALCULATION & SCREENING GUIDE'),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
@@ -464,8 +483,8 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
           const Divider(height: 10),
           const SizedBox(height: 12),
 
-          const Text(
-            'PETAK SKOR SARINGAN',
+          Text(
+            context.tr('PETAK SKOR SARINGAN', 'SCREENING SCORE TABLE'),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14.5,
@@ -783,9 +802,9 @@ class _ResultDassScreenState extends State<ResultDassScreen> {
               (route) => false,
             );
           },
-          child: const Center(
+          child: Center(
             child: Text(
-              'Kembali ke Laman Utama',
+              context.tr('Kembali ke Laman Utama', 'Back to Home'),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,

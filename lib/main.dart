@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'cubits/auth_cubit.dart';
+import 'cubits/language_cubit.dart';
+import 'cubits/language_state.dart';
 import 'screens/splash_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
@@ -20,8 +22,15 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(
-    BlocProvider(
-      create: (_) => AuthCubit()..restoreSession(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => AuthCubit()..restoreSession(),
+        ),
+        BlocProvider(
+          create: (_) => LanguageCubit()..loadLanguage(),
+        ),
+      ],
       child: const MeOkKitApp(),
     ),
   );
@@ -32,7 +41,9 @@ class MeOkKitApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return BlocBuilder<LanguageCubit, LanguageState>(
+      builder: (context, languageState) {
+        return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MeOkKit',
       theme: ThemeData(
@@ -102,6 +113,8 @@ class MeOkKitApp extends StatelessWidget {
         '/setting': (context) => const HomeScreen(initialIndex: 2),
         '/feedback': (context) => const FeedbackScreen(),
         '/dass-questions': (context) => const DassQuestionsScreen(),
+      },
+    );
       },
     );
   }

@@ -4,6 +4,7 @@ import '../models/method.dart';
 import '../services/api_service.dart';
 import 'method_detail_screen.dart';
 import 'feedback_screen.dart';
+import '../utils/app_translations.dart';
 import '../widgets/app_background.dart';
 import '../widgets/app_back_button.dart';
 
@@ -163,7 +164,7 @@ class _MethodsScreenState extends State<MethodsScreen>
                 children: [
                   Expanded(
                     child: Text(
-                      method.methodName,
+                      AppTranslations.getMethodName(method.methodName, context.isEnglish),
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Color(0xFF382C2C),
@@ -188,9 +189,9 @@ class _MethodsScreenState extends State<MethodsScreen>
       padding: const EdgeInsets.fromLTRB(18, 25, 18, 0),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: Text(
-              'TEKNIK 10B',
+              context.tr('TEKNIK 10B', '10B TECHNIQUES'),
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF382C2C),
@@ -242,17 +243,17 @@ class _MethodsScreenState extends State<MethodsScreen>
               ),
             );
           },
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.chat_bubble_outline_rounded,
                 color: Color(0xFFBD3546),
                 size: 19,
               ),
-              SizedBox(width: 9),
+              const SizedBox(width: 9),
               Text(
-                'Maklum Balas',
+                context.tr('Maklum Balas', 'Feedback'),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF382C2C),

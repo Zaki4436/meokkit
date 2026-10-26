@@ -5,6 +5,7 @@ import '../widgets/app_back_button.dart';
 import '../models/history.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
+import '../utils/app_translations.dart';
 
 class SettingHistoryScreen extends StatefulWidget {
   final int initialIndex;
@@ -127,8 +128,8 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
                         horizontal: 18,
                         vertical: 16,
                       ),
-                      child: const Text(
-                        'TEKNIK YANG DILAKUKAN',
+                      child: Text(
+                        context.tr('TEKNIK YANG DILAKUKAN', 'TECHNIQUES PERFORMED'),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 24.32,
@@ -165,14 +166,14 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
         onRefresh: _loadActivityHistory,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
-          children: const [
-            SizedBox(height: 120),
+          children: [
+            const SizedBox(height: 120),
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Tiada teknik yang direkodkan.',
+                    context.tr('Tiada teknik yang direkodkan.', 'No techniques recorded.'),
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey,

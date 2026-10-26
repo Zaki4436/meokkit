@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../utils/app_messages.dart';
+import '../utils/app_translations.dart';
 import '../widgets/app_background.dart';
 import '../widgets/app_back_button.dart';
 
@@ -202,9 +203,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Center(
+                    Center(
                       child: Text(
-                        'MAKLUM BALAS',
+                        context.tr('MAKLUM BALAS', 'FEEDBACK'),
                         style: TextStyle(
                           color: Color.fromARGB(255, 0, 0, 0),
                           fontSize: 22,
@@ -271,8 +272,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     const SizedBox(height: 22),
 
                     // Method selection dropdown
-                    const Text(
-                      'Teknik 10B Yang Dicuba',
+                    Text(
+                      context.tr('Teknik 10B Yang Dicuba', '10B Technique Tried'),
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -303,7 +304,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           items: _methodsList.map((String method) {
                             return DropdownMenuItem<String>(
                               value: method,
-                              child: Text(method),
+                              child: Text(AppTranslations.getMethodName(method, context.isEnglish)),
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
@@ -322,8 +323,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     const SizedBox(height: 22),
 
                     // Ya/Tidak Selection (Simple Box)
-                    const Text(
-                      'Adakah teknik ini membantu anda?',
+                    Text(
+                      context.tr('Adakah teknik ini membantu anda?', 'Did this technique help you?'),
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -336,7 +337,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       children: [
                         Expanded(
                           child: _buildSimpleBox(
-                            label: 'Ya',
+                            label: context.tr('Ya', 'Yes'),
                             isSelected: _selectedAnswer == 'Yes' ||
                                 _selectedAnswer == 'Ya',
                             activeColor: const Color(0xFF5B9B70),
@@ -350,7 +351,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: _buildSimpleBox(
-                            label: 'Tidak',
+                            label: context.tr('Tidak', 'No'),
                             isSelected: _selectedAnswer == 'No' ||
                                 _selectedAnswer == 'Tidak',
                             activeColor: accentColor,
@@ -402,7 +403,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         ),
                         decoration: InputDecoration(
                           hintText:
-                              'Kongsi pendapat atau pengalaman anda selepas mencuba teknik pengurusan stres 10B.',
+                              context.tr('Kongsi pendapat atau pengalaman anda selepas mencuba teknik pengurusan stres 10B.', 'Share your feedback or experience after trying the 10B stress management techniques.'),
                           hintStyle: TextStyle(
                             fontSize: 13,
                             color: Colors.grey.shade400,
@@ -503,14 +504,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                                     color: Colors.white,
                                   ),
                                 )
-                              : const Row(
-                                  key: ValueKey('submit'),
+                              : Row(
+                                  key: const ValueKey('submit'),
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.send_rounded, size: 18),
-                                    SizedBox(width: 8),
+                                    const Icon(Icons.send_rounded, size: 18),
+                                    const SizedBox(width: 8),
                                     Text(
-                                      'Hantar',
+                                      context.tr('Hantar', 'Submit'),
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,

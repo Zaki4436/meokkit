@@ -5,6 +5,7 @@ import '../services/auth_service.dart';
 import '../widgets/app_background.dart';
 import '../widgets/app_back_button.dart';
 import 'edit_profile_screen.dart';
+import '../utils/app_translations.dart';
 
 class ProfileScreen extends StatefulWidget {
   final bool showAppBar;
@@ -111,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'PROFIL',
+              context.tr('PROFIL', 'PROFILE'),
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 23,
@@ -138,12 +139,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 children: [
                   _buildFieldBox(
-                    label: 'Nama Penuh',
+                    label: context.tr('Nama Penuh', 'Full Name'),
                     value: user?.fullName ?? '',
                   ),
                   const SizedBox(height: 17),
                   _buildFieldBox(
-                    label: 'No. Matrik',
+                    label: context.tr('No. Matrik', 'Matric No.'),
                     value: user?.matrikNo ?? user?.username ?? '',
                   ),
                 ],
@@ -188,9 +189,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             _loadUser();
                           }
                         },
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'Kemas Kini Profil',
+                      context.tr('Kemas Kini Profil', 'Update Profile'),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,

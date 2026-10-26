@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../utils/app_messages.dart';
 import '../widgets/app_background.dart';
+import '../utils/app_translations.dart';
 import '../widgets/app_back_button.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -240,8 +241,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                       const SizedBox(height: 22),
-                      const Text(
-                        'Daftar Akaun Baru',
+                      Text(
+                        context.tr('Daftar Akaun Baru', 'Register New Account'),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 22,
@@ -258,7 +259,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'No. Matrik',
+                            context.tr('No. Matrik', 'Matric No.'),
                             Icons.person_outline,
                           ),
                         ),
@@ -273,7 +274,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'Nama Penuh',
+                            context.tr('Nama Penuh', 'Full Name'),
                             Icons.badge_outlined,
                           ),
                         ),
@@ -288,7 +289,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'Kata Laluan',
+                            context.tr('Kata Laluan', 'Password'),
                             Icons.lock_outline,
                           ).copyWith(
                             suffixIcon: IconButton(
@@ -379,8 +380,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                     color: Colors.white,
                                   ),
                                 )
-                              : const Text(
-                                  'Daftar Akaun',
+                              : Text(
+                                  context.tr('Daftar Akaun', 'Register Account'),
                                   style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
@@ -394,7 +395,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           Text(
-                            'Sudah mempunyai akaun? ',
+                            context.tr('Sudah mempunyai akaun? ', 'Already have an account? '),
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey.shade700,
@@ -403,7 +404,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           GestureDetector(
                             onTap: () => Navigator.pop(context),
                             child: Text(
-                              'Log Masuk',
+                              context.tr('Log Masuk', 'Log In'),
                               style: TextStyle(
                                 color: primaryColor,
                                 fontSize: 14,
