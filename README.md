@@ -14,3 +14,10 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Deploy to Vercel
+
+Import the repository with its root directory set to the repository root. The
+included `vercel.json` builds the Flutter web app and publishes `build/web`.
+The build script downloads the pinned Flutter SDK from Google's official
+Flutter release storage and verifies its checksum before building.
