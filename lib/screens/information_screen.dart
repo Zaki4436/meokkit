@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../models/information.dart';
-import '../services/api_service.dart';
 import '../widgets/app_background.dart';
 import '../widgets/app_back_button.dart';
 
@@ -54,7 +53,6 @@ class _InformationScreenState extends State<InformationScreen>
       duration: const Duration(milliseconds: 900),
     )..forward();
     _items = List.from(_defaultInformation);
-    _loadInformation();
   }
 
   @override
@@ -63,51 +61,7 @@ class _InformationScreenState extends State<InformationScreen>
     super.dispose();
   }
 
-  Future<void> _loadInformation() async {
-    // Try getInformation first, then getInfo
-    var result = await ApiService.get('getInformation');
-    if (result['success'] != true) {
-      result = await ApiService.get('getInfo');
-    }
 
-    if (result['success'] == true) {
-      final data = result['data'];
-      List<dynamic> list = [];
-
-      if (data is List) {
-        list = data;
-      } else if (data is Map<String, dynamic>) {
-        list = data['information'] ??
-            data['info'] ??
-            data['infos'] ??
-            data['data'] ??
-            [];
-      }
-
-      if (list.isNotEmpty) {
-        final fetched = list
-            .map(
-              (item) => InformationModel.fromJson(
-                Map<String, dynamic>.from(item),
-              ),
-            )
-            .toList();
-
-        if (mounted) {
-          setState(() {
-            _items = fetched;
-            _loading = false;
-          });
-          return;
-        }
-      }
-    }
-
-    if (!mounted) return;
-    setState(() {
-      _loading = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,10 +114,10 @@ class _InformationScreenState extends State<InformationScreen>
                                             'INFORMASI',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color: _ink,
+                                              color: Color(0xFF382C2C),
                                               fontSize: 27,
                                               fontWeight: FontWeight.w900,
-                                              letterSpacing: 1,
+                                              letterSpacing: 1.0,
                                             ),
                                           ),
                                         ),

@@ -894,9 +894,9 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                                     textAlign: TextAlign.center,
                                     widget.method.methodName,
                                     style: const TextStyle(
-                                      fontSize: 23.5,
+                                      fontSize: 27,
                                       fontWeight: FontWeight.w900,
-                                      color: _ink,
+                                      color: Color(0xFF382C2C),
                                       height: 1.2,
                                     ),
                                   ),

@@ -194,9 +194,9 @@ class _MethodsScreenState extends State<MethodsScreen>
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF382C2C),
-                fontSize: 30,
+                fontSize: 27,
                 fontWeight: FontWeight.w900,
-                letterSpacing: 0.5,
+                letterSpacing: 1.0,
               ),
             ),
           ),

@@ -26,10 +26,10 @@ class _LoginScreenState extends State<LoginScreen> {
     if (username.isEmpty || password.isEmpty) {
       setState(() {
         _errorMessage = username.isEmpty && password.isEmpty
-            ? 'Sila masukkan No. Matrik dan kata laluan.'
+            ? 'Sila masukkan Nama Pengguna dan Kata Laluan.'
             : username.isEmpty
-                ? 'Sila masukkan No. Matrik.'
-                : 'Sila masukkan kata laluan.';
+                ? 'Sila masukkan Nama Pengguna.'
+                : 'Sila masukkan Kata Laluan.';
       });
       return;
     }
@@ -220,7 +220,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(height: 28),
                         _buildInputField(
                           controller: usernameController,
-                          hintText: 'No. Matrik',
+                          hintText: 'Nama Pengguna',
                           icon: Icons.person_outline,
                           onChanged: (_) => _clearError(),
                         ),

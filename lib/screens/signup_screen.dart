@@ -55,28 +55,29 @@ class _SignupScreenState extends State<SignupScreen> {
     final password = passwordController.text;
     final confirmPassword = confirmPasswordController.text;
 
-    if (fullName.isEmpty) {
-      _setFormError('Sila masukkan nama penuh anda.');
+    if (username.isEmpty) {
+      _setFormError('Sila masukkan Nama Pengguna anda.');
       return;
     }
 
-    if (username.isEmpty) {
-      _setFormError('Sila masukkan No. Matrik anda.');
+    if (fullName.isEmpty) {
+      _setFormError('Sila masukkan Nama Penuh anda.');
       return;
     }
+
 
     if (password.isEmpty) {
-      _setFormError('Sila masukkan kata laluan anda.');
+      _setFormError('Sila masukkan Kata Laluan anda.');
       return;
     }
 
     if (password.length < 6) {
-      _setFormError('Kata laluan mesti sekurang-kurangnya 6 aksara.');
+      _setFormError('Kata Laluan mesti sekurang-kurangnya 6 aksara.');
       return;
     }
 
     if (password != confirmPassword) {
-      _setFormError('Kata laluan dan pengesahan kata laluan tidak sepadan.');
+      _setFormError('Kata Laluan dan Pengesahan Kata Laluan tidak sepadan.');
       return;
     }
 
@@ -258,7 +259,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'No. Matrik',
+                            'Nama Pengguna',
                             Icons.person_outline,
                           ),
                         ),

@@ -206,8 +206,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       child: Text(
                         'MAKLUM BALAS',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 22,
+                          color: Color(0xFF382C2C),
+                          fontSize: 27,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1.0,
                         ),

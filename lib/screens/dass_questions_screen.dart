@@ -137,7 +137,7 @@ class _DassQuestionsScreenState extends State<DassQuestionsScreen> {
                         style: TextStyle(
                           fontSize: 27,
                           fontWeight: FontWeight.w900,
-                          color: Color.fromARGB(255, 0, 0, 0),
+                          color: Color(0xFF382C2C),
                           letterSpacing: 1.0,
                         ),
                       ),

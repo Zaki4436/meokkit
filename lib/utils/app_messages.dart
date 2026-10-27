@@ -12,21 +12,21 @@ class AppMessages {
     switch (code) {
       // Login & Auth
       case 'INVALID_CREDENTIALS':
-        return 'No. Matrik atau kata laluan tidak sah.';
+        return 'Nama Pengguna atau Kata Laluan tidak sah.';
       case 'MATRIK_REQUIRED':
-        return 'Sila masukkan No. Matrik anda.';
+        return 'Sila masukkan Nama Pengguna anda.';
       case 'REQUIRED_FIELDS':
         return 'Sila lengkapkan semua maklumat yang diperlukan.';
 
       // Register & Edit Profile
       case 'MATRIK_EXISTS':
-        return 'No. Matrik ini telah digunakan oleh pengguna lain.';
+        return 'Nama Pengguna ini telah digunakan oleh pengguna lain.';
 
       // Forgot Password
       case 'SAME_PASSWORD':
-        return 'Kata laluan baharu tidak boleh sama dengan kata laluan semasa.';
+        return 'Kata Laluan baharu tidak boleh sama dengan Kata Laluan semasa.';
       case 'USER_NOT_MATCH':
-        return 'Nama penuh dan No. Matrik tidak sepadan.';
+        return 'Nama Penuh dan Nama Pengguna tidak sepadan.';
 
       // Profile & Account
       case 'USER_NOT_FOUND':
@@ -63,7 +63,7 @@ class AppMessages {
       'Akaun anda telah berjaya didaftarkan. Sila log masuk untuk meneruskan.';
   static const String loginSuccess = 'Log masuk berjaya.';
   static const String passwordResetSuccess =
-      'Kata laluan anda telah berjaya ditetapkan semula. Sila log masuk dengan kata laluan baharu.';
+      'Kata Laluan anda telah berjaya ditetapkan semula. Sila log masuk dengan Kata Laluan baharu.';
   static const String profileUpdatedSuccess = 'Profil berjaya dikemaskini.';
   static const String profileImageSuccess = 'Gambar profil berjaya dikemaskini.';
   static const String feedbackSuccess =

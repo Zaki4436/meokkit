@@ -243,10 +243,10 @@ class _CounselorScreenState extends State<CounselorScreen> {
                           'KMJ KAUNSELOR',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 27,
                             fontWeight: FontWeight.w900,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            letterSpacing: 0.7,
+                            color: Color(0xFF382C2C),
+                            letterSpacing: 1.0,
                           ),
                         ),
                       ),

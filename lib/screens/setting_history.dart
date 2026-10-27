@@ -131,7 +131,7 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
                         'TEKNIK YANG DILAKUKAN',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 24.32,
+                          fontSize: 27,
                           fontWeight: FontWeight.w900,
                           color: Color.fromARGB(255, 0, 0, 0),
                           letterSpacing: 1.0,

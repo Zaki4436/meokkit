@@ -114,8 +114,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               'PROFIL',
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 23,
-                fontWeight: FontWeight.w800,
+                fontSize: 27,
+                fontWeight: FontWeight.w900,
                 color: Color(0xFF382C2C),
                 letterSpacing: 0.2,
               ),
@@ -143,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   const SizedBox(height: 17),
                   _buildFieldBox(
-                    label: 'No. Matrik',
+                    label: 'Nama Pengguna',
                     value: user?.matrikNo ?? user?.username ?? '',
                   ),
                 ],

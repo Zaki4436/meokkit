@@ -237,7 +237,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                             const SizedBox(height: 18),
                             _buildFormFieldWrapper(
-                              label: 'No. Matrik',
+                              label: 'Nama Pengguna',
                               child: TextFormField(
                                 controller: usernameController,
                                 style: const TextStyle(

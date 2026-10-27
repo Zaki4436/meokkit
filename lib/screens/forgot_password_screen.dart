@@ -77,21 +77,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         newPassword.isEmpty ||
         confirmPassword.isEmpty) {
       setState(() {
-        _formError = 'Sila masukkan semua ruangan yang diperlukan.';
+        _formError = 'Sila masukkan semua ruangan yang diperlukan untuk penukaran Kata Laluan.';
       });
       return;
     }
 
-    if (newPassword.length < 6) {
+    if (confirmPassword.length < 6) {
       setState(() {
-        _formError = 'Kata laluan mesti mengandungi sekurang-kurangnya 6 aksara.';
+        _formError = 'Kata Laluan mesti mengandungi sekurang-kurangnya 6 aksara.';
       });
       return;
     }
 
     if (newPassword != confirmPassword) {
       setState(() {
-        _formError = 'Kata laluan tidak sepadan.';
+        _formError = 'Kata Laluan tidak sepadan.';
       });
       return;
     }
@@ -107,7 +107,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       if (!isFullNameMatch || !isUsernameMatch) {
         setState(() {
           _formError =
-              'Nama Penuh atau No. Matrik tidak sepadan.';
+              'Nama Penuh dan Nama Pengguna tidak sepadan.';
         });
         return;
       }
@@ -149,7 +149,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             AppMessages.getErrorMessage(
               result['error'],
               defaultMessage:
-                  'Kata laluan baharu tidak boleh sama dengan kata laluan semasa.',
+                  'Kata Laluan Baharu tidak boleh sama dengan Kata Laluan Semasa.',
             );
       });
     }
@@ -308,7 +308,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'No. Matrik',
+                            'Nama Pengguna',
                             Icons.person_outline,
                           ),
                         ),
