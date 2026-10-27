@@ -18,7 +18,7 @@ class _InformationScreenState extends State<InformationScreen>
   static const Color _ink = Color(0xFF382C2C);
 
   late final AnimationController _entranceController;
-  bool _loading = false;
+  final bool _loading = false;
   String? _expandedId;
 
   // Default fallback data matching database structure (info_id, info_name, info_description)
