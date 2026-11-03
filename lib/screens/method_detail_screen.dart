@@ -262,7 +262,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
       }
       final segments = uri.pathSegments;
       final liveOrEmbedIndex = segments.indexWhere(
-        (s) => s == 'live' || s == 'embed' || s == 'v',
+        (s) => s == 'live' || s == 'embed' || s == 'v' || s == 'shorts',
       );
       if (liveOrEmbedIndex != -1 && liveOrEmbedIndex + 1 < segments.length) {
         return segments[liveOrEmbedIndex + 1];
@@ -360,6 +360,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                 children: [
                   AspectRatio(
                     aspectRatio: 16 / 9,
+                    //aspectRatio: 9 / 16,
                     child: Image.network(
                       'https://img.youtube.com/vi/$videoId/hqdefault.jpg',
                       fit: BoxFit.cover,
