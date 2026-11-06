@@ -283,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildCustomBottomBar() {
     return Container(
       margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
-      height: 54,
+      height: 68,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
@@ -339,9 +339,9 @@ class _HomeScreenState extends State<HomeScreen> {
               // Interactive icons row
               Row(
                 children: [
-                  _buildNavItem(0, Icons.home),
-                  _buildNavItem(1, Icons.self_improvement),
-                  _buildNavItem(2, Icons.settings),
+                  _buildNavItem(0, Icons.home, 'Laman Utama'),
+                  _buildNavItem(1, Icons.self_improvement, 'Teknik 10B'),
+                  _buildNavItem(2, Icons.settings, 'Tetapan'),
                 ],
               ),
             ],
@@ -351,7 +351,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildNavItem(int index, IconData icon) {
+  Widget _buildNavItem(int index, IconData icon, String label) {
     final isSelected = _currentIndex == index;
 
     return Expanded(
@@ -359,22 +359,36 @@ class _HomeScreenState extends State<HomeScreen> {
         behavior: HitTestBehavior.opaque,
         onTap: () => _onTabTapped(index),
         child: SizedBox(
-          height: 54,
-          child: Center(
-            child: AnimatedScale(
-              scale: isSelected ? 1.15 : 1.0,
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeOutBack,
-              child: AnimatedOpacity(
-                opacity: isSelected ? 1.0 : 0.65,
-                duration: const Duration(milliseconds: 200),
+          height: 68,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedScale(
+                scale: isSelected ? 1.08 : 1.0,
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeOutBack,
                 child: Icon(
                   icon,
                   color: isSelected ? Colors.white : const Color(0xFF9B6669),
-                  size: 28,
+                  size: 25,
                 ),
               ),
-            ),
+              const SizedBox(height: 2),
+              AnimatedOpacity(
+                opacity: isSelected ? 1.0 : 0.72,
+                duration: const Duration(milliseconds: 200),
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : const Color(0xFF9B6669),
+                    fontSize: 10,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
