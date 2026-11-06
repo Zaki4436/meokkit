@@ -10,7 +10,6 @@ import 'screens/forgot_password_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/emotion_history_screen.dart';
-import 'screens/activity_history_screen.dart';
 import 'screens/information_screen.dart';
 import 'screens/counselor_screen.dart';
 import 'screens/setting_history.dart';
@@ -96,7 +95,6 @@ class MeOkKitApp extends StatelessWidget {
         '/profile': (context) => const ProfileScreen(),
         '/methods': (context) => const HomeScreen(initialIndex: 1),
         '/emotion-history': (context) => const EmotionHistoryScreen(),
-        '/activity-history': (context) => const ActivityHistoryScreen(),
         '/information': (context) => const InformationScreen(),
         '/counselor': (context) => const CounselorScreen(),
         '/setting-history': (context) => const SettingHistoryScreen(),
