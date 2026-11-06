@@ -20,7 +20,7 @@ class AppMessages {
 
       // Register & Edit Profile
       case 'MATRIK_EXISTS':
-        return 'Nama Pengguna ini telah digunakan oleh pengguna lain.';
+        return 'Nama Pengguna tersebut telah digunakan oleh pengguna lain.';
 
       // Forgot Password
       case 'SAME_PASSWORD':

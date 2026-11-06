@@ -259,11 +259,16 @@ class _SignupScreenState extends State<SignupScreen> {
                             color: Colors.black87,
                           ),
                           decoration: _inputDecoration(
-                            'Nama Pengguna',
+                            'Nama Pengguna ',
                             Icons.person_outline,
                           ),
                         ),
                       ),
+                      const Text('    * Masukkan No. Matrik jika anda seorang pelajar',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 255, 0, 0),
+                          )),
                       const SizedBox(height: 14),
                       _buildFieldContainer(
                         child: TextField(
