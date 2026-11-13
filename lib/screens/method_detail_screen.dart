@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../models/link.dart';
 import '../models/method.dart';
 import '../services/api_service.dart';
@@ -894,11 +894,12 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                                   child: Text(
                                     textAlign: TextAlign.center,
                                     widget.method.methodName,
-                                    style: const TextStyle(
-                                      fontSize: 27,
-                                      fontWeight: FontWeight.w900,
-                                      color: Color(0xFF382C2C),
-                                      height: 1.2,
+                                    style: GoogleFonts.barlowCondensed(
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color.fromARGB(255, 45, 20, 20),
+                                      letterSpacing: 0.8,
+                                      height: 1,
                                     ),
                                   ),
                                 ),
@@ -907,7 +908,7 @@ class _MethodDetailScreenState extends State<MethodDetailScreen>
                           ),
                         ),
                       ),
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 10),
                       Expanded(
                         child: SingleChildScrollView(
                           physics: const ClampingScrollPhysics(),

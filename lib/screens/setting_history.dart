@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../widgets/app_background.dart';
 import '../widgets/app_back_button.dart';
 import '../models/history.dart';
@@ -127,14 +127,15 @@ class _SettingHistoryScreenState extends State<SettingHistoryScreen> {
                         horizontal: 18,
                         vertical: 16,
                       ),
-                      child: const Text(
+                      child: Text(
                         'TEKNIK YANG DILAKUKAN',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 27,
-                          fontWeight: FontWeight.w900,
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          letterSpacing: 1.0,
+                        style: GoogleFonts.barlowCondensed(
+                          fontSize: 35,
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromARGB(255, 45, 20, 20),
+                          letterSpacing: 0.8,
+                          height: 1,
                         ),
                       ),
                     ),

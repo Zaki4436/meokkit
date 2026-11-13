@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
@@ -274,14 +274,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 22),
-                      const Text(
+                      const SizedBox(height: 7),
+                      Text(
                         'Penukaran Kata Laluan',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                        style: GoogleFonts.barlowCondensed(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromARGB(255, 45, 20, 20),
+                          letterSpacing: 0.8,
+                          height: 1,
                         ),
                       ),
                       const SizedBox(height: 24),

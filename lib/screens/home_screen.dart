@@ -81,8 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
             fit: BoxFit.scaleDown,
             alignment: Alignment.topCenter,
             child: SizedBox(
-                width: constraints.maxWidth,
-                child: Padding(
+              width: constraints.maxWidth,
+              child: Padding(
                 padding: const EdgeInsets.fromLTRB(26, 20, 26, 100),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Color.fromARGB(255, 67, 67, 67),
-                      ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 15),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../models/user.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
@@ -192,14 +192,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // Title: PROFILE
-                      const Text(
+                      Text(
                         'KEMAS KINI PROFIL',
-                        style: TextStyle(
-                          fontSize: 27,
-                          fontWeight: FontWeight.w900,
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          letterSpacing: 0.7,
+                        style: GoogleFonts.barlowCondensed(
+                          fontSize: 35,
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromARGB(255, 45, 20, 20),
+                          letterSpacing: 0.8,
+                          height: 1,
                         ),
                       ),
 

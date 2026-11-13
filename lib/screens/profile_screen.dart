@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
 import '../widgets/app_background.dart';
@@ -113,11 +113,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Text(
               'PROFIL',
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 27,
-                fontWeight: FontWeight.w900,
-                color: Color(0xFF382C2C),
-                letterSpacing: 0.2,
+              style: GoogleFonts.barlowCondensed(
+                fontSize: 35,
+                fontWeight: FontWeight.w600,
+                color: Color.fromARGB(255, 45, 20, 20),
+                letterSpacing: 0.8,
+                height: 1,
               ),
             ),
             const SizedBox(height: 24),

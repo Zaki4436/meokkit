@@ -264,6 +264,7 @@ class _SettingScreenState extends State<SettingScreen>
         ),
         title: const Text(
           'Padamkan Akaun',
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: Color(0xFF382C2C),
             fontWeight: FontWeight.w800,
@@ -271,30 +272,52 @@ class _SettingScreenState extends State<SettingScreen>
         ),
         content: const Text(
           'Anda pasti mahu memadamkan akaun ini? Tindakan ini tidak boleh dibatalkan.',
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: Color(0xFF65585A),
             height: 1.45,
           ),
         ),
+        actionsAlignment: MainAxisAlignment.center,
+        actionsPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
         actions: [
-          TextButton(
+          ElevatedButton(
             onPressed: () => Navigator.pop(context, false),
-            style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFF775F62),
+            style: ElevatedButton.styleFrom(
+              elevation: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+                side: const BorderSide(color: Color(0xFFBD3546)),
+              ),
             ),
-            child: const Text('Batal'),
+            child: const Text(
+              'Batal',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFBD3546),
               foregroundColor: Colors.white,
               elevation: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
+                side: const BorderSide(color: Color(0xFFBD3546)),
               ),
             ),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Padam'),
+            child: const Text(
+              'Padam',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),

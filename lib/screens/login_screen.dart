@@ -187,37 +187,27 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFFF1F1),
-                              borderRadius: BorderRadius.circular(20),
+                            color: const Color(0xFFFFF1F1),
+                            borderRadius: BorderRadius.circular(20),
                             ),
                             child: Image.asset(
-                              'assets/icon/app_name.png',
-                              height: 70,
-                              fit: BoxFit.contain,
+                                'assets/icon/app_name.png',
+                                height: 70,
+                                fit: BoxFit.contain,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 24),
-                        const Text(
-                          'Selamat Datang',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 5),
                         Text(
                           'SIla log masuk untuk meneruskan ke aplikasi MeOkKit.',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.grey.shade600,
+                            color: const Color.fromARGB(255, 0, 0, 0),
                             height: 1.4,
                           ),
                         ),
-                        const SizedBox(height: 28),
+                        const SizedBox(height: 20),
                         _buildInputField(
                           controller: usernameController,
                           hintText: 'Nama Pengguna',

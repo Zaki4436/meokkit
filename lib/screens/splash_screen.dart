@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -95,16 +94,45 @@ class _SplashScreenState extends State<SplashScreen>
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(
-          child: FadeTransition(
-            opacity: _fadeAnimation,
-            child: ScaleTransition(
-              scale: _scaleAnimation,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                child: Image.asset(
-                  'assets/icon/full_logo_nobg.png',
-                  width: 220,
-                  fit: BoxFit.contain,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(26, 250, 26, 0),
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: ScaleTransition(
+                scale: _scaleAnimation,
+                child: Column(
+                  children:[
+                    Image.asset(
+                      'assets/icon/logo_nobg.png',
+                      width: 220,
+                      fit: BoxFit.contain,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'SELAMAT DATANG KE',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'CooperBT',
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xFFFF3849),
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Transform.translate(
+                      offset: const Offset(0, -12),
+                      child: Image.asset(
+                        'assets/icon/app_name.png',
+                        width: 220,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

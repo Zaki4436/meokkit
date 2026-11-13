@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../models/method.dart';
 import '../services/api_service.dart';
 import 'method_detail_screen.dart';
@@ -188,15 +188,16 @@ class _MethodsScreenState extends State<MethodsScreen>
       padding: const EdgeInsets.fromLTRB(18, 25, 18, 0),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: Text(
               'TEKNIK 10B',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Color(0xFF382C2C),
-                fontSize: 27,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 1.0,
+              style: GoogleFonts.barlowCondensed(
+                color: Color.fromARGB(255, 45, 20, 20),
+                fontSize: 35,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.8,
+                height: 1.1,
               ),
             ),
           ),

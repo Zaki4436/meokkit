@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../utils/app_messages.dart';
@@ -202,14 +202,23 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Center(
+                    Center(
                       child: Text(
+                        /*textAlign: TextAlign.center,
+                                    widget.method.methodName,
+                                    style: GoogleFonts.barlowCondensed(
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color.fromARGB(255, 45, 20, 20),
+                                      letterSpacing: 0.8,
+                                      height: 1,*/
                         'MAKLUM BALAS',
-                        style: TextStyle(
-                          color: Color(0xFF382C2C),
-                          fontSize: 27,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 1.0,
+                        style: GoogleFonts.barlowCondensed(
+                          color: Color.fromARGB(255, 45, 20, 20),
+                          fontSize: 35,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.8,
+                          height: 1,
                         ),
                       ),
                     ),
