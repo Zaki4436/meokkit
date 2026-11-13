@@ -107,28 +107,22 @@ class _SplashScreenState extends State<SplashScreen>
                       width: 220,
                       fit: BoxFit.contain,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          'SELAMAT DATANG KE',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'CooperBT',
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFFFF3849),
-                            letterSpacing: 1.2,
-                          ),
-                        ),
+                    Text(
+                      'SELAMAT DATANG\nKe Halaman',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'CooperBT',
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFFFF3849),
+                        letterSpacing: 1.2,
                       ),
                     ),
                     Transform.translate(
-                      offset: const Offset(0, -12),
+                      offset: const Offset(0, -6),
                       child: Image.asset(
                         'assets/icon/app_name.png',
-                        width: 220,
+                        width: 200,
                         fit: BoxFit.contain,
                       ),
                     ),

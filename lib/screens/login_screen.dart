@@ -199,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          'SIla log masuk untuk meneruskan ke aplikasi MeOkKit.',
+                          'Sila log masuk untuk meneruskan ke aplikasi MeOkKit.',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15,
