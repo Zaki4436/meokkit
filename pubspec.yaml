@@ -81,6 +81,8 @@ flutter:
     - assets/icon/poster_kaunseling.jpeg
     - assets/background/bg.png
     - assets/background/background.jpg
+    - assets/splash_screen/splash_screen.gif
+    - assets/splash_screen/splash screen.mp4
 
   fonts:
     - family: CooperBT
